@@ -69,3 +69,17 @@ export class FullMediaFalsehood {
             this.records = records;
     }
 }
+
+export class MediaFalsehoodSearch {
+    terms: string | undefined;
+    to: Date | undefined;
+    from: Date | undefined;
+    outlet: MediaOutlet | undefined;
+    numberOfEntries: number = 20;
+    page: number = 0;
+    author: PublicFigure | undefined;
+    minimum: Number | undefined;
+    maximum: Number | undefined;
+
+   
+}

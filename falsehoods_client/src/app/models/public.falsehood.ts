@@ -1,5 +1,4 @@
 import { Institution } from "./institution";
-import { MediaOutlet } from "./media.outlet";
 import { PublicFigure } from "./public.figure";
 import { Record } from "./records";
 import { Region } from "./region";
@@ -64,4 +63,15 @@ export class FullPublicFalsehood {
             this.metadata = metadata;
             this.records = records;
     }
+}
+
+export class PublicFalsehoodSearch {
+    terms: string | undefined;
+    to: Date | undefined;
+    from: Date | undefined;
+    numberOfEntries: number = 20;
+    page: number = 0;
+    official: PublicFigure | undefined;
+    minimum: Number | undefined;
+    maximum: Number | undefined;
 }

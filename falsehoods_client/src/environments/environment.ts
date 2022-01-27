@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  falsehood_search_url: "https://trec-apps-test-falsehoods-search.azurewebsites.net/Search",
+  falsehood_submit_url: "https://trec-apps-test-falsehood-submit.azurewebsites.net/Update",
+  falsehood_review_url: "https://trec-apps-test-falsehood-review.azurewebsites.net/Review"
 };
 
 /*

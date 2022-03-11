@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MsalService } from '@azure/msal-angular';
+import { AuthenticationResult } from '@azure/msal-browser';
 import { take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Login, LoginTokin } from '../../../../angular_common/Models/Login'
@@ -11,7 +13,7 @@ export class AuthService {
 
   loginInfo!: LoginTokin;
 
-  constructor(private httpClient: HttpClient){
+  constructor(private httpClient: HttpClient,private authService: MsalService){
 
   }
 
@@ -47,4 +49,15 @@ export class AuthService {
     return ret;
 
   } 
+
+  async loginViaMicrosoft() {
+    this.authService.loginPopup()
+      .subscribe({
+        next: (result) => {
+          console.log(result);
+          //AuthenticationResult;
+        },
+        error: (error) => console.log(error)
+      });
+  }
 }

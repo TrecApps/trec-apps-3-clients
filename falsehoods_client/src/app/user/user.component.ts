@@ -25,6 +25,11 @@ export class UserComponent implements OnInit {
 
     // If you do choose to add this functionality, I personally would prefer the pop-up window option. 
     // I will provide the necessary parameters when it comes time to test in real life
+
+    alert("You are about to be taken to On-Microsoft to login, but you will still use your Trec-Account Credentials!\n\v" +
+    "Trec-Apps uses Azure Active Directory behind the scenes!");
+
+    this.authService.loginViaMicrosoft();
   }
 
   loginManually() {

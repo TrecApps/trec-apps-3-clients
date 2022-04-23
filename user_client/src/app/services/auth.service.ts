@@ -27,6 +27,7 @@ export class AuthService {
           this.loginToken = response;
 
           // To-Do: Add Callback
+          callable();
         }
       },
       error: (error: Response | any) => { 

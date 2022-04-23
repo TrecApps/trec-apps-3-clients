@@ -1,1 +1,40 @@
-<p>create-user works!</p>
+<h1>Create User</h1>
+
+<div class="container">
+
+    <div width="100%" class="form">
+
+        <div id="messageJumbo" class="jumbotron">Create Trec Account</div>
+
+        <h4 *ngIf="updateFail" color="red">Failed To Update</h4>
+        <h4 *ngIf="needsFields" color="red">Required Fields still needed</h4>
+        <h4 *ngIf="!usernameFree" color="red">Username is taken</h4>
+
+        <label>Username: </label>
+        <input type="text" [(ngModel)]="user.userPrincipalName"><br> 
+
+        <label>Display Name (your full name): </label>
+        <input type="text" [(ngModel)]="user.displayName"><br> 
+
+        <label>Password: </label>
+        <input type="password" [(ngModel)]="firstPassword"><br>
+        
+        <label>Re-Enter Password: </label>
+        <input type="password" [(ngModel)]="secondPassword"><br>
+
+        <h4 *ngIf="secondPassword != firstPassword" color="red">Passwords do NOT match</h4>
+
+        <label>Phone Number: </label>
+        <input type="tel" [(ngModel)]="user.mobilePhone"><br>
+
+        <label>Birthday (Hidden from other users by Default): </label>
+        <input type="date" [(ngModel)]="user.birthday"><br>
+
+        <label>External Email: </label>
+        <input type="email" [(ngModel)]="user.mail"><br>
+
+        <input type="button" class="btn btn-submit" value="Submit" (click)="create()">
+        <input type="button" class="btn btn-submit" value="Login" (click)="moveToLogin()">
+    </div>
+
+</div>

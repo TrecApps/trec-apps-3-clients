@@ -1,10 +1,7 @@
 
 
 export class PasswordProfile {
-    password: string;
-    constructor(password:string) {
-        this.password = password;
-    }
+    password: string | undefined;
 }
 
 export class UserPost {
@@ -16,5 +13,31 @@ export class UserPost {
     mobilePhone : string | undefined;
     birthday: Date | undefined;
     mail : string | undefined;
+
+    validate() : boolean {
+        return !!(this.displayName && this.userPrincipalName && this.passwordProfile?.password &&
+            this.mobilePhone && this.birthday && this.mail);
+
+    }
 }
 
+export class TcUser {
+    id : string | undefined;
+    displayName : string | undefined;
+    userProfile : string | undefined;
+    mobilePhone : string | undefined;
+    phoneVerified: boolean | undefined;
+
+    email : string | undefined;
+    emailVerified : boolean | undefined;
+
+    birthday: Date | undefined;
+    birthdaySetting: string | undefined;
+
+    address: string[] | undefined;
+    restrictions: string | undefined;
+
+    credibilityRating: number | undefined;
+
+    
+}

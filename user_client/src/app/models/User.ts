@@ -11,12 +11,13 @@ export class UserPost {
     userPrincipalName : string | undefined;
     passwordProfile: PasswordProfile | undefined;
     mobilePhone : string | undefined;
-    birthday: Date | undefined;
+    birthday: string | null | undefined;
     mail : string | undefined;
 
     validate() : boolean {
+        console.log(this);
         return !!(this.displayName && this.userPrincipalName && this.passwordProfile?.password &&
-            this.mobilePhone && this.birthday && this.mail);
+            this.mobilePhone && this.birthday && this.mailNickname && this.mail);
 
     }
 }

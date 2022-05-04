@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  user_service_url: 'https://azurewebsites.net/'
+  //user_service_url: 'https://azurewebsites.net/'
+  user_service_url: 'http://localhost:4200/api/',
+  user_tenant_url: '@trecappstest.onmicrosoft.com'
 };
 
 /*

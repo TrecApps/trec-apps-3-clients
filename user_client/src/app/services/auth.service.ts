@@ -1,5 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MsalService } from '@azure/msal-angular';
+import { AuthenticationResult } from '@azure/msal-common';
 import { take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Login, LoginToken } from '../models/Login';
@@ -11,7 +13,7 @@ export class AuthService {
 
   loginToken: LoginToken | null;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private authService: MsalService) {
     this.loginToken = null;
   }
 
@@ -44,6 +46,27 @@ export class AuthService {
     ret.append('Content-Type', useJson ? 
      'application/json': 'application/x-www-form-urlencoded');
    return ret;
+  }
+
+  loginThroughMicrosoft() {
+    this.authService.loginPopup()
+      .subscribe({
+        next: (result) => {
+          console.log(result);
+          //this.setLoginDisplay();
+
+          let res = result as AuthenticationResult;
+
+            this.loginToken = new LoginToken();
+            this.loginToken.access_token = res.accessToken;
+            this.loginToken.expires_in = res.expiresOn?.getTime();
+            this.loginToken.id_token = res.idToken;
+            this.loginToken.token_type = res.tokenType;
+            //this.loginToken.refresh_token = ;
+          
+        },
+        error: (error) => console.log(error)
+      });
   }
 
   getAuthorization() : string {

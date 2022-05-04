@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PasswordProfile, UserPost } from 'src/app/models/User';
@@ -18,8 +19,11 @@ export class CreateUserComponent implements OnInit {
   firstPassword:string;
   secondPassword: string;
 
-  constructor(private userService:UserService, private router: Router) { 
+  birthday: Date;
 
+  constructor(private userService:UserService, private router: Router, private datePipe: DatePipe) { 
+
+    this.birthday = new Date();
     this.user = new UserPost();
     this.user.passwordProfile = new PasswordProfile();
     this.user.passwordProfile.password = "";
@@ -37,16 +41,28 @@ export class CreateUserComponent implements OnInit {
       return;
     }
 
+
     if(!this.usernameFree){
       return;
     }
+    
+    this.user.passwordProfile = new PasswordProfile();
+    this.user.passwordProfile.password = this.firstPassword;
+
+    this.user.birthday = this.datePipe.transform(this.birthday, "yyyy-MM-ddThh:mm:ss") + '+01:00';
+
+    this.user.mailNickname = this.user.userPrincipalName;
+
     if(!this.user.validate()) {
       this.needsFields = true;
     } else {
       this.needsFields = false;
 
+    
+      
+
       this.userService.createUser(this.user);
-      this.moveToLogin();
+      //this.moveToLogin();
     }
   }
 

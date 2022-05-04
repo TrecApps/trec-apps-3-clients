@@ -6,6 +6,7 @@ import { take } from 'rxjs';
 import { AuthService } from './auth.service';
 import { PasswordChange } from '../models/Login';
 import { BooleanRef } from '../models/Holders';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class UserService {
 
   currentUser: TcUser;
 
-  constructor(private httpClient: HttpClient, private authService: AuthService) {
+  constructor(private httpClient: HttpClient, private authService: AuthService, private router: Router) {
     this.currentUser = new TcUser();
    }
 
@@ -35,7 +36,12 @@ export class UserService {
 
   async createUser(userPost: UserPost) {
     let observe = {
-      next: (response: Object) => { },
+      next: (response: Object) => {
+        alert(`A Trec Account has just been created for you and you will be presented with an onMicrosoft login screen!
+          Type '<username>${environment.user_tenant_url}' and your password to login. Once you login, all subsequent logins
+          can be done through a TrecApps Login screen`);
+          this.authService.loginThroughMicrosoft();
+       },
       error: (error: Response | any) => { 
         alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
       }

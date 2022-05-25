@@ -10,8 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
-import { MsalModule } from '@azure/msal-angular';
-import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
+import { MsalRedirectComponent } from '@azure/msal-angular';
 
 const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
 
@@ -28,30 +27,9 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
-    MsalModule.forRoot( new PublicClientApplication({
-      auth: {
-        clientId: '43ac483f-360e-4686-8a43-2543f71b33ee', // Application (client) ID from the app registration
-        authority: 'https://login.microsoftonline.com/f39a0b26-67a9-4f7a-9020-dd9126eec668', // The Azure cloud instance and the app's sign-in audience (tenant ID, common, organizations, or consumers)
-        redirectUri: 'http://localhost:4200'// This is your redirect URI
-      },
-      cache: {
-        cacheLocation: 'localStorage',
-        storeAuthStateInCookie: isIE, // Set to true for Internet Explorer 11
-      }
-    }), {
-      interactionType: InteractionType.Popup,
-      authRequest: {
-        scopes: ['user.read', 'openid', 'offline_access', 'profile']
-        }
-    }, {
-      interactionType: InteractionType.Popup, // MSAL Interceptor Configuration
-      protectedResourceMap: new Map([ 
-          ['https://graph.microsoft.com/v1.0/me', ['user.read', 'openid', 'offline_access', 'profile']]
-      ])
-    })
+    FormsModule
   ],
   providers: [DatePipe],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent,MsalRedirectComponent]
 })
 export class AppModule { }

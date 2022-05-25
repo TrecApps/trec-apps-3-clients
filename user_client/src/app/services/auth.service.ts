@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
+import { EventPayload } from '@azure/msal-browser';
 import { AuthenticationResult } from '@azure/msal-common';
 import { take } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -13,7 +14,7 @@ export class AuthService {
 
   loginToken: LoginToken | null;
 
-  constructor(private httpClient: HttpClient, private authService: MsalService) {
+  constructor(private httpClient: HttpClient) {
     this.loginToken = null;
   }
 
@@ -41,35 +42,20 @@ export class AuthService {
   }
 
   getHttpHeaders(useJson: boolean) : HttpHeaders {
+    console.log("Getting Headers!");
     let ret:HttpHeaders = new HttpHeaders();
-    ret.append('Authorization', this.getAuthorization());
-    ret.append('Content-Type', useJson ? 
+    ret = ret.append('Authorization', this.getAuthorization());
+    ret = ret.append('Content-Type', useJson ? 
      'application/json': 'application/x-www-form-urlencoded');
    return ret;
   }
 
-  loginThroughMicrosoft() {
-    this.authService.loginPopup()
-      .subscribe({
-        next: (result) => {
-          console.log(result);
-          //this.setLoginDisplay();
-
-          let res = result as AuthenticationResult;
-
-            this.loginToken = new LoginToken();
-            this.loginToken.access_token = res.accessToken;
-            this.loginToken.expires_in = res.expiresOn?.getTime();
-            this.loginToken.id_token = res.idToken;
-            this.loginToken.token_type = res.tokenType;
-            //this.loginToken.refresh_token = ;
-          
-        },
-        error: (error) => console.log(error)
-      });
+  setAuthorization(loginToken: LoginToken) {
+    this.loginToken = loginToken;
   }
 
   getAuthorization() : string {
+    console.log("Auth Token is ", this.loginToken);
     return this.loginToken && this.loginToken.access_token ? this.loginToken.access_token : "";
   }
 }

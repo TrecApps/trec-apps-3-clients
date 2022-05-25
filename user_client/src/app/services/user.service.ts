@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TcUser, UserPost } from '../models/User';
+import { TcUser, UserPost, UserResponse } from '../models/User';
 import { environment } from 'src/environments/environment';
 import { take } from 'rxjs';
 import { AuthService } from './auth.service';
-import { PasswordChange } from '../models/Login';
+import { LoginToken, PasswordChange } from '../models/Login';
 import { BooleanRef } from '../models/Holders';
 import { Router } from '@angular/router';
 
@@ -31,23 +31,21 @@ export class UserService {
       }
     };
 
-    this.httpClient.get<TcUser>(`${environment.user_service_url}Users/Current`).pipe(take(1)).subscribe(observe);
+    this.httpClient.get<TcUser>(`${environment.user_service_url}Users/Current`,{headers: this.authService.getHttpHeaders(true)}).pipe(take(1)).subscribe(observe);
   }
 
   async createUser(userPost: UserPost) {
     let observe = {
-      next: (response: Object) => {
-        alert(`A Trec Account has just been created for you and you will be presented with an onMicrosoft login screen!
-          Type '<username>${environment.user_tenant_url}' and your password to login. Once you login, all subsequent logins
-          can be done through a TrecApps Login screen`);
-          this.authService.loginThroughMicrosoft();
+      next: (response: LoginToken) => {
+        this.authService.setAuthorization(response);
+        
        },
       error: (error: Response | any) => { 
         alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
       }
     };
 
-    this.httpClient.post(`${environment.user_service_url}Users/createUser`, userPost).pipe(take(1)).subscribe(observe);
+    this.httpClient.post<LoginToken>(`${environment.user_service_url}Users/createUser`, userPost).pipe(take(1)).subscribe(observe);
   }
 
   async changePassword(passwordChange: PasswordChange) {

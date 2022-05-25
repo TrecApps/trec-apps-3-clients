@@ -22,6 +22,11 @@ export class UserPost {
     }
 }
 
+export class UserResponse{
+    message : string | undefined;
+    user : string | undefined;
+}
+
 export class TcUser {
     id : string | undefined;
     displayName : string | undefined;

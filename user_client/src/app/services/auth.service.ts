@@ -1,8 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MsalService } from '@azure/msal-angular';
-import { EventPayload } from '@azure/msal-browser';
-import { AuthenticationResult } from '@azure/msal-common';
 import { take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Login, LoginToken } from '../models/Login';

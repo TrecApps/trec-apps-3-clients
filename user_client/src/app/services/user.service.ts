@@ -38,7 +38,7 @@ export class UserService {
     let observe = {
       next: (response: LoginToken) => {
         this.authService.setAuthorization(response);
-        
+        this.router.navigate(['/user']);
        },
       error: (error: Response | any) => { 
         alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));

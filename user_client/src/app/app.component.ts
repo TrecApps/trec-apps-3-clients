@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MsalBroadcastService, MsalGuard, MsalService } from '@azure/msal-angular';
-import { EventMessage, EventType, InteractionStatus } from '@azure/msal-browser';
-import { filter } from 'rxjs/operators';
 import { AuthService } from './services/auth.service';
 
 @Component({

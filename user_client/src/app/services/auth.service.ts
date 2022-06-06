@@ -22,20 +22,21 @@ export class AuthService {
   loginThroughTrecApps(login: Login, callable: Function) {
 
     let observe = {
-      next: (response: Object) => { 
-        if(response instanceof LoginToken){
+      next: (response: LoginToken) => { 
+        console.log("Response is : {}", response.toString());
           this.loginToken = response;
-
+          console.log("Response of Login Token is : {}", this.loginToken.toString());
           // To-Do: Add Callback
-          callable();
-        }
+          callable(true);
+        
       },
       error: (error: Response | any) => { 
         alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        callable(false);
       }
     };
 
-    this.httpClient.post(`${environment.user_service_url}Auth/login`, login).pipe(take(1)).subscribe(observe);
+    this.httpClient.post<LoginToken>(`${environment.user_service_url}Auth/login`, login).pipe(take(1)).subscribe(observe);
   }
 
   getHttpHeaders(useJson: boolean) : HttpHeaders {

@@ -25,6 +25,8 @@ export class LoginComponent implements OnInit {
     this.authService.loginThroughTrecApps(this.login, (worked: boolean) => {
       if(!worked) {
         this.loginFail = true;
+      } else {
+        this.router.navigate(['user']);
       }
     });
   }

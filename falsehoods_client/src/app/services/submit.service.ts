@@ -20,7 +20,7 @@ export class SubmitService {
 
    getHttpHeaders(useJson: boolean) : HttpHeaders {
      let ret:HttpHeaders = new HttpHeaders();
-     ret.append('Authorization', this.authService.GetAuthorization());
+     ret.append('Authorization', this.authService.getAuthorization());
      ret.append('Content-Type', useJson ? 
       'application/json': 'application/x-www-form-urlencoded');
     return ret;

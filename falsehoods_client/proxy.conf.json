@@ -1,0 +1,28 @@
+[
+  {
+    "/Review/*": {
+      "target": "http://localhost:8080",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true,
+      "pathRewrite": {"^/api" : ""}
+    }
+  },{
+    "/Submit/*": {
+      "target": "http://localhost:8080",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true,
+      "pathRewrite": {"^/api" : ""}
+    }
+  },{
+    "/search/*": {
+      "target": "http://localhost:8080",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true,
+      "pathRewrite": {"^/api" : ""}
+    }
+  }
+
+]

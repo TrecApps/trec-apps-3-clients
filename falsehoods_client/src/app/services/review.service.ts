@@ -34,7 +34,7 @@ export class ReviewService {
     this.httpClient.post(`${environment.falsehood_review_url}/Media/${verdict}`,
       data, {
         headers: {
-          Authorization: this.authService.GetAuthorization()
+          Authorization: this.authService.getAuthorization()
      }}).pipe(take(1)).subscribe(observe);
    }
 
@@ -58,7 +58,7 @@ export class ReviewService {
       this.httpClient.post(`${environment.falsehood_review_url}/Public/${verdict}`,
         data, {
           headers: {
-            Authorization: this.authService.GetAuthorization()
+            Authorization: this.authService.getAuthorization()
        }}).pipe(take(1)).subscribe(observe);
      }
   

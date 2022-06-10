@@ -1,63 +1,60 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MsalService } from '@azure/msal-angular';
-import { AuthenticationResult } from '@azure/msal-browser';
 import { take } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Login, LoginTokin } from '../../../../angular_common/Models/Login'
+import { Login } from '../models/Login';
+import { LoginToken } from '../models/Login';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  loginInfo!: LoginTokin;
+  loginToken: LoginToken | null;
 
-  constructor(private httpClient: HttpClient,private authService: MsalService){
-
+  constructor(private httpClient: HttpClient) {
+    this.loginToken = null;
   }
 
-  GetAuthorization() : string {
-    return this.loginInfo ? this.loginInfo.access_token : "";
+  private refreshTokenCallback() {
+    
   }
 
-  async loginViaTrecApps(username: string, password: string): Promise<string> {
-    if(username.length == 0 || password.length < 8) {
-      return "Needs valid Username and Password of at least 8 characters";
-    }
-    if(!username.endsWith(environment.falsehood_user_string)) {
-      username += environment.falsehood_user_string;
-    }
-
-    let ret = "";
+  loginThroughTrecApps(login: Login, callable: Function) {
 
     let observe = {
-      next: (response: LoginTokin | Object) => {
-        if(response instanceof LoginTokin) {
-          this.loginInfo = response;
-        }
+      next: (response: LoginToken) => { 
+        console.log("Response is : {}", response.toString());
+          this.loginToken = response;
+          console.log("Response of Login Token is : {}", this.loginToken.toString());
+          // To-Do: Add Callback
+          callable(true);
+        
       },
       error: (error: Response | any) => { 
-        ret = (error instanceof Response) ? error.text : (error.message ? error.message : error.toString());
+        alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        callable(false);
       }
-    }
+    };
 
-    this.httpClient.post(`${environment.falsehood_user_url}/Auth/login`, new Login(username, password)).
-      pipe(take(1)).subscribe(observe);
+    this.httpClient.post<LoginToken>(`${environment.falsehood_submit_url}Auth/login`, login).pipe(take(1)).subscribe(observe);
+  }
 
+  getHttpHeaders(useJson: boolean) : HttpHeaders {
+    console.log("Getting Headers!");
+    let ret:HttpHeaders = new HttpHeaders();
+    ret = ret.append('Authorization', this.getAuthorization());
+    ret = ret.append('Content-Type', useJson ? 
+     'application/json': 'application/x-www-form-urlencoded');
+   return ret;
+  }
 
-    return ret;
+  setAuthorization(loginToken: LoginToken) {
+    this.loginToken = loginToken;
+  }
 
-  } 
-
-  async loginViaMicrosoft() {
-    this.authService.loginPopup()
-      .subscribe({
-        next: (result) => {
-          console.log(result);
-          //AuthenticationResult;
-        },
-        error: (error) => console.log(error)
-      });
+  getAuthorization() : string {
+    console.log("Auth Token is ", this.loginToken);
+    return this.loginToken && this.loginToken.access_token ? this.loginToken.access_token : "";
   }
 }

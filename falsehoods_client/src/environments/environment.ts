@@ -6,10 +6,13 @@ export const environment = {
   production: false,
   falsehood_user_string: "@test.trecapps.com",
   falsehood_user_url: "",
-  falsehood_search_url: "https://trec-apps-test-falsehoods-search.azurewebsites.net/Search",
-  falsehood_submit_url: "https://trec-apps-test-falsehood-submit.azurewebsites.net/Update",
-  falsehood_review_url: "https://trec-apps-test-falsehood-review.azurewebsites.net/Review",
-
+  // falsehood_search_url: "https://trec-apps-test-falsehoods-search.azurewebsites.net/Search",
+  // falsehood_submit_url: "https://trec-apps-test-falsehood-submit.azurewebsites.net/Update",
+  // falsehood_review_url: "https://trec-apps-test-falsehood-review.azurewebsites.net/Review",
+  falsehood_search_url: "http://localhost:4200/Review/",
+  falsehood_submit_url: "http://localhost:4200/Submit/",
+  falsehood_review_url: "http://localhost:4200/search/",
+  resource_url: "http://localhost:4200/Resource/"
 };
 
 /*

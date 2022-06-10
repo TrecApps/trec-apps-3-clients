@@ -2,10 +2,9 @@ import { Record } from "./records";
 
 
 export class Institution {
-    constructor(id: number,
-        name:string) {
-        this.name = name;
-        this.id = id;
+    constructor() {
+        this.name = "";
+        this.id = -1;
     }
     id: number;
     name: string;
@@ -27,9 +26,9 @@ export class InstitutionEntry {
     contents: String;
     records: Record[];
 
-    constructor(institution: Institution, contents:string, records: Record[]) {
-        this.institution = institution;
-        this.contents = contents;
-        this.records = records;
+    constructor() {
+        this.institution = new Institution();
+        this.contents = "";
+        this.records = [];
     }
 }

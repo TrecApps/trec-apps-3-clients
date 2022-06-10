@@ -2,10 +2,9 @@ import { Record } from "./records";
 
 
 export class Region {
-    constructor(id: number,
-        name:string) {
-        this.name = name;
-        this.id = id;
+    constructor() {
+        this.name = "";
+        this.id = -1;
     }
     id: number;
     name: string;
@@ -27,9 +26,9 @@ export class RegionEntry {
     contents: String;
     records: Record[];
 
-    constructor(region: Region, contents:string, records: Record[]) {
-        this.region = region;
-        this.contents = contents;
-        this.records = records;
+    constructor() {
+        this.region = new Region();
+        this.contents = "";
+        this.records = [];
     }
 }

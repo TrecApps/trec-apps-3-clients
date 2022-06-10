@@ -1,7 +1,7 @@
 [
   {
     "/Review/*": {
-      "target": "http://localhost:8080",
+      "target": "http://localhost:8082",
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true,
@@ -9,7 +9,7 @@
     }
   },{
     "/Submit/*": {
-      "target": "http://localhost:8080",
+      "target": "http://localhost:8081",
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true,

@@ -1,0 +1,55 @@
+<h2>Media Outlet</h2>
+
+<div>
+    <label>Search Media Outlet</label>
+    <input class="form-control" type="search" (change)="onSearchUpdate($event)" [(ngModel)]="searchText" placeholder="Search Media Outlet">
+  
+    <ul *ngFor="let outlet of outetList">
+      <li (click)="getOutlet(outlet.outletId)">Region: {{outlet.name}}</li>
+    </ul>
+  </div>
+  
+  <div *ngIf="mainOutlet">
+    <h3>Title: {{mainOutlet?.outlet?.name}}</h3>
+  
+    <button class="btn bg-info" (click)="setMode(1)">Wiki</button>
+    <button class="btn bg-info" (click)="setMode(3)">Media Falsehoods</button>
+    <br>
+    <!--Give those with a high credibility rating a chance to approve or reject an unconfirmed falsehood-->
+  
+    <div class="container">
+      <div *ngIf="mode==1" [innerHTML]="mainOutlet.text | marked">
+  
+      </div>
+
+      <div *ngIf="mode==3">
+        <table *ngIf="searchMediaFalsehoods.length > 0">
+            <tr>
+                <th>Media Outlet</th>
+                <th>Status</th>
+                <th>MediaType</th>
+                <th>Severity</th>
+                <th>Public Figures</th>
+                <th>Date Made</th>
+                <th>Content Id</th>
+            </tr>
+            <tr *ngFor="let falsehood of searchMediaFalsehoods" (click)="selectMediaFalsehood(falsehood)">
+                <td>{{falsehood.outlet?.name}}</td>
+                <td>{{falsehood.status}}</td>
+                <td>{{falsehood.mediaType}}</td>
+                <td>{{falsehood.severity}}</td>
+                <td>{{falsehood.author1?.firstname}} {{falsehood.author1?.middleNames}} {{falsehood.author1?.lastName}}</td>
+                <td>{{falsehood.dateMade}}</td>
+                <td>{{falsehood.contentId}}</td>
+            </tr>
+        </table>
+      </div>
+
+      <div *ngIf="mode==4">
+
+      </div>
+      
+      <!--app-public-falsehood-search></app-public-falsehood-search-->
+     
+    </div>
+  </div>

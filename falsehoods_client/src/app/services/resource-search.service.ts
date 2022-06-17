@@ -83,7 +83,7 @@ export class ResourceSearchService {
 
   async searchPublicFigures(searchTerm: String, callable: Function) {
     let observe = {
-      next: (response: Institution[]) => { 
+      next: (response: PublicFigure[]) => { 
           callable(response);
         
       },

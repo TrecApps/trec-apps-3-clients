@@ -76,4 +76,5 @@ export class PublicFalsehoodSearch {
     official: PublicFigure | undefined;
     minimum: Number | undefined;
     maximum: Number | undefined;
+    
 }

@@ -5,43 +5,21 @@ import { Record } from "./records";
 
 
 export class MediaFalsehood {
-    id: number;
-    outlet: MediaOutlet;
-    status: number;
-    mediaType: number;
-    severity: number;
-    author1: PublicFigure;
-    author2: PublicFigure;
-    source: String;
-    dateMade: Date;
-    contentId: String;
-    userId: String;
+    id: number | undefined;
+    outlet: MediaOutlet | undefined;
+    status: number | undefined;
+    mediaType: number | undefined;
+    severity: number | undefined;
+    author1: PublicFigure | undefined;
+    author2: PublicFigure | undefined;
+    source: String | undefined;
+    dateMade: Date | undefined;
+    contentId: String | undefined;
+    userId: String | undefined;
     tags: String;
 
-    constructor(id: number,
-        outlet: MediaOutlet,
-        status: number,
-        mediaType: number,
-        severity: number,
-        author1: PublicFigure,
-        author2: PublicFigure,
-        source: String,
-        dateMade: Date,
-        contentId: String,
-        userId: String,
-        tags: String){
-            this.id = id;
-            this.outlet = outlet;
-            this.status = status;
-            this.mediaType = mediaType;
-            this.severity = severity;
-            this.author1 = author1;
-            this.author2 = author2;
-            this.source = source;
-            this.dateMade = dateMade;
-            this.contentId = contentId;
-            this.userId = userId;
-            this.tags = tags;
+    constructor(){
+        this.tags = "";
     }
 }
 
@@ -59,11 +37,11 @@ export class MediaFalsehoodRecords {
 export class FullMediaFalsehood {
     contents: string;
     metadata: MediaFalsehood;
-    records: MediaFalsehoodRecords;
+    records: MediaFalsehoodRecords | undefined;
 
     constructor(contents: string,
         metadata: MediaFalsehood,
-        records: MediaFalsehoodRecords) {
+        records: MediaFalsehoodRecords | undefined) {
             this.contents = contents;
             this.metadata = metadata;
             this.records = records;

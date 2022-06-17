@@ -1,0 +1,264 @@
+<div *ngIf="!createNew">
+    <div class="jumbotron">
+        <h1>Media Falsehoods</h1>
+        <button class="btn bg-info" (click)="startCreateNew()">Create New Falsehood</button>
+        <button class="btn bg-info" (click)="startSearch()">Search Falsehoods</button>
+        <button class="btn bg-info" (click)="startSubmittedSearch()">Submitted Falsehoods</button><br>
+    </div>
+    <br>
+    <div *ngIf="doSearch" class="container form form-group">
+        <label>Search Falsehood</label><br>
+        <label>By Date?</label>
+
+        <!-- Handle Dates-->
+        <input class="form-control" type="radio" name="ByDate" (click)="setDateSearchMode(0)" id="noDates" clicked><label for="noDates">No Dates</label>
+        <input class="form-control" type="radio" name="ByDate" (click)="setDateSearchMode(1)" id="beforeDates" clicked><label for="beforeDates">Before Date</label>
+        <input class="form-control" type="radio" name="ByDate" (click)="setDateSearchMode(2)" id="betweenDates" clicked><label for="betweenDates">Between Dates</label>
+        <br>
+        <div *ngIf="dateSearchMode > 0">
+            <label>Latest Date</label>
+            <input class="form-control" type="date" [(ngModel)]="search.to">
+            <br>
+        </div>
+        <div *ngIf="dateSearchMode > 1">
+            <label>Earliest Date</label>
+            <input class="form-control" type="date" [(ngModel)]="search.from">
+            <br>
+        </div>
+
+        <!-- Handle Severity-->
+        <label>Minimum Severity</label>
+        <select [(ngModel)]="search.minimum">
+            <option value="null">[Not Selected]</option>
+            <option value="LIE">Lie</option>
+            <option value="OBJECTOVE_FALSEHOOD">Objective Falsehood</option>
+            <option value="MISLEADING">Omitted Information</option>
+            <option value="HYPOCRISY">Hypocracy</option>
+            <option value="SUBJECTIVE_FALSEHOOD">Subjective Falsehood</option>
+            <option value="FAULTY_LOGIC">Faulty Logic</option>
+        </select>
+        <br>
+        <label>Maximum Severity</label>
+        <select [(ngModel)]="search.maximum">
+            <option value="null">[Not Selected]</option>
+            <option value="LIE">Lie</option>
+            <option value="OBJECTOVE_FALSEHOOD">Objective Falsehood</option>
+            <option value="MISLEADING">Omitted Information</option>
+            <option value="HYPOCRISY">Hypocracy</option>
+            <option value="SUBJECTIVE_FALSEHOOD">Subjective Falsehood</option>
+            <option value="FAULTY_LOGIC">Faulty Logic</option>
+        </select>
+        <br>
+
+        <!--Media Outlet-->
+        <label>By Outlet</label>
+        <p>{{search.outlet}}</p>
+        <input class="form-control" type="search" (change)="onSearchOutlet($event)" [(ngModel)]="searchOutlet" placeholder="Search Media Outlet">
+
+        <ul *ngFor="let outlet of outletList">
+          <li (click)="setOutlet(outlet)">Media Outlet: {{outlet.name}}, founded {{outlet.foundationYear}}</li>
+        </ul>
+
+        <div *ngIf="search.outlet">
+            <h6>Selected Outlet: {{search.outlet.name}} from {{search.outlet.foundationYear}}</h6>
+            <button class="btn bg-info" (click)="setOutlet(undefined)">Clear Outlet</button>
+        </div>
+        <div *ngIf="!search.outlet">
+            <h6>No Outlet Selected!</h6>
+        </div>
+
+        <!--Public Official-->
+        <br>
+        <label>By Author (public Official)</label>
+        <input type="search" (change)="onSearchAuthor($event)" [(ngModel)]="searchAuthor" placeholder="Search Author (public Figure)">
+
+        <ul *ngFor="let author of authorList">
+          <li (click)="setAuthor(author)">Public Figure: {{author.firstname}} {{author.middleNames}} {{author.lastName}}</li>
+        </ul>
+
+        <div *ngIf="search.author">
+            <h6>Selected Author: {{search.author.firstname}} {{search.author.middleNames}} {{search.author.lastName}}</h6>
+            <button class="btn bg-info" (click)="setAuthor(undefined)">Clear Author</button>
+        </div>
+        <div *ngIf="!search.author">
+            <h6>No Author Selected!</h6>
+        </div>
+        <br>
+        <label>Page Number</label>
+        <input type="number" min="0" [(ngModel)]="search.page"> <br>
+        <label>Page Size</label>
+        <input type="number" min="1" [(ngModel)]="search.numberOfEntries"> <br>
+        <button class="btn bg-info" (click)="submitSearch()">Submit Search</button>
+    </div>
+
+    <div *ngIf="doSubmitted">
+        <label>Page Number</label>
+        <input type="number" class="form-control" min="0" [(ngModel)]="submittedPage"><br>
+        <label>Page Size</label>
+        <input type="number" class="form-control" min=10 max=100 [(ngModel)]="submitSize"><br>
+        <button class="btn bg-info" (click)="getSubmittedFalsehoods()">Search Submitted</button>
+    </div>
+
+
+    <table *ngIf="mediaFalsehoods.length > 0">
+        <tr>
+            <th>Media Outlet</th>
+            <th>Status</th>
+            <th>MediaType</th>
+            <th>Severity</th>
+            <th>Public Figures</th>
+            <th>Date Made</th>
+            <th>Content Id</th>
+        </tr>
+        <tr *ngFor="let falsehood of mediaFalsehoods" (click)="selectMediaFalsehood(falsehood)">
+            <td>{{falsehood.outlet?.name}}</td>
+            <td>{{falsehood.status}}</td>
+            <td>{{falsehood.mediaType}}</td>
+            <td>{{falsehood.severity}}</td>
+            <td>{{falsehood.author1?.firstname}} {{falsehood.author1?.middleNames}} {{falsehood.author1?.lastName}}</td>
+            <td>{{falsehood.dateMade}}</td>
+            <td>{{falsehood.contentId}}</td>
+        </tr>
+    </table>
+
+    <div *ngIf="mediaFalsehoodEntry?.metadata">
+        <table class="table table-hover">
+            <tr>
+                <th>Fields</th>
+                <th>Details</th>
+            </tr>
+            <tr>
+                <td>ID</td>
+                <td>{{mediaFalsehoodEntry?.metadata?.id}}</td>
+            </tr>
+            <tr>
+                <td>Media Outlet</td>
+                <td>{{mediaFalsehoodEntry?.metadata?.outlet?.name}}</td>
+            </tr>
+            <!-- <tr>
+                <td>Common Lie</td>
+                <td>{{mediaFalsehoodEntry?.metadata?.commonLie?.title}}</td>
+            </tr> -->
+            <tr>
+                <td>Status</td>
+                <td>{{mediaFalsehoodEntry?.metadata?.status}}</td>
+            </tr>
+            <tr>
+                <td>Severity</td>
+                <td>{{mediaFalsehoodEntry?.metadata?.severity}}</td>
+            </tr>
+            <tr>
+                <td>Author 1</td>
+                <td>{{mediaFalsehoodEntry?.metadata?.author1?.firstname}} {{mediaFalsehoodEntry?.metadata?.author1?.lastName}}</td>
+            </tr>
+            <tr *ngIf="mediaFalsehoodEntry?.metadata?.author2">
+                <td>Author 2</td>
+                <td>{{mediaFalsehoodEntry?.metadata?.author2?.firstname}} {{mediaFalsehoodEntry?.metadata?.author2?.lastName}}</td>
+            </tr>
+            <tr>
+                <td>Date</td>
+                <td>{{mediaFalsehoodEntry?.metadata?.dateMade}}</td>
+            </tr>
+        </table>
+
+        <div *ngIf="(mediaFalsehoodEntry?.metadata?.status == 0 || mediaFalsehoodEntry?.metadata?.status == 2) && tokenService.credit > 60">
+            <label>Reason for Approving or Rejecting</label>
+
+            <textarea [(ngModel)]="submitReason"></textarea> 
+
+            <button class="btn bg-info" (click)="Approve('Approve')">Approve Falsehood</button><br>
+            <button class="btn bg-info" (click)="Approve('Reject')"> Reject Falsehood</button><br>
+            <button class="btn bg-info" (click)="Approve('Penalize')">Penalize Falsehood</button>
+        </div>
+
+        <div [innerHTML]="mediaFalsehoodEntry?.contents | marked"></div>
+    </div>
+
+</div>
+
+<div *ngIf="createNew" class="container form form-group">
+    <!--Media Outlet-->
+    <label>By Outlet</label>
+    <p>{{newFalsehood?.metadata?.outlet?.name}}</p>
+    <input class="form-control" type="search" (change)="onSearchOutlet($event)" [(ngModel)]="searchOutlet" placeholder="Search Media Outlet">
+    <ul *ngFor="let outlet of outletList">
+    <li (click)="setNewOutlet(outlet)">Media Outlet: {{outlet.name}}, founded {{outlet.foundationYear}}</li>
+    </ul>
+    
+    <div *ngIf="newFalsehood?.metadata?.outlet">
+        <h6>Selected Outlet: {{newFalsehood?.metadata?.outlet?.name}} from {{newFalsehood?.metadata?.outlet?.foundationYear}}</h6>
+        <button class="btn bg-info" (click)="setNewOutlet(undefined)">Clear Outlet</button>
+    </div>
+    <div *ngIf="!newFalsehood?.metadata?.outlet">
+        <h6>No Outlet Selected!</h6>
+    </div>
+
+    <!--Media Type (Article or Video)-->
+    <label>Media Type</label>
+    <select class="form-control" [(ngModel)]="newType">
+        <option value="0">Article</option>
+        <option value="1">Video</option>
+    </select>
+    <br>
+    <!--By Severity-->
+    <label>Severity</label>
+    <select class="form-control" [(ngModel)]="newSeverity">
+        <option value="0">[Select Severity]</option>
+        <option value="1">Objective Falsehood</option>
+        <option value="2">Omitted Information</option>
+        <option value="4">Subjective Falsehood</option>
+        <option value="5">Something</option>
+    </select>
+    <br>
+    <!--Public Figures 1-->
+    <label>Author 1</label>
+    <input class="form-control" type="search" (change)="onSearchAuthor($event)" [(ngModel)]="searchAuthor" placeholder="Search Author (public Figure)">
+
+        <ul *ngFor="let author of authorList">
+          <li (click)="setNewAuthor(author, 1)">Public Figure: {{author.firstname}} {{author.middleNames}} {{author.lastName}}</li>
+        </ul>
+
+        <div *ngIf="newFalsehood?.metadata?.author1">
+            <h6>Selected Author: {{newFalsehood?.metadata?.author1?.firstname}} {{newFalsehood?.metadata?.author1?.middleNames}} {{newFalsehood?.metadata?.author1?.lastName}}</h6>
+            <button class="btn bg-info" (click)="setNewAuthor(undefined, 1)">Clear Author</button>
+        </div>
+        <div *ngIf="!newFalsehood?.metadata?.author1">
+            <h6>No Author Selected!</h6>
+        </div>
+    <br>
+
+    <!--Public Figure 2-->
+    <label>Author 2</label>
+    <input class="form-control" type="search" (change)="onSearchAuthor($event)" [(ngModel)]="searchAuthor" placeholder="Search Author (public Figure)">
+
+    <ul *ngFor="let author of authorList">
+      <li (click)="setNewAuthor(author, 2)">Public Figure: {{author.firstname}} {{author.middleNames}} {{author.lastName}}</li>
+    </ul>
+
+    <div *ngIf="newFalsehood?.metadata?.author2">
+        <h6>Selected Author: {{newFalsehood?.metadata?.author2?.firstname}} {{newFalsehood?.metadata?.author2?.middleNames}} {{newFalsehood?.metadata?.author2?.lastName}}</h6>
+        <button class="btn bg-info" (click)="setNewAuthor(undefined, 2)">Clear Author</button>
+    </div>
+    <div *ngIf="!newFalsehood?.metadata?.author2">
+        <h6>No Second Author Selected!</h6>
+    </div>
+
+    <br>
+    <label>Date Made</label>
+    <input class="form-control" type="date" [(ngModel)]="newFalsehood.metadata.dateMade">
+
+    <textarea class="form-control" [(ngModel)]="newFalsehood.contents"></textarea>
+  
+  
+    <div [innerHTML]="newFalsehood.contents | marked"></div>
+    <br>
+
+    <label>Tags (Seperate Terms by line), max character limit is 400</label>
+    <textarea [(ngModel)]="newFalsehood.metadata.tags" (input)="inspectTagsField()"></textarea>
+    <br>
+  
+    <h5 #fTagWaring hidden>Tag field is {{newFalsehood.metadata.tags.length - 400}} over the character limit!</h5>
+    <button #fNewSubmit class="btn bg-info" (click)="submitNewFalsehod()">Submit</button>
+    <button class="btn bg-info" (click)="stopCreateNew()">Cancel</button>
+
+</div>

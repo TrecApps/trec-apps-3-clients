@@ -11,6 +11,7 @@ import { PublicFigureComponent } from './components/public-figure/public-figure.
 import { MediaOutletComponent } from './components/media-outlet/media-outlet.component';
 import { PublicFalsehoodComponent } from './components/public-falsehood/public-falsehood.component';
 import { MediaFalsehoodComponent } from './components/media-falsehood/media-falsehood.component';
+import { MarkedPipe } from './resources/marked.pipe';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { MediaFalsehoodComponent } from './components/media-falsehood/media-fals
     PublicFigureComponent,
     MediaOutletComponent,
     PublicFalsehoodComponent,
-    MediaFalsehoodComponent
+    MediaFalsehoodComponent,
+    MarkedPipe
   ],
   imports: [
     HttpClientModule,

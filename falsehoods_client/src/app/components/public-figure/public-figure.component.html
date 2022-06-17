@@ -23,7 +23,7 @@
       </div>
 
       <div *ngIf="mode==2">
-        <table *ngIf="searchFalsehoods?.length > 0">
+        <table *ngIf="searchFalsehoods.length > 0">
             <tr>
                 <th>Status</th>
                 <th>Severity</th>
@@ -38,16 +38,16 @@
                 <td>{{falsehood.status}}</td>
                 <td>{{falsehood.severity}}</td>
                 <td>{{falsehood.officialType}}</td>
-                <td>{{falsehood.official.firstname + falsehood.official.middleNames + falsehood.official.lastName}}</td>
-                <td>{{falsehood.institution.name}}</td>
-                <td>{{falsehood.region.name}}</td>
+                <td>{{falsehood.official?.firstname}} {{falsehood.official?.middleNames}} {{falsehood.official?.lastName}}</td>
+                <td>{{falsehood.institution?.name}}</td>
+                <td>{{falsehood.region?.name}}</td>
                 <td>{{falsehood.dateMade}}</td>
             </tr>
         </table>
       </div>
 
       <div *ngIf="mode==3">
-        <table *ngIf="searchMediaFalsehoods?.length > 0">
+        <table *ngIf="searchMediaFalsehoods.length > 0">
             <tr>
                 <th>Media Outlet</th>
                 <th>Status</th>
@@ -58,11 +58,11 @@
                 <th>Content Id</th>
             </tr>
             <tr *ngFor="let falsehood of searchMediaFalsehoods" (click)="selectMediaFalsehood(falsehood)">
-                <td>{{falsehood.outlet.name}}</td>
+                <td>{{falsehood.outlet?.name}}</td>
                 <td>{{falsehood.status}}</td>
                 <td>{{falsehood.mediaType}}</td>
                 <td>{{falsehood.severity}}</td>
-                <td>{{falsehood.author1.firstname + falsehood.author1.middleNames + falsehood.author1.lastName}}</td>
+                <td>{{falsehood.author1?.firstname}} {{falsehood.author1?.middleNames}} {{falsehood.author1?.lastName}}</td>
                 <td>{{falsehood.dateMade}}</td>
                 <td>{{falsehood.contentId}}</td>
             </tr>

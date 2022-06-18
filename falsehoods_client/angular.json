@@ -71,11 +71,9 @@
               "browserTarget": "falsehoods_client:build:production"
             },
             "development": {
-              "browserTarget": "falsehoods_client:build:development"
+              "browserTarget": "falsehoods_client:build:development",
+              "proxyConfig": "proxy.conf.js"
             }
-          },
-          "options": {
-            "proxyConfig": "./proxy.conf.json"
           },
           "defaultConfiguration": "development"
         },

@@ -1,5 +1,4 @@
-
-  {
+const PROXY_CONFIG = {
     "/Review/*": {
       "target": "http://localhost:8082",
       "secure": false,
@@ -11,7 +10,12 @@
       "target": "http://localhost:8081",
       "secure": false,
       "logLevel": "debug",
-      "changeOrigin": true
+      "changeOrigin": true,
+      "pathRewrite":  function (path, req) {
+        let ret = path.replace("/submit/", "/");
+        console.log("Rewriting path {} to {}",path, ret);
+        return ret;
+      }
     },
     "/search/*": {
       "target": "http://localhost:8080",
@@ -29,3 +33,4 @@
     }
   }
 
+module.exports = PROXY_CONFIG;

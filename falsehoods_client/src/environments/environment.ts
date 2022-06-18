@@ -10,7 +10,7 @@ export const environment = {
   // falsehood_submit_url: "https://trec-apps-test-falsehood-submit.azurewebsites.net/Update",
   // falsehood_review_url: "https://trec-apps-test-falsehood-review.azurewebsites.net/Review",
   falsehood_search_url: "http://localhost:4200/Review/",
-  falsehood_submit_url: "http://localhost:4200/Submit/",
+  falsehood_submit_url: "http://localhost:4200/submit/",
   falsehood_review_url: "http://localhost:4200/search/",
   resource_url: "http://localhost:4200/Resource/"
 };

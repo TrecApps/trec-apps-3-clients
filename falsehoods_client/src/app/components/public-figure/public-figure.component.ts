@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MediaFalsehood, MediaFalsehoodSearch } from 'src/app/models/media.falsehood';
+import { FullMediaFalsehood, MediaFalsehood, MediaFalsehoodSearch } from 'src/app/models/media.falsehood';
 import { PublicFalsehood, PublicFalsehoodSearch } from 'src/app/models/public.falsehood';
 import { PublicFigure, PublicFigureEntry } from 'src/app/models/public.figure';
+import { FalsehoodSetService } from 'src/app/services/falsehood-set.service';
 import { ResourceSearchService } from 'src/app/services/resource-search.service';
 import { SearchService } from 'src/app/services/search.service';
 
@@ -26,7 +27,7 @@ export class PublicFigureComponent implements OnInit {
   searchFalsehoodObject = new PublicFalsehoodSearch();
   searchMediaObject = new MediaFalsehoodSearch();
 
-  constructor(private resourceSearch: ResourceSearchService, private searchService: SearchService) { 
+  constructor(private resourceSearch: ResourceSearchService, private searchService: SearchService, private setFalsehoodService: FalsehoodSetService) { 
     this.mainFigure = undefined;
   }
 
@@ -58,9 +59,9 @@ export class PublicFigureComponent implements OnInit {
   }
 
   selectFalsehood(falsehood: PublicFalsehood) {
-
+    this.setFalsehoodService.setPublicFalsehood(falsehood);
   } 
   selectMediaFalsehood(falsehood: MediaFalsehood) {
-
+    this.setFalsehoodService.setMediaFalsehood(falsehood);
   }
 }

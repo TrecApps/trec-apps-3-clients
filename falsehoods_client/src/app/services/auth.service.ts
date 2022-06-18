@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Login } from '../models/Login';
+import { Login, TcUser, UserInfo } from '../models/Login';
 import { LoginToken } from '../models/Login';
 
 @Injectable({
@@ -11,6 +11,8 @@ import { LoginToken } from '../models/Login';
 export class AuthService {
 
   loginToken: LoginToken | null;
+
+  user: UserInfo = new UserInfo("", 0);
 
   constructor(private httpClient: HttpClient) {
     this.loginToken = null;
@@ -29,7 +31,7 @@ export class AuthService {
           console.log("Response of Login Token is : {}", this.loginToken.toString());
           // To-Do: Add Callback
           callable(true);
-        
+          this.getUserInfo();
       },
       error: (error: Response | any) => { 
         alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
@@ -38,6 +40,21 @@ export class AuthService {
     };
 
     this.httpClient.post<LoginToken>(`${environment.falsehood_submit_url}Auth/login`, login).pipe(take(1)).subscribe(observe);
+  }
+
+  private getUserInfo() {
+    let observe = {
+      next: (response: TcUser) => {
+        this.user.credibility = response.credibilityRating ? response.credibilityRating : 0;
+        this.user.username = response.userProfile ? response.userProfile : "";
+      },
+      error: (error: Response | any) => { 
+        alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+      }
+    }
+    let headers:HttpHeaders = new HttpHeaders();
+    headers = headers.append('Authorization', this.getAuthorization());
+    this.httpClient.get<TcUser>(`${environment.falsehood_submit_url}Auth/user`,{headers}).pipe(take(1)).subscribe(observe);
   }
 
   getHttpHeaders(useJson: boolean) : HttpHeaders {

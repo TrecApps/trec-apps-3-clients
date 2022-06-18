@@ -73,19 +73,19 @@ export class SearchService {
     });
   }
 
-  RetrieveMediaFalsehood(id:number, wrapper: FullMediaFalsehoodWrapper) {
+  RetrieveMediaFalsehood(id:number, callable: Function) {
     this.httpClient.get(`${this.baseUrl}/Media/id/${id}`).pipe(take(1)).
     subscribe((entry : Object) => {
       if(entry instanceof FullMediaFalsehood) {
-        wrapper.falsehood =entry;
+        callable(entry);
       }});
   }
   
-  RetrievePublicFalsehood(id:number, wrapper: FullPublicFalsehoodWrapper) {
+  RetrievePublicFalsehood(id:number, callable: Function) {
     this.httpClient.get(`${this.baseUrl}/Public/id/${id}`).pipe(take(1)).
     subscribe((entry : Object) => {
       if(entry instanceof FullPublicFalsehood) {
-        wrapper.falsehood =entry;
+        callable(entry);
       }});
   }
 }

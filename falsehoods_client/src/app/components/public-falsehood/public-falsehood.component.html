@@ -1,1 +1,219 @@
-<p>public-falsehood works!</p>
+<div *ngIf="!createNew">
+    <button class="btn bg-info" (click)="startCreateNew()">Create New Falsehood</button>
+    <button class="btn bg-info" (click)="startSearch()">Search Falsehoods</button>
+    <button class="btn bg-info" (click)="startSubmittedSearch()">Submitted Falsehoods</button><br>
+    <div *ngIf="doSearch">
+        <label>Search Falsehood</label><br>
+        <label>By Date?</label>
+
+        <!-- Handle Dates-->
+        <input type="radio" name="ByDate" (click)="setDateSearchMode(0)" id="noDates" clicked><label for="noDates">No Dates</label>
+        <input type="radio" name="ByDate" (click)="setDateSearchMode(1)" id="beforeDates" clicked><label for="beforeDates">Before Date</label>
+        <input type="radio" name="ByDate" (click)="setDateSearchMode(2)" id="betweenDates" clicked><label for="betweenDates">Between Dates</label>
+        <br>
+        <div *ngIf="dateSearchMode > 0">
+            <label>Latest Date</label>
+            <input type="date" [(ngModel)]="search.to">
+            <br>
+        </div>
+        <div *ngIf="dateSearchMode > 1">
+            <label>Earliest Date</label>
+            <input type="date" [(ngModel)]="search.from">
+            <br>
+        </div>
+
+        <!-- Handle Severity-->
+        <label>Minimum Severity</label>
+        <select [(ngModel)]="search.minimum">
+            <option value="null">[Not Selected]</option>
+            <option value="LIE">Lie</option>
+            <option value="OBJECTOVE_FALSEHOOD">Objective Falsehood</option>
+            <option value="MISLEADING">Omitted Information</option>
+            <option value="HYPOCRISY">Hypocracy</option>
+            <option value="SUBJECTIVE_FALSEHOOD">Subjective Falsehood</option>
+            <option value="FAULTY_LOGIC">Faulty Logic</option>
+        </select>
+        <br>
+        <label>Maximum Severity</label>
+        <select [(ngModel)]="search.maximum">
+            <option value="null">[Not Selected]</option>
+            <option value="LIE">Lie</option>
+            <option value="OBJECTOVE_FALSEHOOD">Objective Falsehood</option>
+            <option value="MISLEADING">Omitted Information</option>
+            <option value="HYPOCRISY">Hypocracy</option>
+            <option value="SUBJECTIVE_FALSEHOOD">Subjective Falsehood</option>
+            <option value="FAULTY_LOGIC">Faulty Logic</option>
+        </select>
+        <br>
+
+
+
+        <!--Public Official-->
+        <br>
+        <label>By Author (public Official)</label>
+        <input type="search" (change)="onSearchAuthor($event)" [(ngModel)]="searchAuthor" placeholder="Search Author (public Figure)">
+
+        <ul *ngFor="let author of authorList">
+          <li (click)="setAuthor(author)">Public Figure: {{author.firstname}} {{author.middleNames}} {{author.lastName}}</li>
+        </ul>
+
+        <div *ngIf="search.official">
+            <h6>Selected Author: {{search.official.firstname}} {{search.official.middleNames}} {{search.official.lastName}}</h6>
+            <button class="btn bg-info" (click)="setAuthor(undefined)">Clear Official</button>
+        </div>
+        <div *ngIf="!search.official">
+            <h6>No Author Selected!</h6>
+        </div>
+        <br>
+        <label>Page Number</label>
+        <input type="number" min="0" [(ngModel)]="search.page"> <br>
+        <label>Page Size</label>
+        <input type="number" min="1" [(ngModel)]="search.numberOfEntries"> <br>
+        <button class="btn bg-info" (click)="submitSearch()">Submit Search</button>
+    </div>
+
+    <div *ngIf="doSubmitted">
+        <label>Page Number</label>
+        <input type="number" class="form-control" min="0" [(ngModel)]="submittedPage"><br>
+        <label>Page Size</label>
+        <input type="number" class="form-control" min=10 max=100 [(ngModel)]="submitSize"><br>
+        <button class="btn bg-info" (click)="getSubmittedFalsehoods()">Search Submitted</button>
+    </div>
+
+
+
+    <table *ngIf="publicFalsehoods.length > 0">
+        <tr>
+            <th>Status</th>
+            <th>Severity</th>
+            <th>Figure Type</th>
+            <th>Public Figure</th>
+            <th>Institution</th>
+            <th>Region</th>
+            <th>Date Made</th>
+    
+        </tr>
+        <tr *ngFor="let falsehood of publicFalsehoods" (click)="selectPublicFalsehood(falsehood)">
+            <td>{{falsehood.status}}</td>
+            <td>{{falsehood.severity}}</td>
+            <td>{{falsehood.officialType}}</td>
+            <td>{{falsehood.official?.firstname}} {{falsehood.official?.middleNames}} {{falsehood.official?.lastName}}</td>
+            <td>{{falsehood.institution?.name}}</td>
+            <td>{{falsehood.region?.name}}</td>
+            <td>{{falsehood.dateMade}}</td>
+        </tr>
+    </table>
+
+    <div *ngIf="publicFalsehoodEntry?.metadata">
+        <table class="table table-hover">
+            <tr>
+                <th>Fields</th>
+                <th>Details</th>
+            </tr>
+            <tr>
+                <td>ID</td>
+                <td>{{publicFalsehoodEntry?.metadata?.id}}</td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td>{{publicFalsehoodEntry?.metadata?.status}}</td>
+            </tr>
+            <tr>
+                <td>Severity</td>
+                <td>{{publicFalsehoodEntry?.metadata?.severity}}</td>
+            </tr>
+            <tr>
+                <td>Public Official</td>
+                <td>{{publicFalsehoodEntry?.metadata?.official?.firstname}} {{publicFalsehoodEntry?.metadata?.official?.lastName}}</td>
+            </tr>
+            <tr>
+                <td>Date</td>
+                <td>{{publicFalsehoodEntry?.metadata?.dateMade}}</td>
+            </tr>
+            <tr>
+                <td>Region</td>
+                <td>{{publicFalsehoodEntry?.metadata?.region?.name}}</td>
+            </tr>
+            <tr>
+                <td>Institution</td>
+                <td>{{publicFalsehoodEntry?.metadata?.institution?.name}}</td>
+            </tr>
+        </table>
+
+        <div *ngIf="(publicFalsehoodEntry?.metadata?.status == 0 || publicFalsehoodEntry?.metadata?.status == 2) && tokenService.user.credibility > 60">
+            <label>Reason for Approving or Rejecting</label>
+
+            <textarea [(ngModel)]="submitReason"></textarea> 
+
+            <button class="btn bg-info" (click)="Approve('Approve')">Approve Falsehood</button><br>
+            <button class="btn bg-info" (click)="Approve('Reject')"> Reject Falsehood</button><br>
+            <button class="btn bg-info" (click)="Approve('Penalize')">Penalize Falsehood</button><br>
+        </div>
+        <br>
+
+        <div id="content1" [innerHTML]="publicFalsehoodEntry?.contents | marked"></div>
+    </div>
+
+</div>
+
+<div *ngIf="createNew" class="container form form-group">
+
+    <!--By Severity-->
+    <label>Severity</label>
+    <select class="form-control" [(ngModel)]="newFalsehood.metadata.severity">
+        <option value="1">Objective Falsehood</option>
+        <option value="2">Omitted Information</option>
+        <option value="4">Subjective Falsehood</option>
+        <option value="5">Something</option>
+    </select>
+    <br>
+    <!--Public Figures -->
+    <label>Public Figure</label>
+    <input class="form-control" type="search" (change)="onSearchAuthor($event)" [(ngModel)]="searchAuthor" placeholder="Search Author (public Figure)">
+
+        <ul *ngFor="let author of authorList">
+          <li (click)="setNewAuthor(author)">Public Figure: {{author.firstname}} {{author.middleNames}} {{author.lastName}}</li>
+        </ul>
+
+        <div *ngIf="newFalsehood.metadata.official">
+            <h6>Selected Author: {{newFalsehood.metadata.official.firstname}} {{newFalsehood.metadata.official.middleNames}} {{newFalsehood.metadata.official.lastName}}</h6>
+            <button class="btn bg-info" (click)="setNewAuthor(undefined)">Clear Author</button>
+        </div>
+        <div *ngIf="!newFalsehood.metadata.official">
+            <h6>No Author Selected!</h6>
+        </div>
+    <br>
+
+    <!--Figure Type-->
+    <label>Public Figure Type</label>
+    <select class="form-control" [(ngModel)]="newFalsehood.metadata.officialType">
+        <option value="0">Politician</option>
+        <option value="1">Law Enforcement</option>
+        <option value="2">Intelligence</option>
+        <option value="3">Military</option>
+        <option value="4">Public Health</option>
+        <option value="5">Economist</option>
+        <option value="6">Environmentalist</option>
+        <option value="7">Corporate Executive</option>
+        <option value="15">Other</option>
+    </select>
+
+    <br>
+    <label>Date Made</label>
+    <input class="form-control" type="date" [(ngModel)]="newFalsehood.metadata.dateMade">
+
+    <textarea class="form-control" [(ngModel)]="newFalsehood.contents"></textarea>
+  
+  
+    <div [innerHTML]="newFalsehood.contents | marked"></div>
+    <br>
+
+    <label>Tags (Seperate Terms by line), max character limit is 400</label>
+    <textarea [(ngModel)]="newFalsehood.metadata.tags" (input)="inspectTagsField()"></textarea>
+    <br>
+  
+    <h5 #pfTagWarming hidden>Tag field is {{newFalsehood.metadata.tags.length - 400}} over the character limit!</h5>
+    <button #pfNewSubmit class="btn bg-info" (click)="submitNewFalsehod()">Submit</button>
+    <button class="btn bg-info" (click)="stopCreateNew()">Cancel</button>
+
+</div>

@@ -22,3 +22,34 @@ export class LoginToken {
         return `access_token = [hidden], token_type = ${this.token_type}, refresh_token = [hidden], expires_in = ${this.expires_in}`;
     }
 }
+
+export class UserInfo {
+    username: string;
+    credibility: number;
+
+    constructor(username: string, credibility: number){
+        this.username = username;
+        this.credibility = credibility;
+    }
+}
+
+export class TcUser {
+    id : string | undefined;
+    displayName : string | undefined;
+    userProfile : string | undefined;
+    mobilePhone : string | undefined;
+    phoneVerified: boolean | undefined;
+
+    email : string | undefined;
+    emailVerified : boolean | undefined;
+
+    birthday: Date | undefined;
+    birthdaySetting: string | undefined;
+
+    address: string[] | undefined;
+    restrictions: string | undefined;
+
+    credibilityRating: number | undefined;
+
+    
+}

@@ -161,7 +161,7 @@
             </tr>
         </table>
 
-        <div *ngIf="(mediaFalsehoodEntry?.metadata?.status == 0 || mediaFalsehoodEntry?.metadata?.status == 2) && tokenService.credit > 60">
+        <div *ngIf="(mediaFalsehoodEntry?.metadata?.status == 0 || mediaFalsehoodEntry?.metadata?.status == 2) && tokenService.user.credibility > 60">
             <label>Reason for Approving or Rejecting</label>
 
             <textarea [(ngModel)]="submitReason"></textarea> 

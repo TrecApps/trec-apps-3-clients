@@ -1,17 +1,23 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LoginComponent } from './components/login/login.component';
+import { MediaFalsehoodComponent } from './components/media-falsehood/media-falsehood.component';
+import { MediaOutletComponent } from './components/media-outlet/media-outlet.component';
+import { PublicFigureComponent } from './components/public-figure/public-figure.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
 
 
 const routes: Routes = [
-	// { path: 'Welcome', component: WelcomeComponent},
-  // { path: 'Falsehoods', component: FalsehoodsComponent },
-  // { path: 'PublicFalsehoods', component: PublicFalsehoodsComponent },
+	{ path: 'Welcome', component: WelcomeComponent},
+  { path: 'MediaFalsehoods', component: MediaFalsehoodComponent },
+  { path: 'PublicFalsehoods', component: MediaFalsehoodComponent },
   // { path: 'Regions', component: RegionComponent },
   // { path: 'Institution', component: InstitutionComponent},
-  // { path: 'PublicFigure', component: PublicFigureComponent},
-  // { path: 'MediaOutlet', component: MediaOutletComponent},
-  // { path: '',   redirectTo: '/Welcome', pathMatch: 'full'}
+  { path: 'PublicFigure', component: PublicFigureComponent},
+  { path: 'MediaOutlet', component: MediaOutletComponent},
+  { path: 'login', component: LoginComponent},
+  { path: '',   redirectTo: '/Welcome', pathMatch: 'full'}
 ];
 
 @NgModule({

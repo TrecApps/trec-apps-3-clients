@@ -149,7 +149,11 @@ export class MediaFalsehoodComponent implements OnInit {
   }
 
   selectMediaFalsehood(falsehood: MediaFalsehood) {
-
+    if(falsehood.id) {
+      this.falsehoodSearch.RetrieveMediaFalsehood(falsehood.id, (entry: FullMediaFalsehood) => {
+        this.mainFalsehood = entry;
+      });
+    }
   }
 
   inspectTagsField() {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Logger } from '@azure/msal-browser';
 import { BooleanRef } from 'src/app/models/Holders';
 import { PasswordChange } from 'src/app/models/Login';
 import { UserService } from 'src/app/services/user.service';
@@ -62,6 +63,7 @@ export class ManageUserComponent implements OnInit {
 
   refreshUser() {
     this.userService.refreshUser(this.userActive, () => {
+      console.log("In RefreshUser Method. Current userActive Value is ", this.userActive.value);
       let currentBirthdaySetting = this.userService.currentUser.birthdaySetting;
 
       for(let birthdayDetail of this.birthdayDetails) {

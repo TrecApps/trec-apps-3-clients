@@ -7,7 +7,7 @@ const PROXY_CONFIG = {
       "pathRewrite": {"^/Review" : ""}
     },
     "/submit/*": {
-      "target": "http://localhost:8081",
+      "target": "http://localhost:8080",
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true,

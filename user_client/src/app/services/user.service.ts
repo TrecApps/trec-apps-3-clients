@@ -22,6 +22,7 @@ export class UserService {
   async refreshUser(ref: BooleanRef, callable: Function) {
     let observe = {
       next: (response: TcUser) => { 
+        console.info("Birthday Value: ", response.birthday);
         this.currentUser = response;
         ref.value = true;
         callable();

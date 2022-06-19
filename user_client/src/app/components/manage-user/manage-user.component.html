@@ -15,30 +15,30 @@
         <input type="text" [(ngModel)]="userService.currentUser.userProfile" readonly><br>
 
         <label>Mobile Phone: </label>
-        <input type="tel" [(ngModel)]="userService.currentUser.mobilePhone"> 
-        <button ngIf*="!userService.currentUser.phoneVerified">Verify Phone</button>
+        <input type="tel" [(ngModel)]="userService.currentUser.mobilePhone" > <br>
+        <button *ngIf="!userService?.currentUser?.phoneVerified" >Verify Phone</button>
         <br>
 
         <label>Email: </label>
         <input type="email" [(ngModel)]="userService.currentUser.email"> 
-        <button ngIf*="!userService.currentUser.emailVerified">Verify Email</button><br>
+        <button *ngIf="!userService.currentUser.emailVerified">Verify Email</button><br>
 
         <label>Birthday:</label>
         <input type="date" [(ngModel)]="userService.currentUser.birthday" readonly><br>
 
         <label>Birthday Privacy:</label>
         <select [(ngModel)]="currentBirthdayDetail">
-            <option *ngFor="let birthOpt of birthdayDetails" (select)="currentBirthdayDetail = birthOpt">{{birthOpt.setting}}</option>
-        </select>
+            <option *ngFor="let birthOpt of birthdayDetails" (select)="birthOpt">{{birthOpt.setting}}</option>
+        </select><br>
 
         <label>Account Restrictions: </label>
         <input type="text" [(ngModel)]="userService.currentUser.restrictions" readonly><br>
 
-        <label>Username: </label>
+        <label>Credibility Rating: </label>
         <input type="number" [(ngModel)]="userService.currentUser.credibilityRating" readonly><br>
 
         <button class="btn btn-submit" (click)="updateUser()">Update Details</button>
-        <button class="btn btn-submit">Go to Brand Menu</button>
+        <button class="btn btn-submit">Go to Brand Menu</button><!--  -->
     </div>
 
     <button class="btn btn-submit" (click)="setChangePassword(true)">Change Password Menu</button>

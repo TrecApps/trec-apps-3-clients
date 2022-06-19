@@ -72,7 +72,7 @@
             },
             "development": {
               "browserTarget": "falsehoods_client:build:development",
-              "proxyConfig": "proxy.conf.js"
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
@@ -102,6 +102,5 @@
         }
       }
     }
-  },
-  "defaultProject": "falsehoods_client"
+  }
 }

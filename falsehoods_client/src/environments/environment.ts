@@ -12,7 +12,7 @@ export const environment = {
   falsehood_search_url: "http://localhost:4200/Review/",
   falsehood_submit_url: "http://localhost:4200/submit/",
   falsehood_review_url: "http://localhost:4200/search/",
-  resource_url: "http://localhost:4200/Resource/"
+  resource_url: "http://localhost:4200/resources/search/"
 };
 
 /*

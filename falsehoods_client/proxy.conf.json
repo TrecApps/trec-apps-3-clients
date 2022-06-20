@@ -8,10 +8,11 @@
       "pathRewrite": {"^/Review" : ""}
     },
     "/submit/*": {
-      "target": "http://localhost:8080",
+      "target": "http://localhost:8081",
       "secure": false,
       "logLevel": "debug",
-      "changeOrigin": true
+      "changeOrigin": true,
+      "pathRewrite": {"^/submit" : ""}
     },
     "/search/*": {
       "target": "http://localhost:8080",

@@ -20,8 +20,8 @@ export class SubmitService {
 
    getHttpHeaders(useJson: boolean) : HttpHeaders {
      let ret:HttpHeaders = new HttpHeaders();
-     ret.append('Authorization', this.authService.getAuthorization());
-     ret.append('Content-Type', useJson ? 
+     ret = ret.append('Authorization', this.authService.getAuthorization());
+     ret = ret.append('Content-Type', useJson ? 
       'application/json': 'application/x-www-form-urlencoded');
     return ret;
    }
@@ -34,7 +34,7 @@ export class SubmitService {
       }
     };
 
-    this.httpClient.post(`${this.baseUrl}/Media/Submit`,
+    this.httpClient.post(`${this.baseUrl}/Update/Media/Submit`,
     entry, {headers: this.getHttpHeaders(true)}).pipe(take(1)).subscribe(observe);
    }
 
@@ -46,7 +46,7 @@ export class SubmitService {
       }
     };
 
-    this.httpClient.post(`${this.baseUrl}/Public/Submit`,
+    this.httpClient.post(`${this.baseUrl}/Update/Public/Submit`,
     entry, {headers: this.getHttpHeaders(true)}).pipe(take(1)).subscribe(observe);
    }
 
@@ -59,7 +59,7 @@ export class SubmitService {
       }
     };
 
-    this.httpClient.post(`${this.baseUrl}/Media/Metadata`,
+    this.httpClient.post(`${this.baseUrl}/Update/Media/Metadata`,
     entry, {headers: this.getHttpHeaders(true)}).pipe(take(1)).subscribe(observe);
    }
 
@@ -71,7 +71,7 @@ export class SubmitService {
       }
     };
 
-    this.httpClient.post(`${this.baseUrl}/Public/Metadata`,
+    this.httpClient.post(`${this.baseUrl}/Update/Public/Metadata`,
     entry, {headers: this.getHttpHeaders(true)}).pipe(take(1)).subscribe(observe);
    }
    
@@ -83,7 +83,7 @@ export class SubmitService {
       }
     };
 
-    this.httpClient.post(`${this.baseUrl}/Media/Content`,
+    this.httpClient.post(`${this.baseUrl}/Update/Media/Content`,
     entry, {headers: this.getHttpHeaders(false)}).pipe(take(1)).subscribe(observe);
    }
 
@@ -95,7 +95,7 @@ export class SubmitService {
       }
     };
 
-    this.httpClient.post(`${this.baseUrl}/Public/Content`,
+    this.httpClient.post(`${this.baseUrl}/Update/Public/Content`,
     entry, {headers: this.getHttpHeaders(false)}).pipe(take(1)).subscribe(observe);
    }
    

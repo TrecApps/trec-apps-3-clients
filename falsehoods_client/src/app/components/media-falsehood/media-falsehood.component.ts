@@ -167,6 +167,7 @@ export class MediaFalsehoodComponent implements OnInit {
   }
 
   submitNewFalsehod() {
+    this.newFalsehood.metadata.severity = this.newSeverity;
     this.submitter.SubmitMediaEntry(this.newFalsehood, this.stringWrapper);
     this.stopCreateNew();
   }

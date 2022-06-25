@@ -5,6 +5,15 @@ import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 import { StringWrapper } from '../../../../angular_common/Models/Common';
 
+export class ReviewEntry {
+  falsehood: string;
+  comment: string;
+  constructor(falsehood: string, comment: string) {
+    this.comment = comment;
+    this.falsehood = falsehood;
+  }
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +30,7 @@ export class ReviewService {
     *   'Comment' which is a tring representing the reviewers take on the falsehood entry he/she is reviewing (i.e. the 'why' behind the verdict)
     * @param ret 
     */
-   async ReviewMediaFalsehood(verdict: string, data: FormData, ret: StringWrapper){
+   async ReviewMediaFalsehood(verdict: string, data: ReviewEntry, ret: StringWrapper){
 
     let observe = {
       next: (response: Object) => { ret.content = response.toString();},
@@ -30,10 +39,11 @@ export class ReviewService {
       }
     };
   
-    this.httpClient.post(`${environment.falsehood_review_url}/Media/${verdict}`,
+    this.httpClient.post(`${environment.falsehood_review_url}Media/${verdict}`,
       data, {
         headers: {
-          Authorization: this.authService.getAuthorization()
+          Authorization: this.authService.getAuthorization(),
+          'Content-Type': 'application/json'
      }}).pipe(take(1)).subscribe(observe);
    }
 
@@ -45,7 +55,7 @@ export class ReviewService {
     *   'Comment' which is a tring representing the reviewers take on the falsehood entry he/she is reviewing (i.e. the 'why' behind the verdict)
     * @param ret 
     */
-    async ReviewPublicFalsehood(verdict: string, data: FormData, ret: StringWrapper){
+    async ReviewPublicFalsehood(verdict: string, data: ReviewEntry, ret: StringWrapper){
 
       let observe = {
         next: (response: Object) => { ret.content = response.toString();},
@@ -54,10 +64,11 @@ export class ReviewService {
         }
       };
     
-      this.httpClient.post(`${environment.falsehood_review_url}/Public/${verdict}`,
+      this.httpClient.post(`${environment.falsehood_review_url}Public/${verdict}`,
         data, {
           headers: {
-            Authorization: this.authService.getAuthorization()
+            Authorization: this.authService.getAuthorization(),
+            'Content-Type': 'application/json'
        }}).pipe(take(1)).subscribe(observe);
      }
   

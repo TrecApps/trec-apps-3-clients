@@ -152,6 +152,19 @@
         <br>
 
         <div id="content1" [innerHTML]="publicFalsehoodEntry?.contents | marked"></div>
+
+        <table class="table table-hover" *ngIf="publicFalsehoodEntry?.records?.records">
+            <tr>
+                <th>Record</th>
+                <th>Date</th>
+                <th>Details</th>
+            </tr>
+            <tr *ngFor="let record of publicFalsehoodEntry?.records?.records">
+                <td>{{record.details}}</td>
+                <td>{{record.made}}</td>
+                <td>{{record.specifics}}</td>
+            </tr>
+        </table>
     </div>
 
 </div>

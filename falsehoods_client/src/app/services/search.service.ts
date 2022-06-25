@@ -23,7 +23,7 @@ export class SearchService {
    }
 
   SearchMediaFalsehoods(searchObj: MediaFalsehoodSearch, confirmed: boolean, results: Array<MediaFalsehood>) {
-    this.httpClient.post(`${this.baseUrl}/Media/${confirmed ? 'Confirmed' : 'Rejected'}`, searchObj).
+    this.httpClient.post(`${this.baseUrl}Media/${confirmed ? 'Confirmed' : 'Rejected'}`, searchObj).
     subscribe((entry : Object) => {
       if(entry instanceof MediaFalsehood) {
         results.push(entry);
@@ -35,7 +35,7 @@ export class SearchService {
     });
   }
   SearchPublicFalsehoods(searchObj: PublicFalsehoodSearch, confirmed: boolean, results: Array<PublicFalsehood>) {
-    this.httpClient.post(`${this.baseUrl}/Public/${confirmed ? 'Confirmed' : 'Rejected'}`, searchObj).
+    this.httpClient.post(`${this.baseUrl}Public/${confirmed ? 'Confirmed' : 'Rejected'}`, searchObj).
     subscribe((entry : Object) => {
       if(entry instanceof PublicFalsehood) {
         results.push(entry);
@@ -48,7 +48,7 @@ export class SearchService {
   }
 
   SearchSubmittedMediaFalsehoods(size : Number | undefined, page: Number | undefined, results : Array<MediaFalsehood>) {
-    this.httpClient.get(`${this.baseUrl}/Media/SearchSubmitted?size=${size ? size : 20}&page=${page ? page : 0}`).
+    this.httpClient.get(`${this.baseUrl}Media/SearchSubmitted?size=${size ? size : 20}&page=${page ? page : 0}`).
     subscribe((entry : Object) => {
       if(entry instanceof MediaFalsehood) {
         results.push(entry);
@@ -61,7 +61,7 @@ export class SearchService {
   }
   
   SearchSubmittedPublicFalsehoods(size : Number | undefined, page: Number | undefined, results : Array<PublicFalsehood>) {
-    this.httpClient.get(`${this.baseUrl}/Public/SearchSubmitted?size=${size ? size : 20}&page=${page ? page : 0}`).
+    this.httpClient.get(`${this.baseUrl}Public/SearchSubmitted?size=${size ? size : 20}&page=${page ? page : 0}`).
     subscribe((entry : Object) => {
       if(entry instanceof PublicFalsehood) {
         results.push(entry);
@@ -74,18 +74,16 @@ export class SearchService {
   }
 
   RetrieveMediaFalsehood(id:number, callable: Function) {
-    this.httpClient.get(`${this.baseUrl}/Media/id/${id}`).pipe(take(1)).
-    subscribe((entry : Object) => {
-      if(entry instanceof FullMediaFalsehood) {
+    this.httpClient.get<FullMediaFalsehood>(`${this.baseUrl}Media/id/${id}`).pipe(take(1)).
+    subscribe((entry : FullMediaFalsehood) => {
         callable(entry);
-      }});
+      });
   }
   
   RetrievePublicFalsehood(id:number, callable: Function) {
-    this.httpClient.get(`${this.baseUrl}/Public/id/${id}`).pipe(take(1)).
+    this.httpClient.get<FullPublicFalsehood>(`${this.baseUrl}Public/id/${id}`).pipe(take(1)).
     subscribe((entry : Object) => {
-      if(entry instanceof FullPublicFalsehood) {
         callable(entry);
-      }});
+      });
   }
 }

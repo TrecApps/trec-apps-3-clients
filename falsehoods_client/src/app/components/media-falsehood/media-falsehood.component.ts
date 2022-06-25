@@ -4,7 +4,7 @@ import { MediaOutlet } from 'src/app/models/media.outlet';
 import { PublicFigure } from 'src/app/models/public.figure';
 import { AuthService } from 'src/app/services/auth.service';
 import { ResourceSearchService } from 'src/app/services/resource-search.service';
-import { ReviewService } from 'src/app/services/review.service';
+import { ReviewEntry, ReviewService } from 'src/app/services/review.service';
 import { SearchService } from 'src/app/services/search.service';
 import { SubmitService } from 'src/app/services/submit.service';
 import { StringWrapper } from '../../../../../angular_common/Models/Common';
@@ -101,9 +101,8 @@ export class MediaFalsehoodComponent implements OnInit {
   }
 
   Approve(app: string) {
-    let formData = new FormData();
-    formData.append("Falsehood", this.FilterUndefined<string>(this.mediaFalsehoodEntry?.metadata.id?.toString(), ''));
-    formData.append("Comment", this.submitReason);
+    let formData = new ReviewEntry(this.FilterUndefined<string>(this.mediaFalsehoodEntry?.metadata.id?.toString(), ''), this.submitReason);
+
     this.reviewService.ReviewMediaFalsehood(app, formData, this.stringWrapper);
   }
 
@@ -151,7 +150,8 @@ export class MediaFalsehoodComponent implements OnInit {
   selectMediaFalsehood(falsehood: MediaFalsehood) {
     if(falsehood.id) {
       this.falsehoodSearch.RetrieveMediaFalsehood(falsehood.id, (entry: FullMediaFalsehood) => {
-        this.mainFalsehood = entry;
+        console.log("Entry Retrieved!");
+        this.mediaFalsehoodEntry = entry;
       });
     }
   }

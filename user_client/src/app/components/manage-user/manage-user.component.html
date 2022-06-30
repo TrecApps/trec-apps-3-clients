@@ -41,6 +41,24 @@
         <button class="btn btn-submit">Go to Brand Menu</button><!--  -->
     </div>
 
+    <button class="btn btn-submit" (click)="refreshSessions()">View Trec-Account Sessions</button>
+    <div *ngIf="sessionList && currentSession">
+        <table class="table table-hover">
+            <tr>
+                <th>Session Id</th>
+                <th>Application</th>
+                <th>Notes</th>
+                <th>Delete?</th>
+            </tr>
+            <tr *ngFor="let session of sessionList.sessions">
+                <td>{{session.sessionId}}</td>
+                <td>{{session.appId}}</td>
+                <td>{{session.sessionId == currentSession ? "Current Session" : ""}} {{session.expiration ? session.expiration : "No Expiration"}}</td>
+                <td><button class="btn btn-warning" (click)="deleteSession(session.sessionId ? session.sessionId : '')">Delete Session</button></td>
+            </tr>
+        </table>
+    </div>
+
     <button class="btn btn-submit" (click)="setChangePassword(true)">Change Password Menu</button>
 
     <div *ngIf="changePassword" class="form">

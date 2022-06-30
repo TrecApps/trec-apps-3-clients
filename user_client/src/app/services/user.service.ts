@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { LoginToken, PasswordChange } from '../models/Login';
 import { BooleanRef } from '../models/Holders';
 import { Router } from '@angular/router';
+import { SessionList } from '../models/Sessions';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,8 @@ import { Router } from '@angular/router';
 export class UserService {
 
   currentUser: TcUser;
+
+
 
   constructor(private httpClient: HttpClient, private authService: AuthService, private router: Router) {
     this.currentUser = new TcUser();
@@ -32,7 +35,7 @@ export class UserService {
       }
     };
 
-    this.httpClient.get<TcUser>(`${environment.user_service_url}Users/Current`,{headers: this.authService.getHttpHeaders(true)}).pipe(take(1)).subscribe(observe);
+    this.httpClient.get<TcUser>(`${environment.user_service_url}Users/Current`,{headers: this.authService.getHttpHeaders(true, false)}).pipe(take(1)).subscribe(observe);
   }
 
   async createUser(userPost: UserPost) {
@@ -58,7 +61,7 @@ export class UserService {
     };
 
     this.httpClient.post(`${environment.user_service_url}Users/passwordUpdate`, passwordChange,
-        {headers: this.authService.getHttpHeaders(true)}).pipe(take(1)).subscribe(observe);
+        {headers: this.authService.getHttpHeaders(true, true)}).pipe(take(1)).subscribe(observe);
   }
 
   async updateUser() {
@@ -70,6 +73,57 @@ export class UserService {
     };
 
     this.httpClient.put(`${environment.user_service_url}Users/UserUpdate`, this.currentUser,
-      {headers: this.authService.getHttpHeaders(true)}).pipe(take(1)).subscribe(observe);
+      {headers: this.authService.getHttpHeaders(true, true)}).pipe(take(1)).subscribe(observe);
+  }
+
+  async getSessions(sessionListFunction: Function, currentSessionFunction : Function) {
+    let observe1 = {
+      next: (response: SessionList) => { 
+        console.log("SessionList is ", response.sessions.length);
+        sessionListFunction(response);
+        let observe2 = {
+          next: (response: Object) => { 
+            currentSessionFunction(response.toString());
+          },
+          error: (error: Response | any) => { 
+            console.error("Error Getting Current Session!", error);
+
+            if(error.error?.text) {
+              currentSessionFunction(error.error.text.toString());
+            }
+            else {
+              alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+            }
+          }
+        };
+        let headers = this.authService.getHttpHeaders(true, false);
+        headers = headers.append("Accept","text/plain;charset=UTF-8");
+        this.httpClient.get(`${environment.user_service_url}Sessions/Current`,
+          {headers }).pipe(take(1)).subscribe(observe2);
+
+
+      },
+      error: (error: Response | any) => { 
+        alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+      }
+    };
+
+
+
+    this.httpClient.get<SessionList>(`${environment.user_service_url}Sessions/List`,
+      {headers: this.authService.getHttpHeaders(true, false)}).pipe(take(1)).subscribe(observe1);
+    
+  }
+
+  async removeSession(sessionId: string) {
+    let observe = {
+      next: (response: Object) => { },
+      error: (error: Response | any) => { 
+        alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+      }
+    };
+
+    this.httpClient.delete(`${environment.user_service_url}Sessions/${sessionId}`,
+      {headers: this.authService.getHttpHeaders(true, false)}).pipe(take(1)).subscribe(observe);
   }
 }

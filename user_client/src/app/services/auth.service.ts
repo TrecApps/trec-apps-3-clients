@@ -39,12 +39,14 @@ export class AuthService {
     this.httpClient.post<LoginToken>(`${environment.user_service_url}Auth/login`, login).pipe(take(1)).subscribe(observe);
   }
 
-  getHttpHeaders(useJson: boolean) : HttpHeaders {
+  getHttpHeaders(useJson: boolean, usingContentType : boolean) : HttpHeaders {
     console.log("Getting Headers!");
     let ret:HttpHeaders = new HttpHeaders();
     ret = ret.append('Authorization', this.getAuthorization());
+    if(usingContentType) {
     ret = ret.append('Content-Type', useJson ? 
      'application/json': 'application/x-www-form-urlencoded');
+    }
    return ret;
   }
 

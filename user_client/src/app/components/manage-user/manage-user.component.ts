@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Logger } from '@azure/msal-browser';
 import { BooleanRef } from 'src/app/models/Holders';
 import { PasswordChange } from 'src/app/models/Login';
+import { SessionList } from 'src/app/models/Sessions';
 import { UserService } from 'src/app/services/user.service';
 
 class BirthdayDetails {
@@ -33,6 +34,10 @@ export class ManageUserComponent implements OnInit {
   birthdayDetails: BirthdayDetails[];
 
   currentBirthdayDetail: BirthdayDetails;
+
+  sessionList: SessionList | undefined;
+
+  currentSession: string | undefined;
 
   constructor(userService: UserService) { 
 
@@ -73,6 +78,21 @@ export class ManageUserComponent implements OnInit {
         }
       }
     });
+  }
+
+  refreshSessions() {
+    this.userService.getSessions((sessionList : SessionList) => {
+      this.sessionList = sessionList;
+      console.log("Got Session!");
+    },
+      (currentSession: string) => {
+        this.currentSession = currentSession;
+        console.log("Current Session is ", this.currentSession);
+      });
+  }
+
+  deleteSession(sessionId: string) {
+    this.userService.removeSession(sessionId);
   }
 
   updateUser(){

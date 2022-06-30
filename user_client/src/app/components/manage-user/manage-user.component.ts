@@ -92,7 +92,7 @@ export class ManageUserComponent implements OnInit {
   }
 
   deleteSession(sessionId: string) {
-    this.userService.removeSession(sessionId);
+    this.userService.removeSession(sessionId, () => this.refreshSessions());
   }
 
   updateUser(){

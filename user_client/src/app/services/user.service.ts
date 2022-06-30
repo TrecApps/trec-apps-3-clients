@@ -22,6 +22,13 @@ export class UserService {
     this.currentUser = new TcUser();
    }
 
+   checkAuthClear(error: Response | any) {
+    if(error.status && (error.status == 401 || error.status == 403)) {
+      this.authService.clearAuth();
+      this.currentUser = new TcUser();
+    }
+   }
+
   async refreshUser(ref: BooleanRef, callable: Function) {
     let observe = {
       next: (response: TcUser) => { 
@@ -115,11 +122,17 @@ export class UserService {
     
   }
 
-  async removeSession(sessionId: string) {
+  async removeSession(sessionId: string, doNext: Function) {
     let observe = {
-      next: (response: Object) => { },
+      next: (response: Object) => { 
+        doNext();
+      },
       error: (error: Response | any) => { 
-        alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        if(error.status && error.status == 200) {
+          doNext();
+        } else {
+          alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        }
       }
     };
 

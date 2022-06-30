@@ -19,6 +19,10 @@ export class AuthService {
     
   }
 
+  clearAuth() {
+    this.loginToken = null;
+  }
+
   loginThroughTrecApps(login: Login, callable: Function) {
 
     let observe = {

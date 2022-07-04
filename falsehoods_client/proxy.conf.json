@@ -8,14 +8,14 @@
       "pathRewrite": {"^/Review" : ""}
     },
     "/submit/*": {
-      "target": "http://localhost:8081",
+      "target": "https://trec-apps-test-falsehood-submit.azurewebsites.net",
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true,
       "pathRewrite": {"^/submit" : ""}
     },
     "/search/*": {
-      "target": "http://localhost:8080",
+      "target": "https://trec-apps-test-falsehoods-search.azurewebsites.net",
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true,

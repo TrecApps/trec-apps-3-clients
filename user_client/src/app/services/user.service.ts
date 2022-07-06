@@ -22,6 +22,32 @@ export class UserService {
     this.currentUser = new TcUser();
    }
 
+   requestEmailVerification() {
+
+    let error = (error: Response | any) => { 
+      alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+    }
+
+    let observe = {
+      next: (response: Object) => { 
+        let code = prompt(`Check your Email ${this.currentUser.email} for a Code from TrecApps and enter it here (within ten minutes):`);
+
+        this.httpClient.post(`${environment.user_service_url}Email`, code,
+         {headers: this.authService.getHttpHeaders(true, false)}).pipe(take(1)).subscribe({
+          error,
+          next: () => {
+            this.currentUser.emailVerified = true;
+          }
+         })
+      },
+      error
+    }
+
+
+    this.httpClient.get(`${environment.user_service_url}Email`,
+     {headers: this.authService.getHttpHeaders(true, false)}).pipe(take(1)).subscribe(observe);
+   }
+
    checkAuthClear(error: Response | any) {
     if(error.status && (error.status == 401 || error.status == 403)) {
       this.authService.clearAuth();

@@ -21,7 +21,8 @@
 
         <label>Email: </label>
         <input type="email" [(ngModel)]="userService.currentUser.email"> 
-        <button *ngIf="!userService.currentUser.emailVerified">Verify Email</button><br>
+        <button *ngIf="!userService.currentUser.emailVerified" (click)="attemptEmailVerification()">Verify Email</button><br>
+  
 
         <label>Birthday:</label>
         <input type="date" [(ngModel)]="userService.currentUser.birthday" readonly><br>

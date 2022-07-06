@@ -61,7 +61,9 @@ export class ManageUserComponent implements OnInit {
     this.newPassword2 = "";
   }
 
-
+  attemptEmailVerification() {
+    this.userService.requestEmailVerification();
+  }
 
   ngOnInit(): void {
   }

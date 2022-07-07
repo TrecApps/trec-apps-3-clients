@@ -2,6 +2,7 @@ export class Session {
     expiration : Date | undefined;
     appId : string | undefined;
     sessionId : string | undefined;
+    deviceInfo: string | undefined;
 }
 
 export class SessionList {

@@ -48,12 +48,14 @@
             <tr>
                 <th>Session Id</th>
                 <th>Application</th>
+                <th>Device Info</th>
                 <th>Notes</th>
                 <th>Delete?</th>
             </tr>
             <tr *ngFor="let session of sessionList.sessions">
                 <td>{{session.sessionId}}</td>
                 <td>{{session.appId}}</td>
+                <td>{{session.deviceInfo}}</td>
                 <td>{{session.sessionId == currentSession ? "Current Session" : ""}} {{session.expiration ? session.expiration : "No Expiration"}}</td>
                 <td><button class="btn btn-warning" (click)="deleteSession(session.sessionId ? session.sessionId : '')">Delete Session</button></td>
             </tr>

@@ -1,15 +1,19 @@
-<div class="container">
-    <div id="messageJumbo" class="jumbotron">TrecAccount Login</div>
+<div class="container" id="loginContainer" [style.background-color]=color1>
+    <div id="messageJumbo" class="jumbotron" [ngStyle]="{'background': loginGradient }"><h1 [style.color]=color5>TrecAccount Login</h1></div>
     
     <div width="100%" class="form" >
         <h4 *ngIf="loginFail" color="red">Failed To Login</h4>
-
-        <label>Username</label>
+        <div> 
+        <label id="usernameLabel" [style.color]=color3>Username</label>
         <input type="text" class="form-control" name="username" [(ngModel)]="login.username"> <br>
-        <label>Password:</label>
+        <label id="passwordLabel" [style.color]=color3 >Password:</label>
         <input class="form-control" type="password" name="password" [(ngModel)]="login.password"><br>
+        </div>
 
-        <input type="submit" class="btn btn-submit" value="Submit" (click)="logon()">
-        <button class="btn btn-submit" (click)="moveToCreate()">Create New Trec-Account</button>
+        <div id="buttonContainer"> 
+        <input type="submit" class="btn btn-submit" id="loginButton" [style.background-color]=color3 [style.color]=color2 value="Submit" (click)="logon()">
+        <br>
+        <button class="btn btn-submit" id="registerButton" [style.background-color]=color3 [style.color]=color2 (click)="moveToCreate()">Create New Trec-Account</button>
+        </div>
     </div>
 </div>

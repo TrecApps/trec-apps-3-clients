@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { GlobalConstants } from './common/GlobalConstants';
 import { AuthService } from './services/auth.service';
+
 
 @Component({
   selector: 'app-root',
@@ -23,7 +25,7 @@ export class AppComponent {
   // }
 
   ngOnInit(): void {
-
+    document.body.style.backgroundColor = GlobalConstants.siteBackground
     console.log("Initializing Component!");
 
   }

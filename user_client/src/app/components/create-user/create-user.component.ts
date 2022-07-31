@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PasswordProfile, UserPost } from 'src/app/models/User';
 import { UserService } from 'src/app/services/user.service';
+import { GlobalConstants } from 'src/app/common/GlobalConstants';
 
 @Component({
   selector: 'app-create-user',
@@ -19,11 +20,21 @@ export class CreateUserComponent implements OnInit {
   firstPassword:string;
   secondPassword: string;
 
-  birthday: Date;
+   birthday: any;
+
+  color1 ="white"
+  color2 = "black"
+  color3 = "gray"
+  color4 = "yellow"
+  color5 = "red"
+  loginGradient = 'linear-gradient(45deg, white 50%, gray 80%)'
+  gardiantTwo = 'linear-gradient(45deg, white 50%, gray 80%, black 20%)'
+  showTerms = "none"
+  displayingSubscribe: boolean = false
 
   constructor(private userService:UserService, private router: Router, private datePipe: DatePipe) { 
 
-    this.birthday = new Date();
+    this.birthday = undefined
     this.user = new UserPost();
     this.user.passwordProfile = new PasswordProfile();
     this.user.passwordProfile.password = "";
@@ -34,7 +45,62 @@ export class CreateUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.color1 = GlobalConstants.lightBlue
+    this.color2 = GlobalConstants.salmon
+    this.color3 = GlobalConstants.siteBackground
+    this.color4 = GlobalConstants.crownYellow
+    this.color5 = GlobalConstants.red
+    this.gardiantTwo = 'linear-gradient(45deg,'  + this.color5 + ' 30%, ' + this.color4 + ' 30%, ' + this.color1 + ' 99%)'
+    this.loginGradient = 'linear-gradient(45deg,' + this.color4 + ' 50%, ' + this.color1 + ' 80%)'
   }
+
+  enterInput() {
+    console.log("entered")
+    var termBox = document.getElementById("termBox")
+    if(termBox) {
+      termBox.style.display ="inline-block"
+    }
+  }
+
+  checkFormsCompletion() {
+    console.log("completion check----------")
+    console.log(this.user.userPrincipalName)
+    console.log(this.user.displayName)
+    console.log(this.firstPassword)
+    console.log(this.secondPassword )
+    console.log(this.user.mobilePhone)
+    console.log(this.birthday)
+    console.log(this.user.mail)
+    if(this.user.userPrincipalName != undefined && this.user.displayName != undefined && this.firstPassword != "" && this.secondPassword != "" && this.user.mobilePhone != undefined && this.birthday != undefined && this.user.mail != undefined ) {
+      console.log("inside")
+      let termBox = document.getElementById("termBox")
+      if(termBox) {
+        termBox.style.transition = "height 0.75s ease-in"
+        termBox.style.height = "40%"
+        let newsLetterEl = document.getElementById("newsLetterId")
+        if(newsLetterEl) {
+          if(!this.displayingSubscribe ) {
+            this.unfade(newsLetterEl)
+            this.displayingSubscribe = true 
+          }
+        }
+      }
+    }
+
+  }
+  
+   unfade(element:any) {
+    var op = 0.1;  // initial opacity
+    element.style.display = 'block';
+    var timer = setInterval(function () {
+        if (op >= 1){
+            clearInterval(timer);
+        }
+        element.style.opacity = op;
+        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+        op += op * 0.075;
+    }, 25);
+}
 
   create() {
     if(this.firstPassword != this.secondPassword){

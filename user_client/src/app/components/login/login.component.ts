@@ -50,7 +50,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
-
+  mouseOver() {
+    var op = document.getElementById("Globe2")
+    console.log(op)
+    if(op) {
+     
+      op.style.opacity = ".9"
+    }
+  }
 
   moveToCreate() {
     this.router.navigate(['/create']);

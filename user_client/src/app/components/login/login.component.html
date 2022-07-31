@@ -1,6 +1,6 @@
 <br>
 <div class="container" id="loginContainer" [style.background-color]=color1>
-    <div id="messageJumbo" class="jumbotron" [ngStyle]="{'background': loginGradient }"><h1 [style.color]=color5>TrecAccount Login</h1></div>
+    <div id="messageJumbo" class="jumbotron fadeInGradient" [ngStyle]="{'background': loginGradient }"><h1 [style.color]=color5>TrecAccount Login</h1> <div id="logoContainer" class="containGlobal"><img class="LoginImage fadeInRight" src="../../../assets/icons/outline.png"> <div class="clearfix"></div><img (click)="moveToCreate()" class="LoginImage-ref-2 fadeInLeftRef" id="Globe1" src="../../../assets/icons/glob-2.png"><img id="Globe2" class="LoginImage-ref fadeInRightRef" src="../../../assets/icons/world-1.png"></div> </div>
     
     <div width="100%" class="form" >
         <h4 *ngIf="loginFail" color="red">Failed To Login</h4>

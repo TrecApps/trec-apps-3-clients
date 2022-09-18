@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+
+
+svg {
+    width: "1em";
+    height: "1em";
+    ;
+    fill: "currentColor";
+    ;
+}
+
+.btn-md {
+    height:24px;
+    padding:3px 5px;
+    width:28px;
+    padding: 3px 5px;
+    display: inline-block;
+}
+
+/* .svg-md {
+    height:1em;
+    #width:1em;
+} */
+
+markdown-toolbar {
+    padding: 8px;
+
+}

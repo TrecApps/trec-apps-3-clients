@@ -199,17 +199,17 @@
 
 </div>
 
-<div *ngIf="createNew" class="container form form-group">
+<div  class="container form form-group">
     <!--Media Outlet-->
     <label>By Outlet</label>
-    <p>{{newFalsehood?.metadata?.outlet?.name}}</p>
+    <p>{{newFalsehood.metadata.outlet?.name}}</p>
     <input class="form-control" type="search" (change)="onSearchOutlet($event)" [(ngModel)]="searchOutlet" placeholder="Search Media Outlet">
     <ul *ngFor="let outlet of outletList">
     <li (click)="setNewOutlet(outlet)">Media Outlet: {{outlet.name}}, founded {{outlet.foundationYear}}</li>
     </ul>
     
     <div *ngIf="newFalsehood?.metadata?.outlet">
-        <h6>Selected Outlet: {{newFalsehood?.metadata?.outlet?.name}} from {{newFalsehood?.metadata?.outlet?.foundationYear}}</h6>
+        <h6>Selected Outlet: {{newFalsehood.metadata.outlet?.name}} from {{newFalsehood.metadata.outlet?.foundationYear}}</h6>
         <button class="btn bg-info" (click)="setNewOutlet(undefined)">Clear Outlet</button>
     </div>
     <div *ngIf="!newFalsehood?.metadata?.outlet">
@@ -242,7 +242,7 @@
         </ul>
 
         <div *ngIf="newFalsehood?.metadata?.author1">
-            <h6>Selected Author: {{newFalsehood?.metadata?.author1?.firstname}} {{newFalsehood?.metadata?.author1?.middleNames}} {{newFalsehood?.metadata?.author1?.lastName}}</h6>
+            <h6>Selected Author: {{newFalsehood.metadata.author1?.firstname}} {{newFalsehood.metadata.author1?.middleNames}} {{newFalsehood.metadata.author1?.lastName}}</h6>
             <button class="btn bg-info" (click)="setNewAuthor(undefined, 1)">Clear Author</button>
         </div>
         <div *ngIf="!newFalsehood?.metadata?.author1">
@@ -259,7 +259,7 @@
     </ul>
 
     <div *ngIf="newFalsehood?.metadata?.author2">
-        <h6>Selected Author: {{newFalsehood?.metadata?.author2?.firstname}} {{newFalsehood?.metadata?.author2?.middleNames}} {{newFalsehood?.metadata?.author2?.lastName}}</h6>
+        <h6>Selected Author: {{newFalsehood.metadata.author2?.firstname}} {{newFalsehood.metadata.author2?.middleNames}} {{newFalsehood.metadata.author2?.lastName}}</h6>
         <button class="btn bg-info" (click)="setNewAuthor(undefined, 2)">Clear Author</button>
     </div>
     <div *ngIf="!newFalsehood?.metadata?.author2">

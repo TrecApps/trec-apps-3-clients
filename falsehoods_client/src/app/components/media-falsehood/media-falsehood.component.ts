@@ -8,6 +8,7 @@ import { ReviewEntry, ReviewService } from 'src/app/services/review.service';
 import { SearchService } from 'src/app/services/search.service';
 import { SubmitService } from 'src/app/services/submit.service';
 import { StringWrapper } from '../../../../../angular_common/Models/Common';
+import '@github/markdown-toolbar-element';
 
 @Component({
   selector: 'app-media-falsehood',

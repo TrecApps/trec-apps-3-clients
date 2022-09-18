@@ -12,6 +12,8 @@ import { MediaOutletComponent } from './components/media-outlet/media-outlet.com
 import { PublicFalsehoodComponent } from './components/public-falsehood/public-falsehood.component';
 import { MediaFalsehoodComponent } from './components/media-falsehood/media-falsehood.component';
 import { MarkedPipe } from './resources/marked.pipe';
+import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 
 @NgModule({
@@ -29,9 +31,12 @@ import { MarkedPipe } from './resources/marked.pipe';
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    CommonModule
+    //MediaFalsehoodsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

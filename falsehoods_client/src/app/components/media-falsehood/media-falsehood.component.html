@@ -164,7 +164,17 @@
         <div *ngIf="(mediaFalsehoodEntry?.metadata?.status == 0 || mediaFalsehoodEntry?.metadata?.status == 2) && tokenService.user.credibility > 60">
             <label>Reason for Approving or Rejecting</label>
 
-            <textarea [(ngModel)]="submitReason"></textarea> 
+            <markdown-toolbar for="review_media_falsehood">
+                <md-bold>bold</md-bold>
+                <md-header>header</md-header>
+                <md-italic>italic</md-italic>
+                <md-quote>quote</md-quote>
+                <md-code>code</md-code>
+                <md-link>link</md-link>
+                <md-mention>mention</md-mention>
+                <md-ref>ref</md-ref>
+            </markdown-toolbar>
+            <textarea id="review_media_falsehood" [(ngModel)]="submitReason"></textarea> 
 
             <button class="btn bg-info" (click)="Approve('Approve')">Approve Falsehood</button><br>
             <button class="btn bg-info" (click)="Approve('Reject')"> Reject Falsehood</button><br>
@@ -260,7 +270,22 @@
     <label>Date Made</label>
     <input class="form-control" type="date" [(ngModel)]="newFalsehood.metadata.dateMade">
 
-    <textarea class="form-control" [(ngModel)]="newFalsehood.contents"></textarea>
+
+    <markdown-toolbar for="new_media_falsehood">
+        <md-bold>bold</md-bold>
+        <md-header>header</md-header>
+        <md-italic>italic</md-italic>
+        <md-quote>quote</md-quote>
+        <md-code>code</md-code>
+        <md-link>link</md-link>
+        <md-image>image</md-image>
+        <md-unordered-list>unordered-list</md-unordered-list>
+        <md-ordered-list>ordered-list</md-ordered-list>
+        <md-task-list>task-list</md-task-list>
+        <md-mention>mention</md-mention>
+        <md-ref>ref</md-ref>
+      </markdown-toolbar>
+    <textarea id="new_media_falsehood" class="form-control" [(ngModel)]="newFalsehood.contents"></textarea>
   
   
     <div [innerHTML]="newFalsehood.contents | marked"></div>

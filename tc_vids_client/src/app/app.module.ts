@@ -7,6 +7,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { VidOverviewComponent } from './components/vid-overview/vid-overview.component';
 import { VidWatchComponent } from './components/vid-watch/vid-watch.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { VidWatchComponent } from './components/vid-watch/vid-watch.component';
     VidWatchComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

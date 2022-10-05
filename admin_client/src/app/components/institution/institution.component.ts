@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Institution, InstitutionEntry } from 'src/app/models/institution';
+import { ResourceUpdateService } from 'src/app/services/resource-update.service';
 import { SearchService } from 'src/app/services/search.service';
-import { UpdateService } from 'src/app/services/update.service';
 
 @Component({
   selector: 'app-institution',
@@ -15,7 +15,7 @@ export class InstitutionComponent implements OnInit {
   searchInstitution: Institution[];
   editMode: boolean;
   searchText:String;
-  constructor(private search: SearchService, private update: UpdateService) {
+  constructor(private search: SearchService, private update: ResourceUpdateService) {
     this.mainInstitution = null;
     this.searchInstitution = [];
     this.editMode = false;
@@ -50,7 +50,8 @@ export class InstitutionComponent implements OnInit {
     this.mainInstitution = reg;
   }
 
-  getInstitution(id: Number) {
+  getInstitution(id: Number | null) {
+    if(!id){return;}
     this.search.getInstitution(id, (institution: InstitutionEntry)=> {
       this.mainInstitution = institution;
       this.editMode = false;

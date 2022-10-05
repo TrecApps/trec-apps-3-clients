@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Region, RegionEntry } from 'src/app/models/region';
+import { ResourceUpdateService } from 'src/app/services/resource-update.service';
 import { SearchService } from 'src/app/services/search.service';
-import { UpdateService } from 'src/app/services/update.service';
 
 @Component({
   selector: 'app-region',
@@ -15,7 +15,7 @@ export class RegionComponent implements OnInit {
   searchRegion: Region[];
   editMode: boolean;
   searchText:String;
-  constructor(private search: SearchService, private update: UpdateService) {
+  constructor(private search: SearchService, private update: ResourceUpdateService) {
     this.mainRegion = null;
     this.searchRegion = [];
     this.editMode = false;
@@ -50,7 +50,10 @@ export class RegionComponent implements OnInit {
     this.mainRegion = reg;
   }
 
-  async getRegion(id: Number) {
+  getRegion(id: Number | null) {
+    if(!id){
+      return;
+    }
     let p = this.search.getRegion(id, (value: RegionEntry) => {
       this.mainRegion = value;
       this.editMode = false;

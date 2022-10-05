@@ -2,10 +2,10 @@
 
     <label>Name:</label>
     <input class="form-control" type="text" [(ngModel)]="mainOutlet.outlet.name">
-    <textarea *ngIf="editMode" class="form-control" [(ngModel)]="mainOutlet.contents"></textarea>
+    <textarea *ngIf="editMode" class="form-control" [(ngModel)]="mainOutlet.text"></textarea>
   
   
-    <div [innerHTML]="mainOutlet.contents | marked"></div>
+    <div [innerHTML]="mainOutlet.text | marked"></div>
   
     <button class="btn bg-info" (click)="edit()">Edit</button>
     <button class="btn bg-info" *ngIf="editMode" (click)="updateOut()">Submit</button>
@@ -18,6 +18,6 @@
     <button class="btn bg-info" (click)="initializeNew()">New Outlet</button>
   
     <ul *ngFor="let outlet of searchOutlet">
-      <li (click)="getOutlet(outlet.id)">Outlet: {{outlet.name}}</li>
+      <li (click)="getOutlet(outlet.outletId)">Outlet: {{outlet.name}}</li>
     </ul>
 </div>

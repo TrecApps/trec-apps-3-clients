@@ -1,11 +1,11 @@
 <div *ngIf="mainFigure">
 
     <label>Name:</label>
-    <input class="form-control" type="text" [(ngModel)]="mainFigure.figure.name">
-    <textarea *ngIf="editMode" class="form-control" [(ngModel)]="mainFigure.contents"></textarea>
+    <!-- <input class="form-control" type="text" [(ngModel)]="mainFigure.figure.name"> -->
+    <textarea *ngIf="editMode" class="form-control" [(ngModel)]="mainFigure.text"></textarea>
   
   
-    <div [innerHTML]="mainFigure.contents | marked"></div>
+    <div [innerHTML]="mainFigure.text | marked"></div>
   
     <button class="btn bg-info" (click)="edit()">Edit</button>
     <button *ngIf="editMode" class="btn bg-info" (click)="updateFig()">Submit</button>

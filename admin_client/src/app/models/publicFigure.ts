@@ -7,6 +7,6 @@ export class PublicFigure{
 };
 
 export class PublicFigureEntry {
-	figure: PublicFigure | undefined;
+	figure: PublicFigure = new PublicFigure();
     text: string | undefined;   
 }

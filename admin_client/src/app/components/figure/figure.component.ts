@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PublicFigure, PublicFigureEntry } from 'src/app/models/publicFigure';
+import { ResourceUpdateService } from 'src/app/services/resource-update.service';
 import { SearchService } from 'src/app/services/search.service';
-import { UpdateService } from 'src/app/services/update.service';
 
 @Component({
   selector: 'app-figure',
@@ -15,7 +15,7 @@ export class FigureComponent implements OnInit {
   searchFigure: PublicFigure[];
   editMode: boolean;
   searchText:String;
-  constructor(private search: SearchService, private update: UpdateService) {
+  constructor(private search: SearchService, private update: ResourceUpdateService) {
     this.mainFigure = null;
     this.searchFigure = [];
     this.editMode = false;
@@ -50,7 +50,8 @@ export class FigureComponent implements OnInit {
     this.mainFigure = reg;
   }
 
-  async getFigure(id: Number) {
+  async getFigure(id: Number | undefined) {
+    if(!id){return;}
     let p = this.search.getPublicFigure(id, (figure: PublicFigureEntry)=> {
       this.mainFigure = figure;
       this.editMode = false;

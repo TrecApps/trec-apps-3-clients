@@ -7,6 +7,6 @@ export class MediaOutlet
 }
 
 export class MediaOutletEntry {
-	outlet:MediaOutlet | undefined;
+	outlet:MediaOutlet = new MediaOutlet();
     text:string | undefined;
 }

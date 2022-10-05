@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MediaOutlet, MediaOutletEntry } from 'src/app/models/mediaOutlet';
+import { ResourceUpdateService } from 'src/app/services/resource-update.service';
 import { SearchService } from 'src/app/services/search.service';
-import { UpdateService } from 'src/app/services/update.service';
 
 @Component({
   selector: 'app-outlet',
@@ -15,7 +15,7 @@ export class OutletComponent implements OnInit {
   searchOutlet: MediaOutlet[];
   editMode: boolean;
   searchText:String;
-  constructor(private search: SearchService, private update: UpdateService) {
+  constructor(private search: SearchService, private update: ResourceUpdateService) {
     this.mainOutlet = null;
     this.searchOutlet = [];
     this.editMode = false;
@@ -50,7 +50,10 @@ export class OutletComponent implements OnInit {
     this.mainOutlet = reg;
   }
 
-  async getOutlet(id: Number) {
+  getOutlet(id: Number | undefined) {
+    if(!id){
+      return;
+    }
     this.search.getMediaOutlet(id, (outlet: MediaOutletEntry)=> {
       this.mainOutlet = outlet;
       this.editMode = false;

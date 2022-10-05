@@ -1,0 +1,28 @@
+<div class="container">
+
+<div>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <p class="navbar-brand">Navbar</p>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" routerLink="Welcome">Welcome</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="PublicFigure">Public Figures</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="MediaOutlet">Media Outlets</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="Regions">Regions</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="Institution">Institutions</a></li>
+
+        <!--<li class="nav-item" *ngIf="!authService.loginToken"><a class="nav-link" routerLink="login">Log-In</a></li>
+        <div *ngIf="authService.loginToken">
+          <p *ngIf="authService.user">{{authService.user.username}} {{authService.user.credibility}}</p>
+          <li class="nav-item"><button class="nav-link" (click)="logout()">Log-Out</button></li>
+        </div> -->
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<router-outlet></router-outlet>
+</div>

@@ -1,0 +1,23 @@
+<div *ngIf="mainInstitution">
+
+    <label>Name:</label>
+    <input class="form-control" type="text" [(ngModel)]="mainInstitution.institution.name">
+    <textarea *ngIf="editMode" class="form-control" [(ngModel)]="mainInstitution.contents"></textarea>
+  
+  
+    <div [innerHTML]="mainInstitution.contents | marked"></div>
+  
+    <button class="btn bg-info" (click)="edit()">Edit</button>
+    <button class="btn bg-info" *ngIf="editMode" (click)="updateInst()">Submit</button>
+
+</div>
+
+<div>
+    <label>Search Institution</label>
+    <input class="form-control" type="search" (change)="onSearchUpdate($event)" [(ngModel)]="searchText" placeholder="Search Institution">
+    <button class="btn bg-info" (click)="initializeNew()">New Institution</button>
+  
+    <ul *ngFor="let institution of searchInstitution">
+      <li (click)="getInstitution(institution.id)">Institution: {{institution.name}}</li>
+    </ul>
+</div>

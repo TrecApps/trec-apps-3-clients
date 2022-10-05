@@ -1,0 +1,23 @@
+<div *ngIf="mainOutlet">
+
+    <label>Name:</label>
+    <input class="form-control" type="text" [(ngModel)]="mainOutlet.outlet.name">
+    <textarea *ngIf="editMode" class="form-control" [(ngModel)]="mainOutlet.contents"></textarea>
+  
+  
+    <div [innerHTML]="mainOutlet.contents | marked"></div>
+  
+    <button class="btn bg-info" (click)="edit()">Edit</button>
+    <button class="btn bg-info" *ngIf="editMode" (click)="updateOut()">Submit</button>
+
+</div>
+
+<div>
+    <label>Search Outlet</label>
+    <input class="form-control" type="search" (change)="onSearchUpdate($event)" [(ngModel)]="searchText" placeholder="Search Outlet">
+    <button class="btn bg-info" (click)="initializeNew()">New Outlet</button>
+  
+    <ul *ngFor="let outlet of searchOutlet">
+      <li (click)="getOutlet(outlet.id)">Outlet: {{outlet.name}}</li>
+    </ul>
+</div>

@@ -3,13 +3,9 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "user_client": {
+    "admin_client": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:application": {
-          "strict": true
-        }
-      },
+      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -17,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/user_client",
+            "outputPath": "dist/admin_client",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -62,27 +58,24 @@
               "namedChunks": true
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "user_client:build:production"
+              "browserTarget": "admin_client:build:production"
             },
             "development": {
-              "browserTarget": "user_client:build:development"
+              "browserTarget": "admin_client:build:development"
             }
-          },
-          "options": {
-            "proxyConfig": "./proxy.conf.json"
           },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "user_client:build"
+            "browserTarget": "admin_client:build"
           }
         },
         "test": {
@@ -104,6 +97,5 @@
         }
       }
     }
-  },
-  "defaultProject": "user_client"
+  }
 }

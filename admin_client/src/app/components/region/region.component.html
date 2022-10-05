@@ -1,0 +1,23 @@
+<div *ngIf="mainRegion">
+
+    <label>Name:</label>
+    <input class="form-control" type="text" [(ngModel)]="mainRegion.region.name">
+    <textarea *ngIf="editMode" class="form-control" [(ngModel)]="mainRegion.contents"></textarea>
+  
+  
+    <div [innerHTML]="mainRegion.contents | marked"></div>
+  
+    <button class="btn bg-info" (click)="edit()">Edit</button>
+    <button class="btn bg-info" *ngIf="editMode" (click)="updateReg()">Submit</button>
+
+</div>
+
+<div>
+    <label>Search Region</label>
+    <input class="form-control" type="search" (change)="onSearchUpdate($event)" [(ngModel)]="searchText" placeholder="Search Region">
+    <button class="btn bg-info" (click)="initializeNew()">New Region</button>
+  
+    <ul *ngFor="let region of searchRegion">
+      <li (click)="getRegion(region.id)">Region: {{region.name}}</li>
+    </ul>
+</div>

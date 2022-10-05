@@ -1,0 +1,23 @@
+<div *ngIf="mainFigure">
+
+    <label>Name:</label>
+    <input class="form-control" type="text" [(ngModel)]="mainFigure.figure.name">
+    <textarea *ngIf="editMode" class="form-control" [(ngModel)]="mainFigure.contents"></textarea>
+  
+  
+    <div [innerHTML]="mainFigure.contents | marked"></div>
+  
+    <button class="btn bg-info" (click)="edit()">Edit</button>
+    <button *ngIf="editMode" class="btn bg-info" (click)="updateFig()">Submit</button>
+
+</div>
+
+<div>
+    <label>Search Figure</label>
+    <input class="form-control" type="search" (change)="onSearchUpdate($event)" [(ngModel)]="searchText" placeholder="Search Figure">
+    <button class="btn bg-info" (click)="initializeNew()">New Figure</button>
+  
+    <ul *ngFor="let figure of searchFigure">
+      <li (click)="getFigure(figure.id)">Figure: {{figure.firstname}} {{figure.middleNames}} {{figure.lastName}}</li>
+    </ul>
+</div>

@@ -40,7 +40,7 @@ export class AuthService {
       }
     };
 
-    this.httpClient.post<LoginToken>(`${environment.admin_service_url}Auth/login`, login).pipe(take(1)).subscribe(observe);
+    this.httpClient.post<LoginToken>(`${environment.resource_url}Auth/login`, login).pipe(take(1)).subscribe(observe);
   }
 
   getHttpHeaders(useJson: boolean, usingContentType : boolean) : HttpHeaders {

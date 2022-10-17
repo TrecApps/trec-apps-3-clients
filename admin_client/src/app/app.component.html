@@ -14,11 +14,11 @@
         <li class="nav-item"><a class="nav-link" routerLink="Regions">Regions</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="Institution">Institutions</a></li>
 
-        <!--<li class="nav-item" *ngIf="!authService.loginToken"><a class="nav-link" routerLink="login">Log-In</a></li>
+        <li class="nav-item" *ngIf="!authService.loginToken"><a class="nav-link" routerLink="Login">Log-In</a></li>
         <div *ngIf="authService.loginToken">
           <p *ngIf="authService.user">{{authService.user.username}} {{authService.user.credibility}}</p>
           <li class="nav-item"><button class="nav-link" (click)="logout()">Log-Out</button></li>
-        </div> -->
+        </div>
       </ul>
     </div>
   </nav>

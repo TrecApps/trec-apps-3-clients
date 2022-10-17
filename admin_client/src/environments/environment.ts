@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   admin_service_url: '',
-  resource_url: ''
+  resource_url: 'http://localhost:4200/api/'
 };
 
 /*

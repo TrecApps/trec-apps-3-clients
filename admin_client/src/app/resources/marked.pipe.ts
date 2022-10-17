@@ -6,7 +6,7 @@ import {marked} from "marked";
 
 
 @Pipe({
-  name: 'marked'
+  name: 'markdown'
 })
 export class MarkedPipe implements PipeTransform {
 

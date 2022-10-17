@@ -5,7 +5,7 @@
     <textarea *ngIf="editMode" class="form-control" [(ngModel)]="mainOutlet.text"></textarea>
   
   
-    <div [innerHTML]="mainOutlet.text | marked"></div>
+    <div [innerHTML]="mainOutlet.text | markdown"></div>
   
     <button class="btn bg-info" (click)="edit()">Edit</button>
     <button class="btn bg-info" *ngIf="editMode" (click)="updateOut()">Submit</button>

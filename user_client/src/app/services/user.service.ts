@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TcUser, UserPost, UserResponse } from '../models/User';
 import { environment } from 'src/environments/environment';
 import { take } from 'rxjs';
@@ -15,11 +15,14 @@ import { SessionList } from '../models/Sessions';
 export class UserService {
 
   currentUser: TcUser;
+  profileFallback = "/assets/Unknown_Profile.png";
+  profilePic: String;
 
 
 
   constructor(private httpClient: HttpClient, private authService: AuthService, private router: Router) {
     this.currentUser = new TcUser();
+    this.profilePic = this.profileFallback;
    }
 
    requestEmailVerification() {
@@ -48,10 +51,22 @@ export class UserService {
      {headers: this.authService.getHttpHeaders(true, false)}).pipe(take(1)).subscribe(observe);
    }
 
+   private updateProfilePic()
+   {
+    let observe = {
+      next: (response: string) => {
+        this.profilePic = `${environment.user_service_url}profile/file/${this.currentUser.id}.${response}`;
+      }
+    }
+
+    this.httpClient.get<string>(`${environment.user_service_url}profile/file/${this.currentUser.id}`).pipe(take(1)).subscribe(observe);
+   }
+
    checkAuthClear(error: Response | any) {
     if(error.status && (error.status == 401 || error.status == 403)) {
       this.authService.clearAuth();
       this.currentUser = new TcUser();
+      this.profilePic = this.profileFallback;
     }
    }
 
@@ -60,6 +75,7 @@ export class UserService {
       next: (response: TcUser) => { 
         console.info("Birthday Value: ", response.birthday);
         this.currentUser = response;
+        this.updateProfilePic();
         ref.value = true;
         callable();
       },
@@ -83,6 +99,21 @@ export class UserService {
     };
 
     this.httpClient.post<LoginToken>(`${environment.user_service_url}Users/createUser`, userPost).pipe(take(1)).subscribe(observe);
+  }
+
+  async changeProfilePic(data:string, ext:string)
+  {
+    let header = this.authService.getHttpHeaders(true, false).append("Content-Type", `image/${ext}`);
+    let observe = {
+      next: () =>{
+        this.updateProfilePic();
+      },
+      error: (error: Response | any) => { 
+        alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+      }
+    }
+
+    this.httpClient.get(`${environment.user_service_url}profile/set`,{headers: header}).pipe(take(1)).subscribe(observe);
   }
 
   async changePassword(passwordChange: PasswordChange) {

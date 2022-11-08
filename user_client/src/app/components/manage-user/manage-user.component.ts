@@ -25,6 +25,9 @@ export class ManageUserComponent implements OnInit {
   userActive: BooleanRef;
   userService: UserService;
 
+  selectedFile:File | undefined;
+  selectedFileType: string| undefined;
+
   changePassword: boolean = false;
 
   oldPassword: string = "";
@@ -118,5 +121,20 @@ export class ManageUserComponent implements OnInit {
     changePasswordObj.newPassword = this.newPassword1;
     this.userService.changePassword(changePasswordObj);
     this.setChangePassword(false);
+  }
+
+  onFileChanged(event: any) {
+    this.selectedFile = event.target.files[0]
+
+
+  }
+
+  updateProfilePic()
+  {
+    this.selectedFile?.arrayBuffer().then((value: ArrayBuffer)=> {
+      let buffer = new Uint8Array(value);
+
+      this.selectedFile?.type
+    }).catch();
   }
 }

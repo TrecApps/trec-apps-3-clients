@@ -55,11 +55,12 @@ export class UserService {
    {
     let observe = {
       next: (response: string) => {
+        console.log("Response was " + response);
         this.profilePic = `${environment.user_service_url}profile/file/${this.currentUser.id}.${response}`;
       }
     }
 
-    this.httpClient.get<string>(`${environment.user_service_url}profile/file/${this.currentUser.id}`).pipe(take(1)).subscribe(observe);
+    this.httpClient.get(`${environment.user_service_url}profile/imageType/${this.currentUser.id}`, {responseType: 'text'}).pipe(take(1)).subscribe(observe);
    }
 
    checkAuthClear(error: Response | any) {
@@ -113,7 +114,7 @@ export class UserService {
       }
     }
 
-    this.httpClient.get(`${environment.user_service_url}profile/set`,{headers: header}).pipe(take(1)).subscribe(observe);
+    this.httpClient.post(`${environment.user_service_url}profile/set`, data,{headers: header}).pipe(take(1)).subscribe(observe);
   }
 
   async changePassword(passwordChange: PasswordChange) {

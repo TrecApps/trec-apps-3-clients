@@ -27,6 +27,12 @@ export class ManageUserComponent implements OnInit {
 
   selectedFile:File | undefined;
   selectedFileType: string| undefined;
+  permittedFileTypes = [
+    "gif",
+    "jpeg",
+    "png",
+    "svg",
+    "webp"];
 
   changePassword: boolean = false;
 
@@ -125,8 +131,19 @@ export class ManageUserComponent implements OnInit {
 
   onFileChanged(event: any) {
     this.selectedFile = event.target.files[0]
+    console.log("File Selectd: " + this.selectedFile);
+    if(!this.selectedFile)return;
 
-
+    let t = this.selectedFile.type.toLowerCase().trim();
+    console.log("File Type is " + this.selectedFile.type + " ("+ t +") and name is " + this.selectedFile.name);
+    for(let possibleType of this.permittedFileTypes) {
+      if(t == `image/${possibleType}`)
+      {
+        this.selectedFileType = possibleType;
+        break;
+      }
+    }
+    console.log("Selected File type is " + this.selectedFileType);
   }
 
   updateProfilePic()
@@ -134,7 +151,15 @@ export class ManageUserComponent implements OnInit {
     this.selectedFile?.arrayBuffer().then((value: ArrayBuffer)=> {
       let buffer = new Uint8Array(value);
 
-      this.selectedFile?.type
+      const STRING_CHAR = buffer.reduce((data, byte)=> {return data + String.fromCharCode(byte);}, '');
+
+      let data = btoa(STRING_CHAR);
+
+      let t = this.selectedFileType?.split('/');
+      let ty = t?.pop();
+      if(ty){
+      this.userService.changeProfilePic(data, ty);
+      }
     }).catch();
   }
 }

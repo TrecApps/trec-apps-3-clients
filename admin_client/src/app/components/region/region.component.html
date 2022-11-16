@@ -7,7 +7,7 @@
   
     <div [innerHTML]="mainRegion.contents | markdown"></div>
   
-    <button class="btn bg-info" (click)="edit()">Edit</button>
+    <button *ngIf="authService.loginToken" class="btn bg-info" (click)="edit()">Edit</button>
     <button class="btn bg-info" *ngIf="editMode" (click)="updateReg()">Submit</button>
 
 </div>
@@ -15,7 +15,12 @@
 <div>
     <label>Search Region</label>
     <input class="form-control" type="search" (change)="onSearchUpdate($event)" [(ngModel)]="searchText" placeholder="Search Region">
-    <button class="btn bg-info" (click)="initializeNew()">New Region</button>
+    <button *ngIf="authService.loginToken" class="btn bg-info" (click)="initializeNew()">New Region</button>
+  
+    <hr>
+    <hr>
+    <button class="btn bg-info" (click)="doSearch()">Blank Search</button>
+    <hr>
   
     <ul *ngFor="let region of searchRegion">
       <li (click)="getRegion(region.id)">Region: {{region.name}}</li>

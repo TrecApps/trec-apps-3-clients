@@ -28,6 +28,20 @@ export class SearchService {
     this.httpClient.get<Region[]>(environment.resource_url + `search/regions/${searchTerm.replace(' ', '_')}`).pipe(take(1)).subscribe(observe);
   }
 
+  searchRegionsList(callable: Function)
+  {
+    let observe = {
+      next: (response: Region[]) => { 
+        callable(response);
+        
+      },
+      error: (error: Response | any) => { 
+        alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+      }
+    }
+    this.httpClient.get<Region[]>(environment.resource_url + `search/regionsList`).pipe(take(1)).subscribe(observe);
+  }
+
   getRegion(id: Number, callable: Function) {
     let observe = {
       next: (response: RegionEntry) => { 
@@ -53,6 +67,20 @@ export class SearchService {
       }
     }
     this.httpClient.get<Institution[]>(environment.resource_url + `search/institutions/${searchTerm.replace(' ', '_')}`).pipe(take(1)).subscribe(observe);
+  }
+
+  searchInstitutionsList(callable: Function)
+  {
+    let observe = {
+      next: (response: Institution[]) => { 
+        callable(response);
+        
+      },
+      error: (error: Response | any) => { 
+        alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+      }
+    }
+    this.httpClient.get<Institution[]>(environment.resource_url + `search/institutionList`).pipe(take(1)).subscribe(observe);
   }
 
   getInstitution(id: Number, callable: Function) {
@@ -81,6 +109,19 @@ export class SearchService {
     }
     this.httpClient.get<MediaOutlet[]>(environment.resource_url + `search/mediaOutlets/${searchTerm.replace(' ', '_')}`).pipe(take(1)).subscribe(observe);
   }
+  searchMediaOutletsList(callable: Function)
+  {
+    let observe = {
+      next: (response: MediaOutlet[]) => { 
+        callable(response);
+        
+      },
+      error: (error: Response | any) => { 
+        alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+      }
+    }
+    this.httpClient.get<MediaOutlet[]>(environment.resource_url + `search/mediaOutletsList`).pipe(take(1)).subscribe(observe);
+  }
 
   getMediaOutlet(id: Number, callable: Function) {
     let observe = {
@@ -107,6 +148,20 @@ export class SearchService {
       }
     }
     this.httpClient.get<PublicFigure[]>(environment.resource_url + `search/publicFigures/${searchTerm.replace(' ', '_')}`).pipe(take(1)).subscribe(observe);
+  }
+
+  searchPublicFiguresList(callable: Function)
+  {
+    let observe = {
+      next: (response: PublicFigure[]) => { 
+        callable(response);
+        
+      },
+      error: (error: Response | any) => { 
+        alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+      }
+    }
+    this.httpClient.get<PublicFigure[]>(environment.resource_url + `search/publicFiguresList`).pipe(take(1)).subscribe(observe);
   }
 
   getPublicFigure(id: Number, callable: Function) {

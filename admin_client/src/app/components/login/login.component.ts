@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
         this.loginFail = true;
       } else {
         this.router.navigate(['Welcome']);
+        this.authService.refreshUser();
       }
     });
   }

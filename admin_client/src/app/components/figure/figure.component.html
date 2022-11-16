@@ -1,21 +1,30 @@
 <div *ngIf="mainFigure">
 
-    <label>Name:</label>
+    <label>Name: </label>
+
+    <label *ngIf="!authService.loginToken || mainFigure.figure.id"> {{name}}</label>
+    <input *ngIf="authService.loginToken && !mainFigure.figure.id" class="form-control" [(ngModel)]="name">
+
     <!-- <input class="form-control" type="text" [(ngModel)]="mainFigure.figure.name"> -->
     <textarea *ngIf="editMode" class="form-control" [(ngModel)]="mainFigure.text"></textarea>
   
   
     <div [innerHTML]="mainFigure.text | markdown"></div>
   
-    <button class="btn bg-info" (click)="edit()">Edit</button>
-    <button *ngIf="editMode" class="btn bg-info" (click)="updateFig()">Submit</button>
+    <button *ngIf="authService.loginToken" class="btn bg-info" (click)="edit()">Edit</button>
+    <button *ngIf="editMode && authService.loginToken" class="btn bg-info" (click)="updateFig()">Submit</button>
 
 </div>
 
 <div>
     <label>Search Figure</label>
     <input class="form-control" type="search" (change)="onSearchUpdate($event)" [(ngModel)]="searchText" placeholder="Search Figure">
-    <button class="btn bg-info" (click)="initializeNew()">New Figure</button>
+    <button *ngIf="authService.loginToken"  class="btn bg-info" (click)="initializeNew()">New Figure</button>
+
+    <hr>
+    <hr>
+    <button class="btn bg-info" (click)="doSearch()">Blank Search</button>
+    <hr>
   
     <ul *ngFor="let figure of searchFigure">
       <li (click)="getFigure(figure.id)">Figure: {{figure.firstname}} {{figure.middleNames}} {{figure.lastName}}</li>

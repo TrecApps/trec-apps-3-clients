@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MediaOutlet, MediaOutletEntry } from 'src/app/models/mediaOutlet';
+import { AuthService } from 'src/app/services/auth.service';
 import { ResourceUpdateService } from 'src/app/services/resource-update.service';
 import { SearchService } from 'src/app/services/search.service';
 
@@ -15,11 +16,13 @@ export class OutletComponent implements OnInit {
   searchOutlet: MediaOutlet[];
   editMode: boolean;
   searchText:String;
-  constructor(private search: SearchService, private update: ResourceUpdateService) {
+  authService: AuthService;
+  constructor(private search: SearchService, private update: ResourceUpdateService, authService: AuthService) {
     this.mainOutlet = null;
     this.searchOutlet = [];
     this.editMode = false;
     this.searchText = "";
+    this.authService = authService;
    }
 
   ngOnInit(): void {
@@ -36,6 +39,12 @@ export class OutletComponent implements OnInit {
 
   async onSearchUpdate(event:any){
     this.search.searchMediaOutlets(event.target.value, (outlets: MediaOutlet[])=> {
+      this.searchOutlet = outlets;
+    });
+  }
+
+  doSearch() {
+    this.search.searchMediaOutletsList((outlets: MediaOutlet[])=> {
       this.searchOutlet = outlets;
     });
   }

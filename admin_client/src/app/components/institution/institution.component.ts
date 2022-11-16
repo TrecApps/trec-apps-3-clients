@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Institution, InstitutionEntry } from 'src/app/models/institution';
+import { AuthService } from 'src/app/services/auth.service';
 import { ResourceUpdateService } from 'src/app/services/resource-update.service';
 import { SearchService } from 'src/app/services/search.service';
 
@@ -15,11 +16,13 @@ export class InstitutionComponent implements OnInit {
   searchInstitution: Institution[];
   editMode: boolean;
   searchText:String;
-  constructor(private search: SearchService, private update: ResourceUpdateService) {
+  authService: AuthService;
+  constructor(private search: SearchService, private update: ResourceUpdateService, authService: AuthService) {
     this.mainInstitution = null;
     this.searchInstitution = [];
     this.editMode = false;
     this.searchText = "";
+    this.authService = authService;
    }
 
   ngOnInit(): void {
@@ -36,6 +39,12 @@ export class InstitutionComponent implements OnInit {
 
   async onSearchUpdate(event:any){
     this.search.searchInstitutions(event.target.value, (institutions: Institution[])=> {
+      this.searchInstitution = institutions;
+    })
+  }
+
+  doSearch() {
+    this.search.searchInstitutionsList((institutions: Institution[])=> {
       this.searchInstitution = institutions;
     })
   }

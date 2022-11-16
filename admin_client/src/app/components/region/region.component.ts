@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Region, RegionEntry } from 'src/app/models/region';
+import { AuthService } from 'src/app/services/auth.service';
 import { ResourceUpdateService } from 'src/app/services/resource-update.service';
 import { SearchService } from 'src/app/services/search.service';
 
@@ -15,11 +16,13 @@ export class RegionComponent implements OnInit {
   searchRegion: Region[];
   editMode: boolean;
   searchText:String;
-  constructor(private search: SearchService, private update: ResourceUpdateService) {
+  authService: AuthService;
+  constructor(private search: SearchService, private update: ResourceUpdateService, authService: AuthService) {
     this.mainRegion = null;
     this.searchRegion = [];
     this.editMode = false;
     this.searchText = "";
+    this.authService = authService;
    }
 
   ngOnInit(): void {
@@ -36,6 +39,12 @@ export class RegionComponent implements OnInit {
 
   async onSearchUpdate(event:any){
     let p = this.search.searchRegions(event.target.value, (value: Region[]) => {
+      this.searchRegion = value;
+    });
+  }
+
+  doSearch() {
+    this.search.searchRegionsList((value: Region[]) => {
       this.searchRegion = value;
     });
   }

@@ -14,8 +14,15 @@ export class AuthService {
 
   user: UserInfo = new UserInfo("", 0);
 
+  currentUser: TcUser;
+  profileFallback = "/assets/Unknown_Profile.png";
+  profilePic: String;
+
   constructor(private httpClient: HttpClient) {
     this.loginToken = null;
+    this.profilePic = this.profileFallback;
+
+    this.currentUser = new TcUser();
   }
 
   private refreshTokenCallback() {
@@ -42,9 +49,25 @@ export class AuthService {
     this.httpClient.post<LoginToken>(`${environment.falsehood_submit_url}Auth/login`, login).pipe(take(1)).subscribe(observe);
   }
 
+  private updateProfilePic()
+  {
+   let observe = {
+     next: (response: string) => {
+       console.log("Response was " + response);
+       this.profilePic = `${environment.falsehood_search_url}profile/file/${this.currentUser.id}.${response}`;
+     }
+   }
+
+   this.httpClient.get(`${environment.falsehood_search_url}profile/imageType/${this.currentUser.id}`, {responseType: 'text'}).pipe(take(1)).subscribe(observe);
+  }
+
   private getUserInfo() {
     let observe = {
       next: (response: TcUser) => {
+        this.currentUser = response;
+
+        this.updateProfilePic();
+
         this.user.credibility = response.credibilityRating ? response.credibilityRating : 0;
         this.user.username = response.userProfile ? response.userProfile : "";
       },

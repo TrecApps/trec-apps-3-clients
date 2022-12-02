@@ -11,6 +11,16 @@
         <button class="btn btn-info" (click)="fileInput.click()">Update Profile Pic</button>
         <button class="btn btn-submit" (click)="updateProfilePic()" *ngIf="selectedFile && selectedFileType">Confirm Profile Selection</button><br><br>
 
+        <!--Has the User been fully verified by TrecApps staff?-->
+        <h2 *ngIf="userService.verificationStatus == 1">UserVerified</h2>
+        <div *ngIf="userService.verificationStatus == -1">
+            <h6>Select a Photo TrecApps Administrators can use to verify your Identity</h6>
+            <input style="display: none" type="file" (change)="onVerifyFileChanged($event)" #fileInput>
+            <button class="btn btn-info" (click)="fileInput.click()">Select Verification Pic</button>
+            <button class="btn btn-submit" (click)="uploadVerfiyPic()" *ngIf="selectedVerfiyFile && selectedVerifyFileType">Upload Verify Pic</button><br>
+        </div>
+        
+
         <h2>User Details</h2>
 
         <label>User ID: </label>

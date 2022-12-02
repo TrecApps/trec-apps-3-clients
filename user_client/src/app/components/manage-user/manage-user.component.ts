@@ -48,6 +48,9 @@ export class ManageUserComponent implements OnInit {
 
   currentSession: string | undefined;
 
+  selectedVerfiyFile:File | undefined;
+  selectedVerifyFileType: string| undefined;
+
   constructor(userService: UserService) { 
 
     this.userActive = new BooleanRef(false);
@@ -159,6 +162,40 @@ export class ManageUserComponent implements OnInit {
       let ty = t?.pop();
       if(ty){
       this.userService.changeProfilePic(data, ty);
+      }
+    }).catch();
+  }
+
+  onVerifyFileChanged(event: any) {
+    this.selectedFile = event.target.files[0]
+    console.log("File Selectd: " + this.selectedFile);
+    if(!this.selectedFile)return;
+
+    let t = this.selectedFile.type.toLowerCase().trim();
+    console.log("File Type is " + this.selectedFile.type + " ("+ t +") and name is " + this.selectedFile.name);
+    for(let possibleType of this.permittedFileTypes) {
+      if(t == `image/${possibleType}`)
+      {
+        this.selectedFileType = possibleType;
+        break;
+      }
+    }
+    console.log("Selected File type is " + this.selectedFileType);
+  }
+
+  uploadVerfiyPic()
+  {
+    this.selectedVerfiyFile?.arrayBuffer().then((value: ArrayBuffer)=> {
+      let buffer = new Uint8Array(value);
+
+      const STRING_CHAR = buffer.reduce((data, byte)=> {return data + String.fromCharCode(byte);}, '');
+
+      let data = btoa(STRING_CHAR);
+
+      let t = this.selectedVerifyFileType?.split('/');
+      let ty = t?.pop();
+      if(ty){
+      this.userService.uploadVerificationPic(data, ty);
       }
     }).catch();
   }

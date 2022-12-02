@@ -19,6 +19,8 @@ export class UserService {
   profilePic: String;
 
 
+  verificationStatus: number = 0;
+
 
   constructor(private httpClient: HttpClient, private authService: AuthService, private router: Router) {
     this.currentUser = new TcUser();
@@ -86,6 +88,35 @@ export class UserService {
     };
 
     this.httpClient.get<TcUser>(`${environment.user_service_url}Users/Current`,{headers: this.authService.getHttpHeaders(true, false)}).pipe(take(1)).subscribe(observe);
+    this.refreshAdminVerificationStatus();
+  }
+
+  async refreshAdminVerificationStatus()
+  {
+    let observeError = (error: Response | any) => { 
+      alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+    };
+    let observe2 = {
+      next: (response: Boolean) => {
+        this.verificationStatus = response ? -1 : 0;
+      },
+      error: observeError
+    }
+
+    let observe1 = {
+      next: (response: Boolean) => {
+        if(response){
+          this.verificationStatus = 1;
+        } else {
+          this.httpClient.get<Boolean>(`${environment.user_admin_url}Verify/hasVerification`,{headers: this.authService.getHttpHeaders(true, false)})
+          .pipe(take(1)).subscribe(observe2);
+        }
+      },
+      error: observeError
+    }
+
+    this.httpClient.get<Boolean>(`${environment.user_admin_url}Verify/isVerified`,{headers: this.authService.getHttpHeaders(true, false)})
+    .pipe(take(1)).subscribe(observe1);
   }
 
   async createUser(userPost: UserPost) {
@@ -115,6 +146,21 @@ export class UserService {
     }
 
     this.httpClient.post(`${environment.user_service_url}profile/set`, data,{headers: header}).pipe(take(1)).subscribe(observe);
+  }
+
+  async uploadVerificationPic(data:string, ext:string)
+  {
+    let header = this.authService.getHttpHeaders(true, false).append("Content-Type", `image/${ext}`);
+    let observe = {
+      next: () =>{
+        alert("Successfully Uploaded!");
+      },
+      error: (error: Response | any) => { 
+        alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+      }
+    }
+
+    this.httpClient.post(`${environment.user_admin_url}Verify/AddEvidence`, data,{headers: header}).pipe(take(1)).subscribe(observe);
   }
 
   async changePassword(passwordChange: PasswordChange) {

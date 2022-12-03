@@ -2,10 +2,16 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+// export const environment = {
+//   production: false,
+//   admin_service_url: '',
+//   resource_url: 'https://trec-apps-test-resource.azurewebsites.net/'
+// };
+
 export const environment = {
   production: false,
-  admin_service_url: '',
-  resource_url: 'https://trec-apps-test-resource.azurewebsites.net/'
+  admin_service_url: 'http://localhost:4200/admin/',
+  resource_url: 'http://localhost:4200/api/'
 };
 
 /*

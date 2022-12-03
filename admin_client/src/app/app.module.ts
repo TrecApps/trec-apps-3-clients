@@ -12,6 +12,7 @@ import { OutletComponent } from './components/outlet/outlet.component';
 import { RegionComponent } from './components/region/region.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { MarkedPipe } from './resources/marked.pipe';
+import { VerifyComponent } from './components/verify/verify.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { MarkedPipe } from './resources/marked.pipe';
     FigureComponent,
     OutletComponent,
     WelcomeComponent,
-    LoginComponent
+    LoginComponent,
+    VerifyComponent
   ],
   imports: [
     HttpClientModule,

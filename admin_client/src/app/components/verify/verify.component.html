@@ -1,0 +1,36 @@
+
+
+<button class="btn btn-submit" (click)="refreshUsers()">Refresh Users</button>
+
+<ul class="ul-gallery">
+    <li class="li-gallery" *ngFor="let req of requesters">
+        <img src="{{req.profilePic}}"><br>
+        <table>
+            <tr>
+                <td>Display Name</td>
+                <td>{{req.displayName}}</td>
+            </tr>
+            <tr>
+                <td>Mobile Phone</td>
+                <td>{{req.mobilePhone}}</td>
+            </tr>
+            <tr>
+                <td>Username</td>
+                <td>{{req.username}}</td>
+            </tr>
+            <tr>
+                <td>Mobile Phone</td>
+                <td>{{req.mobilePhone}}</td>
+            </tr>
+        </table>
+        <div *ngIf="req.address && req.address.length">
+            <h4>Addresses</h4>
+            <div *ngFor="let ad of req.address">
+                <p>{{ad}}</p><br>
+            </div>
+        </div>
+
+        <button class="btn btn-submit" (click)="populateEvidence(req)">Verification Evidence</button>
+        <img *ngFor="let evidence of req.verifyPics" src="{{evidence}}">
+    </li>
+</ul>

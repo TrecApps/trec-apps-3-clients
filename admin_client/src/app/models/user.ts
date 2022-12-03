@@ -18,3 +18,14 @@ export class TcUser {
 
     
 }
+
+export class Requester {
+    id: string | undefined;
+    displayName: string | undefined;
+    mobilePhone : string | undefined;
+    username: string | undefined;
+    birthday: Date | undefined;
+    address: string[] | undefined;
+    profilePic: string = "";
+    verifyPics: string[] | undefined;
+}

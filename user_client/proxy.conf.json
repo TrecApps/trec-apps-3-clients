@@ -11,6 +11,6 @@
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true,
-      "pathRewrite": {"^/api" : ""}
+      "pathRewrite": {"^/admin" : ""}
     }
   }

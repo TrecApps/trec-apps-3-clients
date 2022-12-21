@@ -105,6 +105,10 @@ export class ManageUserComponent implements OnInit {
       });
   }
 
+  requestVerification() {
+    this.userService.requestProfileVerification();
+  }
+
   deleteSession(sessionId: string) {
     this.userService.removeSession(sessionId, () => this.refreshSessions());
   }
@@ -167,20 +171,20 @@ export class ManageUserComponent implements OnInit {
   }
 
   onVerifyFileChanged(event: any) {
-    this.selectedFile = event.target.files[0]
-    console.log("File Selectd: " + this.selectedFile);
-    if(!this.selectedFile)return;
+    this.selectedVerfiyFile = event.target.files[0]
+    console.log("File Selectd: " + this.selectedVerfiyFile);
+    if(!this.selectedVerfiyFile)return;
 
-    let t = this.selectedFile.type.toLowerCase().trim();
-    console.log("File Type is " + this.selectedFile.type + " ("+ t +") and name is " + this.selectedFile.name);
+    let t = this.selectedVerfiyFile.type.toLowerCase().trim();
+    console.log("File Type is " + this.selectedVerfiyFile.type + " ("+ t +") and name is " + this.selectedVerfiyFile.name);
     for(let possibleType of this.permittedFileTypes) {
       if(t == `image/${possibleType}`)
       {
-        this.selectedFileType = possibleType;
+        this.selectedVerifyFileType = possibleType;
         break;
       }
     }
-    console.log("Selected File type is " + this.selectedFileType);
+    console.log("Selected File type is " + this.selectedVerifyFileType);
   }
 
   uploadVerfiyPic()

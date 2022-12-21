@@ -13,6 +13,7 @@
 
         <!--Has the User been fully verified by TrecApps staff?-->
         <h2 *ngIf="userService.verificationStatus == 1">UserVerified</h2>
+        <button class="btn btn-submit" *ngIf="userService.verificationStatus == 0" (click)="requestVerification()">Request Verification</button>
         <div *ngIf="userService.verificationStatus == -1">
             <h6>Select a Photo TrecApps Administrators can use to verify your Identity</h6>
             <input style="display: none" type="file" (change)="onVerifyFileChanged($event)" #fileInput>

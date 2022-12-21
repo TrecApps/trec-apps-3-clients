@@ -19,7 +19,7 @@ export class UserService {
   profilePic: String;
 
 
-  verificationStatus: number = 0;
+  verificationStatus: number = -2;
 
 
   constructor(private httpClient: HttpClient, private authService: AuthService, private router: Router) {
@@ -63,6 +63,25 @@ export class UserService {
     }
 
     this.httpClient.get(`${environment.user_service_url}profile/imageType/${this.currentUser.id}`, {responseType: 'text'}).pipe(take(1)).subscribe(observe);
+   }
+
+   requestProfileVerification() {
+    let observe = {
+      next: (response: string) => {
+        console.log("Response was " + response);
+        this.verificationStatus = 0;
+      },
+      error: (error: Response | any) => {
+        if(error.status && error.status == 409) {
+          this.verificationStatus = 0;
+          alert("You already have a Verification Request in Place");
+        }
+      }
+    }
+
+
+    this.httpClient.get<string>(`${environment.user_admin_url}Verify/requestVerification`,{headers: this.authService.getHttpHeaders(true, false)})
+      .pipe(take(1)).subscribe(observe);
    }
 
    checkAuthClear(error: Response | any) {

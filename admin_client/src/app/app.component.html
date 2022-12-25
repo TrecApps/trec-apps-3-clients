@@ -15,6 +15,7 @@
         <li class="nav-item"><a class="nav-link" routerLink="Institution">Institutions</a></li>
 
         <li class="nav-item" *ngIf="authService.loginToken"><a class="nav-link" routerLink="verifyId">Verify Users</a></li>
+        <li class="nav-item" *ngIf="authService.loginToken"><a class="nav-link" routerLink="Subscription">Subscriptions</a></li>
         
         <img width="32" height="32" style="border-radius: 50%;" src="{{authService.profilePic}}">
         <li class="nav-item" *ngIf="!authService.loginToken"><a class="nav-link" routerLink="Login">Log-In</a></li>

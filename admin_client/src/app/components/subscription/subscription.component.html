@@ -1,24 +1,23 @@
-<button class="btn btn-submit" (click)="refreshSubList()">Refresh Users</button>
+<button class="btn btn-submit" (click)="refreshSubList()">Get Subscription List</button>
 
 <ul class="ul-gallery">
     <li class="li-gallery" *ngFor="let sub of subList">
-
         <div class="form">
             <label>Name</label>
-            <input type="text" class="form-item" [ngModel]="sub.name">
+            <input type="text" class="form-item" [(ngModel)]="sub.name"><br>
             <label>Description</label>
-            <input type="text" class="form-item" [ngModel]="sub.desc">
+            <input type="text" class="form-item" [(ngModel)]="sub.desc"><br>
             <label>Default Price (overriden in Subscription Level Fields)</label>
-            <input type="number" min="0" max="20.00" [defaultValue]="1.00" [ngModel]="sub.defaultPrice">
+            <input type="number" min="0" max="20.00" [defaultValue]="1.00" [(ngModel)]="sub.defaultPrice"><br>
         
             <ul>
                 <li *ngFor="let lev of sub.levels">
                     <label>Name</label>
-                    <input type="text" class="form-item" [ngModel]="lev.name">
+                    <input type="text" class="form-item" [(ngModel)]="lev.name"><br>
                     <label>Description</label>
-                    <input type="text" class="form-item" [ngModel]="lev.desc">
+                    <input type="text" class="form-item" [(ngModel)]="lev.desc"><br>
                     <label>Level Price (overrides Default Price if User has selected it)</label>
-                    <input type="number" min="0" max="20.00" [defaultValue]="1.00" [ngModel]="lev.price">
+                    <input type="number" min="0" max="20.00" [defaultValue]="1.00" [(ngModel)]="lev.price"><br>
         
                     <button class="btn btn-info" (click)="removeSubLevel(lev)">Remove Level</button>
                 </li>
@@ -31,24 +30,24 @@
     </li>
 </ul>
 
-<button class="btn btn-submit" (click)="startNewSubscription()">Refresh Users</button>
+<button class="btn btn-submit" (click)="startNewSubscription()">Create New Subscription</button>
 
 <div *ngIf="newSub" class="form">
     <label>Name</label>
-    <input type="text" class="form-item" [ngModel]="newSub.name">
+    <input type="text" class="form-item" [(ngModel)]="newSub.name"><br>
     <label>Description</label>
-    <input type="text" class="form-item" [ngModel]="newSub.desc">
+    <input type="text" class="form-item" [(ngModel)]="newSub.desc"><br>
     <label>Default Price (overriden in Subscription Level Fields)</label>
-    <input type="number" min="0" max="20.00" [defaultValue]="1.00" [ngModel]="newSub.defaultPrice">
+    <input type="number" min="0" max="20.00" [defaultValue]="1.00" [(ngModel)]="newSub.defaultPrice"><br>
 
     <ul>
         <li *ngFor="let lev of newSub.levels">
             <label>Name</label>
-            <input type="text" class="form-item" [ngModel]="lev.name">
+            <input type="text" class="form-item" [(ngModel)]="lev.name"><br>
             <label>Description</label>
-            <input type="text" class="form-item" [ngModel]="lev.desc">
+            <input type="text" class="form-item" [(ngModel)]="lev.desc"><br>
             <label>Level Price (overrides Default Price if User has selected it)</label>
-            <input type="number" min="0" max="20.00" [defaultValue]="1.00" [ngModel]="lev.price">
+            <input type="number" min="0" max="20.00" [defaultValue]="1.00" [(ngModel)]="lev.price"><br>
 
             <button class="btn btn-info" (click)="removeSubLevel(lev)">Remove Level</button>
         </li>

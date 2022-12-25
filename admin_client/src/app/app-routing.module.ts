@@ -7,9 +7,11 @@ import { OutletComponent } from './components/outlet/outlet.component';
 import { RegionComponent } from './components/region/region.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { VerifyComponent } from './components/verify/verify.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
 const routes: Routes = [
   { path: 'Login', component: LoginComponent},
+  { path: 'Welcome', component: WelcomeComponent },
   { path: 'Regions', component: RegionComponent },
   { path: 'Institution', component: InstitutionComponent},
   { path: 'PublicFigure', component: FigureComponent},

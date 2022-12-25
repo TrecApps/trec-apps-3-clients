@@ -13,9 +13,11 @@ export class SubscriptionService {
   constructor(private httpClient: HttpClient, private authService: AuthService) { }
 
   retrieveSubscriptions(list: Subscription[]){
-    this.httpClient.get<Subscription>(`${environment.subscription_url}Manage/Current`, {headers: this.authService.getHttpHeaders(true, false)}).
-    subscribe((sub:Subscription) => {
-      list.push(sub);
+    this.httpClient.get<Subscription[]>(`${environment.subscription_url}Manage/Current`, {headers: this.authService.getHttpHeaders(true, false)}).
+    subscribe((sub:Subscription[]) => {
+      for(let s of sub){
+        list.push(s);
+      }
     });
   }
 
@@ -30,11 +32,11 @@ export class SubscriptionService {
 
   addNewSub(sub:Subscription) {
     sub.id = null;
-    this.httpClient.post<string>(`${environment.subscription_url}Manage/Current`, sub, {headers: this.authService.getHttpHeaders(true, true)}).pipe(take(1)).subscribe(this.observe);
+    this.httpClient.post<string>(`${environment.subscription_url}Manage/Insert`, sub, {headers: this.authService.getHttpHeaders(true, true)}).pipe(take(1)).subscribe(this.observe);
   }
 
   updateSub(sub:Subscription){
-    this.httpClient.put<string>(`${environment.subscription_url}Manage/Current`, sub, {headers: this.authService.getHttpHeaders(true, true)}).pipe(take(1)).subscribe(this.observe);
+    this.httpClient.put<string>(`${environment.subscription_url}Manage/Insert`, sub, {headers: this.authService.getHttpHeaders(true, true)}).pipe(take(1)).subscribe(this.observe);
     
   }
 }

@@ -13,6 +13,7 @@ import { RegionComponent } from './components/region/region.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { MarkedPipe } from './resources/marked.pipe';
 import { VerifyComponent } from './components/verify/verify.component';
+import { SubscriptionComponent } from './components/subscription/subscription.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { VerifyComponent } from './components/verify/verify.component';
     OutletComponent,
     WelcomeComponent,
     LoginComponent,
-    VerifyComponent
+    VerifyComponent,
+    SubscriptionComponent
   ],
   imports: [
     HttpClientModule,

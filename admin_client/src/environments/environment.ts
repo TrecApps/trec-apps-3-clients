@@ -11,7 +11,8 @@
 export const environment = {
   production: false,
   admin_service_url: 'http://localhost:4200/admin/',
-  resource_url: 'http://localhost:4200/api/'
+  resource_url: 'http://localhost:4200/api/',
+  subscription_url: 'http://localhost:4200/sub/'
 };
 
 /*

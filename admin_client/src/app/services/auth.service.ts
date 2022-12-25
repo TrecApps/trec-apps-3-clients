@@ -84,7 +84,7 @@ export class AuthService {
       }
     };
 
-    this.httpClient.get<TcUser>(`${environment.resource_url}Profile/Current`,{headers: this.getHttpHeaders(true, false)}).pipe(take(1)).subscribe(observe);
+    this.httpClient.get<TcUser>(`${environment.resource_url}profile/Current`,{headers: this.getHttpHeaders(true, false)}).pipe(take(1)).subscribe(observe);
   }
 
   setAuthorization(loginToken: LoginToken) {

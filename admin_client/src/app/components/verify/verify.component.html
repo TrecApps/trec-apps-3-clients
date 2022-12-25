@@ -19,8 +19,8 @@
                 <td>{{req.username}}</td>
             </tr>
             <tr>
-                <td>Mobile Phone</td>
-                <td>{{req.mobilePhone}}</td>
+                <td>Birthday</td>
+                <td>{{req.birthday}}</td>
             </tr>
         </table>
         <div *ngIf="req.address && req.address.length">
@@ -32,5 +32,6 @@
 
         <button class="btn btn-submit" (click)="populateEvidence(req)">Verification Evidence</button>
         <img *ngFor="let evidence of req.verifyPics" src="{{evidence}}">
+        <button *ngIf="req?.verifyPics.length" (click)="verifyRequester(req.id)" class="btn btn-submit">Verify User</button>
     </li>
 </ul>

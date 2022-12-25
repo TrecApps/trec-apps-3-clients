@@ -26,4 +26,8 @@ export class VerifyComponent implements OnInit {
     req.verifyPics = [];
     this.adminService.retrieveEvidence(req);
   }
+
+  verifyRequester(userId:string) {
+    this.adminService.verifyRequester(userId);
+  }
 }

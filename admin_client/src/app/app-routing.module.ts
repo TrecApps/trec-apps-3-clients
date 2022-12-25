@@ -5,6 +5,7 @@ import { InstitutionComponent } from './components/institution/institution.compo
 import { LoginComponent } from './components/login/login.component';
 import { OutletComponent } from './components/outlet/outlet.component';
 import { RegionComponent } from './components/region/region.component';
+import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { VerifyComponent } from './components/verify/verify.component';
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'PublicFigure', component: FigureComponent},
   { path: 'MediaOutlet', component: OutletComponent},
   { path: 'verifyId', component: VerifyComponent},
+  { path: 'Subscription', component: SubscriptionComponent},
   { path: '',   redirectTo: '/Welcome', pathMatch: 'full'}
 ];
 

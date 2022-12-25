@@ -11,6 +11,13 @@
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true,
-      "pathRewrite": {"^/api" : ""}
+      "pathRewrite": {"^/admin" : ""}
+    },
+    "/sub/*": {
+      "target": "http://localhost:8082",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true,
+      "pathRewrite": {"^/sub" : ""}
     }
   }

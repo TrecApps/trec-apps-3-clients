@@ -1,1 +1,51 @@
-<p>welcome works!</p>
+<h3>Auth Service</h3>
+
+<p>This App is geared towards Administrators of TrecApps and the various Actions an Employee can take regarding the Users of TrecApps.</p>
+
+<p>Many of these tasks include:</p>
+
+<ul>
+    <li>Managing Subscriptions available to users</li>
+    <li>Verifying that a User is who they say they are</li>
+    <li>Granting Permissions or revoking them</li>
+    <li>Managing Various articles that Users can reference in other apps</li>
+    <li>TBD</li>
+</ul>
+
+<p>Because these tasks vary in different ways, Each Employee has verious permissions assigned to them affecting which features of this app is available to them.</p>
+
+<p *ngIf="!authService.loginToken">You can log in <a class="nav-link" routerLink="Login">here</a></p>
+
+<div *ngIf="authService.loginToken">
+    <h4>Features Available</h4>
+
+    <div *ngIf="authService.hasPermission('RESOURCE_EMPLOYEE')">
+        <h5>Resource Management</h5>
+        <p>In Various Apps (Predominately, the Falsehoods App), Users have access to various articles and information that service as 'resources'.</p>
+        <p>These resources currently include:</p>
+        <ul>
+            <li>Regions: States and Providences)</li>
+            <li>Media Outlets: An institution purporting itself as a reliable source of News and Information on Current Events</li>
+            <li>Public Figures: Individuals who either hold Political power, economic power, or otherwise have noticable sway in public discourse</li>
+            <li>Institutions: Entities like a Company, Govorning Bodies, to whom public figures might represent</li>
+        </ul>
+
+        <p>Your job is to ensure we have a well kept library of information pertaining to these resources that Users can rely upon. These Sections of the App enables you to searchf for existing resources and edit them, or add a new one that is currently not present</p>
+    </div>
+
+    <div *ngIf="authService.hasPermission('USER_ADMIN')">
+
+        <h5>User Verification</h5>
+        <p>In order to ensure that any user who signs up for TrecApps services is who they say they are, many apps require a user possess the 'ADMIN_VERIFIED' permission.</p>
+        <p>For a User to obtain the 'ADMIN_VERIFIED' permission, they need to have their email and (eventually) their phone number verified through the User App.</p>
+        <p>They also need to upload documentation in the form of photos taken of various ids in order to the User Admin Service.</p>
+        <p>Because you have the 'USER_ADMIN' permission, you have the authority to review these photos and determine whether the user in question has earned the 'ADMIN_VERIFIED' permission.</p>
+    </div>
+
+    <div *ngIf="authService.hasPermission('SUBSCRIPTION_ADMIN')">
+        <h5>Subscription Management</h5>
+        <p>While Mobile and online ads may serve as a source of Revenue for TrecApps, at some point, we will need to rely on another source of Revenue.</p>
+        <p>This is where Subscriptions Come in. Each User may elect to start a monthly subscription, which will contain tiny components that offer various perks to TrecApps Services</p>
+        <p>As someone with the 'SUBSCRIPTION_ADMIN' Permission, you have the authority to add and update Subscription Components Users may adhere to.</p>
+    </div>
+</div>

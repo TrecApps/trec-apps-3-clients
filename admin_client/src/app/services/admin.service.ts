@@ -38,8 +38,11 @@ export class AdminService {
           this.getRequester(strId, callable)
         }
       },
-      error: () => {
+      error: (error: any) => {
 
+        if(error?.status == 401 || error ?.status == 403) {
+          this.authService.clearAuth();
+        }
       }
     }
 
@@ -60,6 +63,12 @@ export class AdminService {
         req.username = user.userProfile;
 
         callable(req);
+      },
+      error: (error: Response | any) => { 
+        alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        if(error?.status == 401 || error ?.status == 403) {
+          this.authService.clearAuth();
+        }
       }
     }
 
@@ -73,6 +82,12 @@ export class AdminService {
     let observe = {
       next: (resp: string) => {
         req.profilePic = `${environment.admin_service_url}Verify/RequesterProfile/${req.id}.${resp}`
+      },
+      error: (error: Response | any) => { 
+        alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        if(error?.status == 401 || error ?.status == 403) {
+          this.authService.clearAuth();
+        }
       }
     }
 
@@ -101,6 +116,12 @@ export class AdminService {
           }
          });
         }
+      },
+      error: (error: Response | any) => { 
+        alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        if(error?.status == 401 || error ?.status == 403) {
+          this.authService.clearAuth();
+        }
       }
     }
 
@@ -125,6 +146,9 @@ export class AdminService {
       },
       error: (error: Response | any) => { 
         alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        if(error?.status == 401 || error ?.status == 403) {
+          this.authService.clearAuth();
+        }
       }
     }
 

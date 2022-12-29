@@ -9,13 +9,17 @@
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav">
         <li class="nav-item"><a class="nav-link" routerLink="Welcome">Welcome</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="PublicFigure">Public Figures</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="MediaOutlet">Media Outlets</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="Regions">Regions</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="Institution">Institutions</a></li>
 
-        <li class="nav-item" *ngIf="authService.loginToken"><a class="nav-link" routerLink="verifyId">Verify Users</a></li>
-        <li class="nav-item" *ngIf="authService.loginToken"><a class="nav-link" routerLink="Subscription">Subscriptions</a></li>
+        <div *ngIf="authService.hasPermission('RESOURCE_EMPLOYEE')">
+
+          <li class="nav-item"><a class="nav-link" routerLink="PublicFigure">Public Figures</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="MediaOutlet">Media Outlets</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="Regions">Regions</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="Institution">Institutions</a></li>
+        
+        </div>
+        <li class="nav-item" *ngIf="authService.loginToken && authService.hasPermission('USER_ADMIN')"><a class="nav-link" routerLink="verifyId">Verify Users</a></li>
+        <li class="nav-item" *ngIf="authService.loginToken && authService.hasPermission('SUBSCRIPTION_ADMIN')"><a class="nav-link" routerLink="Subscription">Subscriptions</a></li>
         
         <img width="32" height="32" style="border-radius: 50%;" src="{{authService.profilePic}}">
         <li class="nav-item" *ngIf="!authService.loginToken"><a class="nav-link" routerLink="Login">Log-In</a></li>

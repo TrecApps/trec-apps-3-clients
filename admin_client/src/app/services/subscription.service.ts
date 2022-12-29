@@ -27,6 +27,9 @@ export class SubscriptionService {
     },
     error: (error: Response | any) => { 
       alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+      if(error?.status == 401 || error ?.status == 403) {
+        this.authService.clearAuth();
+      }
     }
   }
 

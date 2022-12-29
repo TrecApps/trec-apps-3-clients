@@ -16,6 +16,17 @@ export class AuthService {
   profileFallback = "/assets/Unknown_Profile.png";
   profilePic: String;
 
+  permissions: string[] = [];
+
+  hasPermission(permission: string): boolean{
+    for(let p of this.permissions){
+      if( p == permission) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   constructor(private httpClient: HttpClient) {
     this.loginToken = null;
     this.profilePic = this.profileFallback;
@@ -27,6 +38,7 @@ export class AuthService {
 
   clearAuth() {
     this.loginToken = null;
+    this.permissions = [];
   }
 
   loginThroughTrecApps(login: Login, callable: Function) {
@@ -39,14 +51,28 @@ export class AuthService {
           // To-Do: Add Callback
           callable(true);
         
+          this.getPermissions();
       },
       error: (error: Response | any) => { 
         alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
         callable(false);
+        if(error?.status == 401 || error ?.status == 403) {
+          this.clearAuth();
+        }
       }
     };
 
     this.httpClient.post<LoginToken>(`${environment.resource_url}Auth/login`, login).pipe(take(1)).subscribe(observe);
+  }
+
+  getPermissions(){
+    let observe = {
+      next: (response: string[]) => {
+        this.permissions = response;
+      }
+    }
+
+    this.httpClient.get<string[]>(`${environment.admin_service_url}Permissions`, {headers: this.getHttpHeaders(true, false)}).subscribe(observe);
   }
 
   getHttpHeaders(useJson: boolean, usingContentType : boolean) : HttpHeaders {
@@ -66,6 +92,12 @@ export class AuthService {
      next: (response: string) => {
        console.log("Response was " + response);
        this.profilePic = `${environment.resource_url}profile/file/${this.currentUser.id}.${response}`;
+     },
+     error: (error: Response | any) => { 
+       alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+       if(error?.status == 401 || error ?.status == 403) {
+         this.clearAuth();
+       }
      }
    }
 
@@ -81,6 +113,9 @@ export class AuthService {
       },
       error: (error: Response | any) => { 
         alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        if(error?.status == 401 || error ?.status == 403) {
+          this.clearAuth();
+        }
       }
     };
 
@@ -99,7 +134,7 @@ export class AuthService {
   logout() {
     if(this.loginToken) {
       this.httpClient.get(`${environment.resource_url}Auth/logout`, {headers: new HttpHeaders().append('Authorization', this.getAuthorization())});
-      this.loginToken = null;
+      this.clearAuth();
     }
     this.profilePic = this.profileFallback;
   }

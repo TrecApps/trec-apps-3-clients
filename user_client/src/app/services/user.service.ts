@@ -76,6 +76,10 @@ export class UserService {
           this.verificationStatus = 0;
           alert("You already have a Verification Request in Place");
         }
+        if(error?.status == 401 || error?.status == 403){
+          this.authService.clearAuth();
+          this.router.navigate(['logon']);
+        }
       }
     }
 
@@ -103,6 +107,10 @@ export class UserService {
       },
       error: (error: Response | any) => { 
         alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        if(error?.status == 401 || error?.status == 403){
+          this.authService.clearAuth();
+          this.router.navigate(['logon']);
+        }
       }
     };
 
@@ -114,6 +122,10 @@ export class UserService {
   {
     let observeError = (error: Response | any) => { 
       alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+      if(error?.status == 401 || error?.status == 403){
+        this.authService.clearAuth();
+        this.router.navigate(['logon']);
+      }
     };
     let observe2 = {
       next: (response: Boolean) => {
@@ -146,6 +158,10 @@ export class UserService {
        },
       error: (error: Response | any) => { 
         alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        if(error?.status == 401 || error?.status == 403){
+          this.authService.clearAuth();
+          this.router.navigate(['logon']);
+        }
       }
     };
 
@@ -161,6 +177,10 @@ export class UserService {
       },
       error: (error: Response | any) => { 
         alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        if(error?.status == 401 || error?.status == 403){
+          this.authService.clearAuth();
+          this.router.navigate(['logon']);
+        }
       }
     }
 
@@ -176,6 +196,10 @@ export class UserService {
       },
       error: (error: Response | any) => { 
         alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        if(error?.status == 401 || error?.status == 403){
+          this.authService.clearAuth();
+          this.router.navigate(['logon']);
+        }
       }
     }
 
@@ -187,6 +211,10 @@ export class UserService {
       next: (response: Object) => { },
       error: (error: Response | any) => { 
         alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        if(error?.status == 401 || error?.status == 403){
+          this.authService.clearAuth();
+          this.router.navigate(['logon']);
+        }
       }
     };
 
@@ -199,6 +227,10 @@ export class UserService {
       next: (response: Object) => { },
       error: (error: Response | any) => { 
         alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        if(error?.status == 401 || error?.status == 403){
+          this.authService.clearAuth();
+          this.router.navigate(['logon']);
+        }
       }
     };
 
@@ -224,6 +256,10 @@ export class UserService {
             else {
               alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
             }
+            if(error?.status == 401 || error?.status == 403){
+              this.authService.clearAuth();
+              this.router.navigate(['logon']);
+            }
           }
         };
         let headers = this.authService.getHttpHeaders(true, false);
@@ -235,6 +271,10 @@ export class UserService {
       },
       error: (error: Response | any) => { 
         alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        if(error?.status == 401 || error?.status == 403){
+          this.authService.clearAuth();
+          this.router.navigate(['logon']);
+        }
       }
     };
 
@@ -255,6 +295,10 @@ export class UserService {
           doNext();
         } else {
           alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+        }
+        if(error?.status == 401 || error?.status == 403){
+          this.authService.clearAuth();
+          this.router.navigate(['logon']);
         }
       }
     };

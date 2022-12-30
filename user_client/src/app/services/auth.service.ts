@@ -62,4 +62,9 @@ export class AuthService {
     console.log("Auth Token is ", this.loginToken);
     return this.loginToken && this.loginToken.access_token ? this.loginToken.access_token : "";
   }
+
+  logout() {
+    this.httpClient.get(`${environment.user_service_url}Auth/logout`, {headers:this.getHttpHeaders(true, false)});
+    this.clearAuth();
+  }
 }

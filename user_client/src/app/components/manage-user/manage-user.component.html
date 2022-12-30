@@ -6,92 +6,102 @@
 
     <div *ngIf="userActive.value" class="form">
 
-        <img width="100" height="100" src="{{userService.profilePic}}">
-        <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
-        <button class="btn btn-info" (click)="fileInput.click()">Update Profile Pic</button>
-        <button class="btn btn-submit" (click)="updateProfilePic()" *ngIf="selectedFile && selectedFileType">Confirm Profile Selection</button><br><br>
+        <div class="userBorder">
+            <img width="100" height="100" src="{{userService.profilePic}}">
+            <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
+            <button class="btn btn-info" (click)="fileInput.click()">Update Profile Pic</button>
+            <button class="btn btn-submit" (click)="updateProfilePic()" *ngIf="selectedFile && selectedFileType">Confirm Profile Selection</button><br><br>
 
-        <!--Has the User been fully verified by TrecApps staff?-->
-        <h2 *ngIf="userService.verificationStatus == 1">UserVerified</h2>
-        <button class="btn btn-submit" *ngIf="userService.verificationStatus == 0" (click)="requestVerification()">Request Verification</button>
-        <div *ngIf="userService.verificationStatus == -1">
-            <h6>Select a Photo TrecApps Administrators can use to verify your Identity</h6>
-            <input style="display: none" type="file" (change)="onVerifyFileChanged($event)" #fileInput>
-            <button class="btn btn-info" (click)="fileInput.click()">Select Verification Pic</button>
-            <button class="btn btn-submit" (click)="uploadVerfiyPic()" *ngIf="selectedVerfiyFile && selectedVerifyFileType">Upload Verify Pic</button><br>
+            <!--Has the User been fully verified by TrecApps staff?-->
+            <h2 *ngIf="userService.verificationStatus == 1">UserVerified</h2>
+            <button class="btn btn-submit" *ngIf="userService.verificationStatus == 0" (click)="requestVerification()">Request Verification</button>
+            <div *ngIf="userService.verificationStatus == -1">
+                <h6>Select a Photo TrecApps Administrators can use to verify your Identity</h6>
+                <input style="display: none" type="file" (change)="onVerifyFileChanged($event)" #fileInput>
+                <button class="btn btn-info" (click)="fileInput.click()">Select Verification Pic</button>
+                <button class="btn btn-submit" (click)="uploadVerfiyPic()" *ngIf="selectedVerfiyFile && selectedVerifyFileType">Upload Verify Pic</button><br>
+            </div>
         </div>
-        
 
-        <h2>User Details</h2>
-
-        <label>User ID: </label>
-        <input type="text" [(ngModel)]="userService.currentUser.id" readonly><br>
-
-        <label>Username: </label>
-        <input type="text" [(ngModel)]="userService.currentUser.userProfile" readonly><br>
-
-        <label>Mobile Phone: </label>
-        <input type="tel" [(ngModel)]="userService.currentUser.mobilePhone" > <br>
-        <button *ngIf="!userService?.currentUser?.phoneVerified" >Verify Phone</button>
         <br>
 
-        <label>Email: </label>
-        <input type="email" [(ngModel)]="userService.currentUser.email"> 
-        <button *ngIf="!userService.currentUser.emailVerified" (click)="attemptEmailVerification()">Verify Email</button><br>
+        <div class="userBorder">
+            <h2>User Details</h2>
+
+            <label>User ID: </label>
+            <input type="text" [(ngModel)]="userService.currentUser.id" readonly><br>
+
+            <label>Username: </label>
+            <input type="text" [(ngModel)]="userService.currentUser.userProfile" readonly><br>
+
+            <label>Mobile Phone: </label>
+            <input type="tel" [(ngModel)]="userService.currentUser.mobilePhone" > <br>
+            <button *ngIf="!userService?.currentUser?.phoneVerified" >Verify Phone</button>
+            <br>
+
+            <label>Email: </label>
+            <input type="email" [(ngModel)]="userService.currentUser.email"> 
+            <button *ngIf="!userService.currentUser.emailVerified" (click)="attemptEmailVerification()">Verify Email</button><br>
   
 
-        <label>Birthday:</label>
-        <input type="date" [(ngModel)]="userService.currentUser.birthday" readonly><br>
+            <label>Birthday:</label>
+            <input type="date" [(ngModel)]="userService.currentUser.birthday" readonly><br>
 
-        <label>Birthday Privacy:</label>
-        <select [(ngModel)]="currentBirthdayDetail">
-            <option *ngFor="let birthOpt of birthdayDetails" (select)="birthOpt">{{birthOpt.setting}}</option>
-        </select><br>
+            <label>Birthday Privacy:</label>
+            <select [(ngModel)]="currentBirthdayDetail">
+                <option *ngFor="let birthOpt of birthdayDetails" (select)="birthOpt">{{birthOpt.setting}}</option>
+            </select><br>
 
-        <label>Account Restrictions: </label>
-        <input type="text" [(ngModel)]="userService.currentUser.restrictions" readonly><br>
+            <label>Account Restrictions: </label>
+            <input type="text" [(ngModel)]="userService.currentUser.restrictions" readonly><br>
 
-        <label>Credibility Rating: </label>
-        <input type="number" [(ngModel)]="userService.currentUser.credibilityRating" readonly><br>
+            <label>Credibility Rating: </label>
+            <input type="number" [(ngModel)]="userService.currentUser.credibilityRating" readonly><br>
 
-        <button class="btn btn-submit" (click)="updateUser()">Update Details</button>
-        <button class="btn btn-submit">Go to Brand Menu</button><!--  -->
+            <button class="btn btn-submit" (click)="updateUser()">Update Details</button>
+            <button class="btn btn-submit">Go to Brand Menu</button><!--  -->
+
+        </div>
     </div>
 
+    <br>
+    <div class="userBorder">
     <button class="btn btn-submit" (click)="refreshSessions()">View Trec-Account Sessions</button>
-    <div *ngIf="sessionList && currentSession">
-        <table class="table table-hover">
-            <tr>
-                <th>Session Id</th>
-                <th>Application</th>
-                <th>Device Info</th>
-                <th>Notes</th>
-                <th>Delete?</th>
-            </tr>
-            <tr *ngFor="let session of sessionList.sessions">
-                <td>{{session.sessionId}}</td>
-                <td>{{session.appId}}</td>
-                <td>{{session.deviceInfo}}</td>
-                <td>{{session.sessionId == currentSession ? "Current Session" : ""}} {{session.expiration ? session.expiration : "No Expiration"}}</td>
-                <td><button class="btn btn-warning" (click)="deleteSession(session.sessionId ? session.sessionId : '')">Delete Session</button></td>
-            </tr>
-        </table>
+        <div *ngIf="sessionList && currentSession">
+            <table class="table table-hover">
+                <tr>
+                    <th>Session Id</th>
+                    <th>Application</th>
+                    <th>Device Info</th>
+                    <th>Notes</th>
+                    <th>Delete?</th>
+                </tr>
+                <tr *ngFor="let session of sessionList.sessions">
+                    <td>{{session.sessionId}}</td>
+                    <td>{{session.appId}}</td>
+                    <td>{{session.deviceInfo}}</td>
+                    <td>{{session.sessionId == currentSession ? "Current Session" : ""}} {{session.expiration ? session.expiration : "No Expiration"}}</td>
+                    <td><button class="btn btn-warning" (click)="deleteSession(session.sessionId ? session.sessionId : '')">Delete Session</button></td>
+                </tr>
+            </table>
+        </div>
     </div>
+    <br>
+    <div class="userBorder">
+        <button class="btn btn-submit" (click)="setChangePassword(true)">Change Password Menu</button>
 
-    <button class="btn btn-submit" (click)="setChangePassword(true)">Change Password Menu</button>
+        <div *ngIf="changePassword" class="form">
 
-    <div *ngIf="changePassword" class="form">
+            <label>Current Password: </label>
+            <input type="password" [(ngModel)]="oldPassword"><br>
 
-        <label>Current Password: </label>
-        <input type="password" [(ngModel)]="oldPassword"><br>
+            <label>New Password: </label>
+            <input type="password" [(ngModel)]="newPassword1"><br>
 
-        <label>New Password: </label>
-        <input type="password" [(ngModel)]="newPassword1"><br>
+            <label>Re-enter New Password: </label>
+            <input type="password" [(ngModel)]="newPassword2"><br>
 
-        <label>Re-enter New Password: </label>
-        <input type="password" [(ngModel)]="newPassword2"><br>
-
-        <button class="btn btn-submit" (click)="updatePassword()" >Update Password</button>
+            <button class="btn btn-submit" (click)="updatePassword()" >Update Password</button>
+        </div>
     </div>
-
 </div>

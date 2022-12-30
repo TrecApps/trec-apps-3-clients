@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { GlobalConstants } from 'src/app/common/GlobalConstants';
 import { Login } from 'src/app/models/Login';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 
   //[ngStyle]="{background: 'linear-gradient(45deg, blue 50%, red 80%)'}"
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit {
   login: Login;
   loginFail: boolean;
 
-  constructor(private authService:AuthService, private router:Router) {
+  constructor(private authService:AuthService, private userService: UserService, private router:Router) {
     this.login = new Login();
     this.loginFail = false;
    }
@@ -45,6 +46,7 @@ export class LoginComponent implements OnInit {
       if(!worked) {
         this.loginFail = true;
       } else {
+        //this.userService.refreshUser();
         this.router.navigate(['user']);
       }
     });

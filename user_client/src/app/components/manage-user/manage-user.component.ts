@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Logger } from '@azure/msal-browser';
 import { BooleanRef } from 'src/app/models/Holders';
 import { PasswordChange } from 'src/app/models/Login';
@@ -51,7 +52,7 @@ export class ManageUserComponent implements OnInit {
   selectedVerfiyFile:File | undefined;
   selectedVerifyFileType: string| undefined;
 
-  constructor(userService: UserService) { 
+  constructor(userService: UserService, private router: Router) { 
 
     this.userActive = new BooleanRef(false);
     this.userService = userService;
@@ -64,6 +65,11 @@ export class ManageUserComponent implements OnInit {
     this.birthdayDetails.push(new BirthdayDetails("Private Broadcast", "Your Birthday will be broadcast to 'friends' but hidden from anywhere else"));
     this.birthdayDetails.push(new BirthdayDetails("Friends", "Only your friends can see your birthday, but it will not be broadcast!"));
     this.birthdayDetails.push(new BirthdayDetails("Private", "Your birthday will be kept private! You can grant access to specific services!"));
+  }
+
+  routeToSubscriptions()
+  {
+    this.router.navigate(['subscriptions']);
   }
 
   setChangePassword(b: boolean) {

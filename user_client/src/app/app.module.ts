@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { MsalRedirectComponent } from '@azure/msal-angular';
+import { SubscriptionComponent } from './components/subscription/subscription.component';
 
 const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
 
@@ -21,7 +22,8 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     CreateUserComponent,
     ManageUserComponent,
     BrandsComponent,
-    LoginComponent
+    LoginComponent,
+    SubscriptionComponent
   ],
   imports: [
     HttpClientModule,

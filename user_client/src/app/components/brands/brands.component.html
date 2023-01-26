@@ -1,1 +1,29 @@
-<p>brands works!</p>
+<h1>Brand Management</h1>
+
+<div class="container">
+
+    <button class="btn btn-info" (click)="getBrands()">Refresh Brands</button>
+
+    <div *ngIf="retrieved && brandIdList.length <= 6">
+        <form >
+            <input class="form-control" type="text" [(ngModel)]="newName" [ngModelOptions]="{standalone: true}">
+            <button class="btn btn-submit" (click)="submitNew()">Add</button>
+        </form>
+    </div>
+
+    <ul class="ul-gallery">
+        <li class="li-gallery" *ngFor="let brand of brandList">
+            <img  width="100" height="100" src="{{brand.profile}}">
+            <input style="display: none" type="file" (change)="onFileChanged($event, brand.id)" #fileInput>
+            <button class="btn btn-info" (click)="fileInput.click()">Update Profile Pic</button>
+            <button class="btn btn-submit" (click)="updateProfilePic()" *ngIf="selectedFile && selectedFileType">Confirm Profile Selection</button>
+            <br><br>
+            <h4>{{brand.name}}</h4>
+            <h6>{{brand.id}}</h6>
+
+        </li>
+    </ul>
+
+    <button class="btn btn-info" (click)="routeToUserManagement()">Back To User Management</button>
+
+</div>

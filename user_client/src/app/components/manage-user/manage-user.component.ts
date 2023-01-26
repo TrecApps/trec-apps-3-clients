@@ -72,6 +72,10 @@ export class ManageUserComponent implements OnInit {
     this.router.navigate(['subscriptions']);
   }
 
+  routeToBrands(){
+    this.router.navigate(['brands']);
+  }
+
   setChangePassword(b: boolean) {
     this.changePassword = b;
     this.oldPassword = "";

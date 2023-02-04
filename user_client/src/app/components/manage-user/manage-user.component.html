@@ -3,12 +3,12 @@
 <div class="container">
 
     <button class="btn btn-submit" (click)="refreshUser()">Refresh User</button>
-    <button class="btn btn-info" (click)="routeToSubscriptions()">Subscriptions</button>
-    <button class="btn btn-info" (click)="routeToBrands()">Brands</button>
+    <button class="btn btn-info" (click)="routeToSubscriptions()"  *ngIf="userService.verificationStatus == 1">Subscriptions</button>
+    <button class="btn btn-info" (click)="routeToBrands()"  *ngIf="userService.verificationStatus == 1">Brands</button>
 
     <div *ngIf="userActive.value" class="form">
 
-        <div class="userBorder">
+        <div class="userBorder" *ngIf="userService.currentUser.emailVerified">
             <img width="100" height="100" src="{{userService.profilePic}}">
             <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
             <button class="btn btn-info" (click)="fileInput.click()">Update Profile Pic</button>
@@ -24,6 +24,21 @@
                 <button class="btn btn-submit" (click)="uploadVerfiyPic()" *ngIf="selectedVerfiyFile && selectedVerifyFileType">Upload Verify Pic</button><br>
             </div>
         </div>
+        <div class="userBorder" *nfIf="!userService.currentUser.emailVerified">
+            <p>Welcome to TrecApps. To begin using our services in earnest, we need to ensure you are who you say you are.</p>
+            <p>The process is short and is as follows:</p>
+            <ol>
+                <li>Verify Your Email (after that, you can set a Profile Picture)</li>
+                <li>Request Verification.</li>
+                <li>Upload Proof of Identity. These are pictures that our employees will use to validate your Identity. Only they (and you) will have access to them!</li>
+            </ol>
+            <p>Once you are verified, you can perform tasks such as</p>
+            <ul>
+                <li>Create Brand Accounts that you can use in most services</li>
+                <li>Set up Subscriptions</li>
+                <li>Upload pictures of your recent trip to Hawaii</li>
+            </ul>
+        </div>
 
         <br>
 
@@ -36,9 +51,11 @@
             <label>Username: </label>
             <input type="text" [(ngModel)]="userService.currentUser.userProfile" readonly><br>
 
-            <label>Mobile Phone: </label>
-            <input type="tel" [(ngModel)]="userService.currentUser.mobilePhone" > <br>
-            <button *ngIf="!userService?.currentUser?.phoneVerified" >Verify Phone</button>
+            <!-- <label>Country Code: +</label>
+            <input type="number"  -->
+            <label>Mobile Phone: (Right now, US +1 is assumed, as it is the only one currently supported)</label>
+            <input type="number" [(ngModel)]="userService.currentUser.mobilePhone" > <br>
+            <button *ngIf="!userService?.currentUser?.phoneVerified" (click)="attemptPhoneVerification()">Verify Phone</button>
             <br>
 
             <label>Email: </label>

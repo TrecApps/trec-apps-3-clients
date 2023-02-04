@@ -31,7 +31,7 @@ export class TcUser {
     id : string | undefined;
     displayName : string | undefined;
     userProfile : string | undefined;
-    mobilePhone : string | undefined;
+    mobilePhone : number | undefined;
     phoneVerified: boolean | undefined;
 
     email : string | undefined;

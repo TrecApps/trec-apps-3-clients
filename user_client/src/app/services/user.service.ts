@@ -53,6 +53,32 @@ export class UserService {
      {headers: this.authService.getHttpHeaders(true, false)}).pipe(take(1)).subscribe(observe);
    }
 
+   requestPhoneVerification() {
+
+    let error = (error: Response | any) => { 
+      alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
+    }
+
+    let observe = {
+      next: (response: Object) => { 
+        let code = prompt(`Check your Phone ${this.currentUser.mobilePhone} for a Code from TrecApps and enter it here (within ten minutes):`);
+
+        this.httpClient.post(`${environment.user_service_url}Sms`, code,
+         {headers: this.authService.getHttpHeaders(true, false)}).pipe(take(1)).subscribe({
+          error,
+          next: () => {
+            this.currentUser.phoneVerified = true;
+          }
+         })
+      },
+      error
+    }
+
+
+    this.httpClient.get(`${environment.user_service_url}Sms`,
+     {headers: this.authService.getHttpHeaders(true, false)}).pipe(take(1)).subscribe(observe);
+   }
+
    private updateProfilePic()
    {
     let observe = {

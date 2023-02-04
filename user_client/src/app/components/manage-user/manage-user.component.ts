@@ -87,6 +87,10 @@ export class ManageUserComponent implements OnInit {
     this.userService.requestEmailVerification();
   }
 
+  attemptPhoneVerification() {
+    this.userService.requestPhoneVerification();
+  }
+
   ngOnInit(): void {
   }
 

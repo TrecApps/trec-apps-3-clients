@@ -20,7 +20,9 @@ export class CreateUserComponent implements OnInit {
   firstPassword:string;
   secondPassword: string;
 
-   birthday: any;
+  birthday: any;
+
+  countryCode: number = 1;
 
   color1 ="white"
   color2 = "black"
@@ -118,6 +120,8 @@ export class CreateUserComponent implements OnInit {
     this.user.birthday = this.datePipe.transform(this.birthday, "yyyy-MM-ddThh:mm:ss") + '+01:00';
 
     this.user.mailNickname = this.user.userPrincipalName;
+
+    this.user.mobilePhone = this.user.mobilePhone;
 
     if(!this.user.validate()) {
       this.needsFields = true;

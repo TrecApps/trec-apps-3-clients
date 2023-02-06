@@ -168,8 +168,7 @@ export class UserService {
           this.httpClient.get<Boolean>(`${environment.user_admin_url}Verify/hasVerification`,{headers: this.authService.getHttpHeaders(true, false)})
           .pipe(take(1)).subscribe(observe2);
         }
-      },
-      error: observeError
+      }
     }
 
     this.httpClient.get<Boolean>(`${environment.user_admin_url}Verify/isVerified`,{headers: this.authService.getHttpHeaders(true, false)})

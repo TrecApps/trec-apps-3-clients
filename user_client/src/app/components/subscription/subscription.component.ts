@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Subscription, UserSubscription, UserSubscriptionList } from 'src/app/models/Subscription';
 import { SubscriptionService } from 'src/app/services/subscription.service';
 
@@ -17,6 +17,17 @@ export class SubscriptionComponent implements OnInit {
 
   constructor(private subscriptionService: SubscriptionService, private router: Router) {
     this.subListChanged = false;
+    router.events.subscribe((event) => {
+      if(event instanceof NavigationEnd){
+        let endEvent : NavigationEnd = event;
+
+        console.log("Navigation End url is "+ endEvent.url);
+
+        if(endEvent.url == "/subscriptions"){
+          this.refreshUserSubScription(false);
+        }
+      }      
+    })
    }
 
   subListChanged: Boolean;

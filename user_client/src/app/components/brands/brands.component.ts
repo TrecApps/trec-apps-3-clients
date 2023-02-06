@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { BrandEntry, TcBrand } from 'src/app/models/Brand';
 import { BrandService } from 'src/app/services/brand.service';
 
@@ -28,7 +28,19 @@ export class BrandsComponent implements OnInit {
 
   newName: string = "";
 
-  constructor(private brandService: BrandService, private router:Router) { }
+  constructor(private brandService: BrandService, private router:Router) {
+    router.events.subscribe((event) => {
+      if(event instanceof NavigationEnd){
+        let endEvent : NavigationEnd = event;
+
+        console.log("Navigation End url is "+ endEvent.url);
+
+        if(endEvent.url == "/brands"){
+          this.getBrands();
+        }
+      }      
+    })
+   }
 
   ngOnInit(): void {
   }

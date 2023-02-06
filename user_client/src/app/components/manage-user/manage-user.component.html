@@ -1,8 +1,7 @@
+<app-nav></app-nav>
 <h1>Create User</h1>
 
 <div class="container">
-
-    <button class="btn btn-submit" (click)="refreshUser()">Refresh User</button>
     <button class="btn btn-info" (click)="routeToSubscriptions()"  *ngIf="userService.verificationStatus == 1">Subscriptions</button>
     <button class="btn btn-info" (click)="routeToBrands()"  *ngIf="userService.verificationStatus == 1">Brands</button>
 
@@ -24,7 +23,7 @@
                 <button class="btn btn-submit" (click)="uploadVerfiyPic()" *ngIf="selectedVerfiyFile && selectedVerifyFileType">Upload Verify Pic</button><br>
             </div>
         </div>
-        <div class="userBorder" *nfIf="!userService.currentUser.emailVerified">
+        <div class="userBorder" *ngIf="!userService.currentUser.emailVerified" class="textBackground">
             <p>Welcome to TrecApps. To begin using our services in earnest, we need to ensure you are who you say you are.</p>
             <p>The process is short and is as follows:</p>
             <ol>

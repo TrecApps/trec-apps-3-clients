@@ -3,3 +3,7 @@
 	border-color: rgb(187, 44, 0);
 	border-width: 5px;
 }
+
+.textBackground {
+	background-color: darkgray;
+}

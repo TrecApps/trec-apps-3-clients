@@ -45,9 +45,7 @@ export class ManageUserComponent implements OnInit {
 
   currentBirthdayDetail: BirthdayDetails;
 
-  sessionList: SessionList | undefined;
 
-  currentSession: string | undefined;
 
   selectedVerfiyFile:File | undefined;
   selectedVerifyFileType: string| undefined;
@@ -122,24 +120,13 @@ export class ManageUserComponent implements OnInit {
     });
   }
 
-  refreshSessions() {
-    this.userService.getSessions((sessionList : SessionList) => {
-      this.sessionList = sessionList;
-      console.log("Got Session!");
-    },
-      (currentSession: string) => {
-        this.currentSession = currentSession;
-        console.log("Current Session is ", this.currentSession);
-      });
-  }
+
 
   requestVerification() {
     this.userService.requestProfileVerification();
   }
 
-  deleteSession(sessionId: string) {
-    this.userService.removeSession(sessionId, () => this.refreshSessions());
-  }
+
 
   updateUser(){
     this.userService.currentUser.birthdaySetting = this.currentBirthdayDetail.setting;

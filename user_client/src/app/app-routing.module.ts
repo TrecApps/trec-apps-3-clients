@@ -4,6 +4,7 @@ import { BrandsComponent } from './components/brands/brands.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { LoginComponent } from './components/login/login.component';
 import { ManageUserComponent } from './components/manage-user/manage-user.component';
+import { SessionComponent } from './components/session/session.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 
 
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: 'user', component: ManageUserComponent},
   {path: 'brands', component: BrandsComponent},
   {path: 'subscriptions', component: SubscriptionComponent},
+  {path: 'sessions', component: SessionComponent},
   {path: '', redirectTo: 'logon', pathMatch: 'full'}
 ];
 

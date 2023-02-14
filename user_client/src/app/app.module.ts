@@ -13,6 +13,7 @@ import { DatePipe } from '@angular/common';
 import { MsalRedirectComponent } from '@azure/msal-angular';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { NavComponent } from './components/nav/nav.component';
+import { SessionComponent } from './components/session/session.component';
 
 const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
 
@@ -25,7 +26,8 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     BrandsComponent,
     LoginComponent,
     SubscriptionComponent,
-    NavComponent
+    NavComponent,
+    SessionComponent
   ],
   imports: [
     HttpClientModule,

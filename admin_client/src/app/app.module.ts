@@ -14,6 +14,9 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { MarkedPipe } from './resources/marked.pipe';
 import { VerifyComponent } from './components/verify/verify.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
+import { MarkdownComponent } from './components/markdown/markdown.component';
+import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   declarations: [
@@ -26,15 +29,18 @@ import { SubscriptionComponent } from './components/subscription/subscription.co
     WelcomeComponent,
     LoginComponent,
     VerifyComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    MarkdownComponent
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

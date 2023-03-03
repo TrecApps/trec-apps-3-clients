@@ -3,6 +3,8 @@ import { PublicFigure, PublicFigureEntry } from 'src/app/models/publicFigure';
 import { AuthService } from 'src/app/services/auth.service';
 import { ResourceUpdateService } from 'src/app/services/resource-update.service';
 import { SearchService } from 'src/app/services/search.service';
+import '@github/markdown-toolbar-element'
+
 
 @Component({
   selector: 'app-figure',

@@ -5,10 +5,10 @@
 export const environment = {
   production: false,
   //user_service_url: 'https://azurewebsites.net/'
-  //user_service_url: 'https://trecappsusertest.azurewebsites.net/',
-  //user_admin_url: 'https://trec-apps-test-admin.azurewebsites.net/',
-  user_service_url: 'http://localhost:4200/api/',
-  user_admin_url: 'http://localhost:4200/admin/',
+  user_service_url: 'https://trecappsusertest.azurewebsites.net/',
+  user_admin_url: 'https://trec-apps-test-admin.azurewebsites.net/',
+  //user_service_url: 'http://localhost:4200/api/',
+  //user_admin_url: 'http://localhost:4200/admin/',
   user_subscription_url: 'http://localhost:4200/sub/',
   user_tenant_url: '@trecappstest.onmicrosoft.com',
   user_tenent_id: 'f39a0b26-67a9-4f7a-9020-dd9126eec668',

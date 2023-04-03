@@ -18,6 +18,9 @@ export class AuthService {
 
   permissions: string[] = [];
 
+  // To-Do: Allow for other languages
+  language = "en-US";
+
   hasPermission(permission: string): boolean{
     for(let p of this.permissions){
       if( p == permission) {
@@ -79,6 +82,7 @@ export class AuthService {
     console.log("Getting Headers!");
     let ret:HttpHeaders = new HttpHeaders();
     ret = ret.append('Authorization', this.getAuthorization());
+    ret = ret.append('Accept-Language', this.language);
     if(usingContentType) {
     ret = ret.append('Content-Type', useJson ? 
      'application/json': 'application/x-www-form-urlencoded');

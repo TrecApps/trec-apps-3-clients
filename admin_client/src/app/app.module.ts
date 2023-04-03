@@ -17,6 +17,7 @@ import { SubscriptionComponent } from './components/subscription/subscription.co
 import { MarkdownComponent } from './components/markdown/markdown.component';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { BrandComponent } from './components/brand/brand.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     LoginComponent,
     VerifyComponent,
     SubscriptionComponent,
-    MarkdownComponent
+    MarkdownComponent,
+    BrandComponent
   ],
   imports: [
     HttpClientModule,

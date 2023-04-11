@@ -2,7 +2,7 @@ export class ResourceMetaData{
     profileBase64: string | undefined;
     profileDesc: string | undefined;
 
-    metadata: Map<string, string>;
+    metadata: Object;
 }
 
 export class BrandInfoEntry {

@@ -14,10 +14,10 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { MarkedPipe } from './resources/marked.pipe';
 import { VerifyComponent } from './components/verify/verify.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
-import { MarkdownComponent } from './components/markdown/markdown.component';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrandComponent } from './components/brand/brand.component';
+import { ObjNgFor } from './resources/object.pipe';
 
 @NgModule({
   declarations: [
@@ -31,8 +31,8 @@ import { BrandComponent } from './components/brand/brand.component';
     LoginComponent,
     VerifyComponent,
     SubscriptionComponent,
-    MarkdownComponent,
-    BrandComponent
+    BrandComponent,
+    ObjNgFor
   ],
   imports: [
     HttpClientModule,

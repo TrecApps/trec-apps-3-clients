@@ -20,12 +20,19 @@ export class BrandService {
     }
   }
 
-  submitResource(entry: BrandInfoEntry)
+  submitResource(entry: BrandInfoEntry, callable:Function)
   {
+    let observe = {
+      next: () => {
+        callable();
+      },
+      error: this.updateObserve.error
+    }
+
     this.httpClient.post(`${environment.resource_url}Update/submit`, entry, {
       headers: this.authService.getHttpHeaders(true, true),
       responseType: "text"
-    }).subscribe(this.updateObserve);
+    }).subscribe(observe);
   }
 
   updateContents(contents: string, id:string, comment: string | undefined)

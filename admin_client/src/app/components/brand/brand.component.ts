@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BrandInfo, BrandInfoContainer, BrandReviewEntry, ResourceMetaData } from 'src/app/models/Brands';
+import { BrandInfo, BrandInfoContainer, BrandInfoEntry, BrandReviewEntry, ResourceMetaData } from 'src/app/models/Brands';
 import { BrandService } from 'src/app/services/brand.service';
 
 @Component({
@@ -30,12 +30,16 @@ export class BrandComponent implements OnInit {
   contentsComment = "";
   reviewComment = "";
 
+  subjectType="";
+
   permittedFileTypes = [
     "gif",
     "jpeg",
     "png",
     "svg",
     "webp"];
+
+  creatingNew = false;
 
   ngOnInit(): void {
   }
@@ -75,6 +79,23 @@ export class BrandComponent implements OnInit {
     this.mainBrand.contents = "";
     this.mainBrand.metadata = new ResourceMetaData();
     this.mainBrand.metadata.metadata = new Map();
+
+    this.creatingNew = true;
+  }
+
+  submitNew(){
+    let newEntry = new BrandInfoEntry();
+    newEntry.contents = this.mainBrand.contents;
+    newEntry.metaData = this.mainBrand.metadata;
+    
+    newEntry.name = this.mainBrand.brandInfo.name;
+    newEntry.type = this.subjectType;
+
+    this.brandService.submitResource(newEntry, () => {
+      this.mainBrand = undefined;
+      this.subjectType = "";
+      this.creatingNew = false;
+    });
   }
 
   revertToSearch(){
@@ -86,13 +107,14 @@ export class BrandComponent implements OnInit {
   }
 
   removeField(key:string){
-    this.mainBrand.metadata.metadata.delete(key);
+    this.mainBrand.metadata.metadata[key] = undefined;
   }
 
   addField() {
     if(this.newKey && this.newValue)
     {
-      this.mainBrand.metadata.metadata.set(this.newKey, this.newValue);
+      this.mainBrand.metadata.metadata[this.newKey] = this.newValue;
+      
     }
     this.newKey = this.newValue = "";
   }

@@ -44,6 +44,11 @@
 
     <h2 *ngIf="mainBrand.brandInfo">{{mainBrand.brandInfo.name}}</h2>
 
+    <div *ngIf="creatingNew">
+        <label for="SubjectName">Figure Name</label>
+        <input type="text" class="form-control" [(ngModel)]="mainBrand.brandInfo.name"><br>
+    </div>
+
     <table style="width: 22em;">
         <tr *ngIf="mainBrand?.metadata?.profileBase64">
             <img alt="No Image Available" src="{{mainBrand.metadata.profileBase64}}">
@@ -58,9 +63,9 @@
     </table>
 
     <table>
-        <tr *ngFor="let field of mainBrand.metadata.metadata | keyvalue">
-            <td><input type="text" class="form-control" [(ngModel)]="field.key" readonly="{{!editMode}}"></td>
-            <td><input type="text" class="form-control" [(ngModel)]="field.value" readonly="{{!editMode}}"></td>
+        <tr *ngFor="let key of mainBrand.metadata.metadata | ObjNgFor">
+            <td>{{key}}</td>
+            <td>{{mainBrand.metadata.metadata[key]}}</td>
             <td *ngIf="editMode"><button class="btn btn-info" (click)="removeField(field.key)">Remove</button></td>
         </tr>
 
@@ -69,11 +74,25 @@
             <td><input type="text" class="form-control" [(ngModel)]="newValue" ></td>
             <td><button class="btn btn-info" (click)="addField()">Add</button></td>
         </tr>
-        <tr *ngIf="editMode">
+        <tr *ngIf="editMode && !creatingNew">
             <td><input type="text" class="form-control" placeholder="Fields Comment" [(ngModel)]="metaDataComment"></td>
             <td><button class="btn btn-submit" (click)="updateMetaData()">Update Fields</button></td>
         </tr>
     </table>
+    <label>Subject Type</label>
+    <select [(ngModel)]="subjectType">
+        <option value="PUBLIC_FIGURE">Public Figure</option>
+        <option value="MEDIA_OUTLET">Media Outlet</option>
+        <option value="SHOW">Show</option>
+        <option value="REGION">Region</option>
+        <option value="INSTITUTION">Institution</option>
+        <option value="CONCEPT">Concept</option>
+        <option value="LITERATURE">Literature</option>
+        <option value="FILM">Film</option>
+        <option value="TAXONOMY">Taxonomy</option>
+        <option value="ART">Art</option>
+        <option value="BRAND">Brand</option>
+    </select>
 
     <button class="btn btn-info" (click)="toggleEditMode()">{{editMode ? 'Disable Edit' : 'Enable Edit'}}</button>
 
@@ -138,10 +157,12 @@
         </markdown-toolbar>
           <textarea id="brand_markdown_text" *ngIf="editMode" class="form-control" [(ngModel)]="mainBrand.contents"></textarea>
 
-          <button class="btn btn-submit" (click)="updateContents()">Update Text</button>
+          <button *ngIf="!creatingNew" class="btn btn-submit" (click)="updateContents()">Update Text</button>
     </div>
 
     <div [innerHTML]="mainBrand.contents | markdown"></div>
+
+    <button *ngIf="mainBrand.brandInfo && creatingNew" class="btn btn-submit" (click)="submitNew()">Submit New</button>
 
     <div *ngIf="mainBrand.brandInfo.reviewStage == 'SUBMITTED'">
         <div class="form-group">

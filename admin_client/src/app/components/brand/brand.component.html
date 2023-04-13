@@ -4,34 +4,35 @@
     <form *ngIf="usingNameSearch">
         <div class="form-group">
             <label for="searchField">Subject Name</label>
-            <input type="text" class="form-control" id="searchField" [(ngModel)]="searchName">
+            <input type="text" [ngModelOptions]="{standalone: true}" class="form-control" id="searchField" [(ngModel)]="searchName">
         </div>
         <div class="form-group">
-            <input type="checkbox" class="form-check-input" id="seekAll1" [(ngModel)]="searchAll">
+            <input type="checkbox" [ngModelOptions]="{standalone: true}" class="form-check-input" id="seekAll1" [(ngModel)]="searchAll">
             <label for="seekAll1">Seek all</label>
         </div>
-        <button class="btn btn-submit" (click)="searchByName()">Submit</button>
+        <button class="btn btn-submit" (click)="searchByName()">Submit Search</button>
         <button class="btn btn-info" (click)="toggleSearchMode()">Toggle Search Mode</button>
-        <button class="btn btn-info" (click)="prepSubmission()">Create New Subject</button>
+        
     </form>
 
     <form *ngIf="!usingNameSearch">
         <div class="form-group">
             <label for="pageField">Search Page</label>
-            <input type="number" class="form-control" id="pageField" [(ngModel)]="page">
+            <input type="number" [ngModelOptions]="{standalone: true}" class="form-control" id="pageField" [(ngModel)]="page">
         </div>
         <div class="form-group">
                 <label for="sizeField">Search Size</label>
-                <input type="number" class="form-control" id="sizeField" [(ngModel)]="size">
+                <input type="number" [ngModelOptions]="{standalone: true}" class="form-control" id="sizeField" [(ngModel)]="size">
         </div>
         <div class="form-group">
-            <input type="checkbox" class="form-check-input" id="seekAll2" [(ngModel)]="searchAll">
+            <input type="checkbox" [ngModelOptions]="{standalone: true}" class="form-check-input" id="seekAll2" [(ngModel)]="searchAll">
             <label for="seekAll2">Seek all</label>
         </div>
-        <button class="btn btn-submit" (click)="searchByAll()">Submit</button>
+        <button class="btn btn-submit" (click)="searchByAll()">Submit Search</button>
         <button class="btn btn-info" (click)="toggleSearchMode()">Toggle Search Mode</button>
-        <button class="btn btn-info" (click)="prepSubmission()">Create New Subject</button>
     </form>
+    <button class="btn btn-info" (click)="prepSubmission()">Create New Subject</button>
+    <hr>
 
     <ul *ngIf="brands">
         <li *ngFor="let curBrand of brands"><button class="btn btn-info" (click)="seekBrand(curBrand.id)">{{curBrand.reviewStage}} {{curBrand.name}}</button></li>
@@ -171,7 +172,7 @@
         </div>
         <div *ngIf="reviewComment">
             <button class="btn btn-submit" (click)="submitReview(true)">Approve</button>
-            <button class="btn btn-submit" (click)="submitReview(false)">Approve</button>
+            <button class="btn btn-submit" (click)="submitReview(false)">Reject</button>
         </div>
     </div>
 </div>

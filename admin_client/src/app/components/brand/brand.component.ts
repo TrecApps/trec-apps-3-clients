@@ -45,6 +45,7 @@ export class BrandComponent implements OnInit {
   }
 
   searchByName(){
+    console.log("Search by Name using " + this.searchName);
     this.brandService.searchByName(this.searchName, (res: BrandInfo[]) => {
       while(this.brands.pop());
       for(let brand of res){
@@ -63,12 +64,14 @@ export class BrandComponent implements OnInit {
   }
 
   toggleSearchMode(){
-    this.searchAll = !this.searchAll;
+    this.usingNameSearch = !this.usingNameSearch;
   }
 
   seekBrand(id:string){
     this.mainBrand = new BrandInfoContainer();
-    this.brandService.populateBrand(this.mainBrand, id);
+    this.brandService.populateBrand(this.mainBrand, id, () => {
+      this.subjectType = this.mainBrand.brandInfo.resourceType;
+    });
     this.searchMode = false;
   }
 

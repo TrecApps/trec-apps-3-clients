@@ -24,6 +24,7 @@ export class BrandInfo {
     defaultLanguage: string | undefined;
     reviewStage: string | undefined;
     brandId: string|undefined;
+    resourceType: string | undefined;
 }
 
 export class BrandInfoContainer {

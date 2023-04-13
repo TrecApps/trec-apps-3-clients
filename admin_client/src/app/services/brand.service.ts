@@ -42,7 +42,7 @@ export class BrandService {
       headers = headers.append("Comment", comment);
     }
 
-    this.httpClient.post(`${environment.resource_url}Update/contents?resourceId=${id}`, contents, {
+    this.httpClient.put(`${environment.resource_url}Update/contents?resourceId=${id}`, contents, {
       headers,
       responseType: "text"
     }).subscribe(this.updateObserve);
@@ -56,7 +56,7 @@ export class BrandService {
   }
 
   updateName(change: BrandReviewEntry) {
-    this.httpClient.post(`${environment.resource_url}Update/name`, change, {
+    this.httpClient.put(`${environment.resource_url}Update/name`, change, {
       headers: this.authService.getHttpHeaders(true, true),
       responseType: "text"
     }).subscribe(this.updateObserve);
@@ -68,7 +68,7 @@ export class BrandService {
       headers = headers.append("Comment", comment);
     }
 
-    this.httpClient.post(`${environment.resource_url}Update/metadata?resourceId=${id}`, data, {
+    this.httpClient.put(`${environment.resource_url}Update/metadata?resourceId=${id}`, data, {
       headers,
       responseType: "text"
     }).subscribe(this.updateObserve);
@@ -101,10 +101,11 @@ export class BrandService {
 
   }
 
-  populateBrand(container: BrandInfoContainer, id:string){
+  populateBrand(container: BrandInfoContainer, id:string, callable:Function){
     let observe1 = {
       next: (result: BrandInfo) => {
         container.brandInfo = result;
+        callable();
       },
       error : this.updateObserve.error
     }

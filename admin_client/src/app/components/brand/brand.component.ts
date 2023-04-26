@@ -98,6 +98,7 @@ export class BrandComponent implements OnInit {
       this.mainBrand = undefined;
       this.subjectType = "";
       this.creatingNew = false;
+      this.searchMode = true;
     });
   }
 

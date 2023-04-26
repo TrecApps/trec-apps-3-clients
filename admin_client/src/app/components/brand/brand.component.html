@@ -43,10 +43,10 @@
 <div *ngIf="!searchMode">
     <button class="btn btn-info" (click)="revertToSearch()">Return to Search</button>
 
-    <h2 *ngIf="mainBrand.brandInfo">{{mainBrand.brandInfo.name}}</h2>
+    <h2 *ngIf="mainBrand?.brandInfo">{{mainBrand.brandInfo.name}}</h2>
 
     <div *ngIf="creatingNew">
-        <label for="SubjectName">Figure Name</label>
+        <label for="SubjectName">Subject Name</label>
         <input type="text" class="form-control" [(ngModel)]="mainBrand.brandInfo.name"><br>
     </div>
 

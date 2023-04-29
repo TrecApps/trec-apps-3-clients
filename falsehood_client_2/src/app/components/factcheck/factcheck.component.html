@@ -1,1 +1,134 @@
-<p>factcheck works!</p>
+
+<form class="border">
+    <h3>Tag Search</h3>
+    <div class="form-group">
+        <label for="tagSearchField">Subject Name</label>
+        <input type="text" [ngModelOptions]="{standalone: true}" class="form-control" id="tagSearchField" [(ngModel)]="tagString">
+    </div>
+    <div class="form-group">
+        <label for="pageField1">Search Page</label>
+        <input type="number" [ngModelOptions]="{standalone: true}" class="form-control" id="pageField1" [(ngModel)]="usePage">
+    </div>
+    <div class="form-group">
+            <label for="sizeField1">Search Size</label>
+            <input type="number" [ngModelOptions]="{standalone: true}" class="form-control" id="sizeField1" [(ngModel)]="useSize">
+    </div>
+    <div class="form-group">
+        <input type="checkbox" [ngModelOptions]="{standalone: true}" class="form-check-input" id="useCommonFc" [(ngModel)]="useCommonTags">
+        <label for="useCommonFc">Use Common Tags (uncheck for Uncommon Tags)</label>
+    </div>
+    <button class="btn btn-submit" (click)="searchByTags()">Submit Tag Search</button>
+</form>
+
+<form class="border">
+    <h3>Title Search</h3>
+    <div class="form-group">
+        <label for="searchField">Subject Name</label>
+        <input type="text" [ngModelOptions]="{standalone: true}" class="form-control" id="searchField" [(ngModel)]="tagString">
+    </div>
+    <div class="form-group">
+        <label for="pageField2">Search Page</label>
+        <input type="number" [ngModelOptions]="{standalone: true}" class="form-control" id="pageField2" [(ngModel)]="usePage">
+    </div>
+    <div class="form-group">
+            <label for="sizeField2">Search Size</label>
+            <input type="number" [ngModelOptions]="{standalone: true}" class="form-control" id="sizeField2" [(ngModel)]="useSize">
+    </div>
+    <button class="btn btn-submit" (click)="searchByTerm()">Submit Title Search</button>
+</form>
+
+<div *ngIf="factCheckList">
+    <button class="btn btn-submit" (click)="clearList()">Clear List</button>
+    <ol>
+        <li class="border" *ngFor="let factCheckElement of factCheckList">
+            <label>{{factCheckElement.id}}</label>
+            <button class="btn btn-submit" (click)="onSelect(factCheckElement.id)">Select</button><br>
+            <label>{{factCheckElement.title}}</label>
+        </li>
+    </ol>
+</div>
+
+<button class="btn btn-submit" (click)="prepSubmission()">Create New</button>
+
+<div *ngIf="mainFactCheck">
+
+    <div *ngIf="!inEditMode">
+        <h2>{{mainFactCheck.title}}</h2>
+        <button *ngIf="mainFactCheck.reviewStage == 'SUBMITTED'" class="btn btn-info" (click)="enableEdit()">Enable Edit</button>
+    </div>
+    <div *ngIf="inEditMode">
+        <label for="factCheckTitleField">Title</label>
+        <input type="text" [ngModelOptions]="{standalone: true}" class="form-control" id="factCheckTitleField" [(ngModel)]="mainFactCheck.title">
+        <hr>
+        <markdown-toolbar for="brand_markdown_text">
+            <md-bold>
+                <button class="btn btn-md" >
+                    <svg class="svg-md bi bi-type-bold" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13H8.21zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.673zm0 6.788V8.598h1.73c1.217 0 1.88.492 1.88 1.415 0 .943-.643 1.449-1.832 1.449H5.907z" />
+                    </svg>
+                </button>
+            </md-bold>
+            <md-header>
+                <button class="btn btn-md">
+                    <svg class="svg-md bi bi-type-h3" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.637 13V3.669H6.379V7.62H1.758V3.67H.5V13h1.258V8.728h4.62V13h1.259zm3.625-4.272h1.018c1.142 0 1.935.67 1.949 1.674.013 1.005-.78 1.737-2.01 1.73-1.08-.007-1.853-.588-1.935-1.32H9.108c.069 1.327 1.224 2.386 3.083 2.386 1.935 0 3.343-1.155 3.309-2.789-.027-1.51-1.251-2.16-2.037-2.249v-.068c.704-.123 1.764-.91 1.723-2.229-.035-1.353-1.176-2.4-2.954-2.385-1.873.006-2.857 1.162-2.898 2.358h1.196c.062-.69.711-1.299 1.696-1.299.998 0 1.695.622 1.695 1.525.007.922-.718 1.592-1.695 1.592h-.964v1.074z" />
+                    </svg>
+                </button>
+            </md-header>
+            <md-italic>
+                <button class="btn btn-md">
+                    <svg class="svg-md bi bi-type-italic" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.991 11.674L9.53 4.455c.123-.595.246-.71 1.347-.807l.11-.52H7.211l-.11.52c1.06.096 1.128.212 1.005.807L6.57 11.674c-.123.595-.246.71-1.346.806l-.11.52h3.774l.11-.52c-1.06-.095-1.129-.211-1.006-.806z" />
+                    </svg>
+                </button>
+            </md-italic>
+            <md-quote>
+                <button class="btn btn-md">
+                    <svg class="svg-md bi bi-blockquote-left" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                          d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm5 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                    <path d="M3.734 6.352a6.586 6.586 0 0 0-.445.275 1.94 1.94 0 0 0-.346.299 1.38 1.38 0 0 0-.252.369c-.058.129-.1.295-.123.498h.282c.242 0 .431.06.568.182.14.117.21.29.21.521a.697.697 0 0 1-.187.463c-.12.14-.289.21-.503.21-.336 0-.577-.108-.721-.327C2.072 8.619 2 8.328 2 7.969c0-.254.055-.485.164-.692.11-.21.242-.398.398-.562.16-.168.33-.31.51-.428.18-.117.33-.213.451-.287l.211.352zm2.168 0a6.588 6.588 0 0 0-.445.275 1.94 1.94 0 0 0-.346.299c-.113.12-.199.246-.257.375a1.75 1.75 0 0 0-.118.492h.282c.242 0 .431.06.568.182.14.117.21.29.21.521a.697.697 0 0 1-.187.463c-.12.14-.289.21-.504.21-.335 0-.576-.108-.72-.327-.145-.223-.217-.514-.217-.873 0-.254.055-.485.164-.692.11-.21.242-.398.398-.562.16-.168.33-.31.51-.428.18-.117.33-.213.451-.287l.211.352z" />
+                    </svg>
+                </button>
+            </md-quote>
+            <md-code>
+                <button class="btn btn-md">
+                    <svg class="svg-md bi bi-code-square" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                    <path fill-rule="evenodd" d="M6.854 4.646a.5.5 0 0 1 0 .708L4.207 8l2.647 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0zm2.292 0a.5.5 0 0 0 0 .708L11.793 8l-2.647 2.646a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708 0z" />
+                    </svg>
+                </button>
+            </md-code>
+            <md-unordered-list>
+                <button class="btn btn-md">
+                    <svg class="svg-md bi bi-list-ul" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                    </svg>
+                </button>
+            </md-unordered-list>
+            <md-mention>
+                <button class="btn btn-md"  align-items="center">@</button>
+            </md-mention>
+            <md-ref>
+                <button class="btn btn-md">
+                    <svg class="svg-md bi bi-tag" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M2 2v4.586l7 7L13.586 9l-7-7H2zM1 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2z" />
+                        <path fill-rule="evenodd" d="M4.5 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                    </svg>
+                </button>
+            </md-ref>
+        </markdown-toolbar>
+        <textarea id="brand_markdown_text" class="form-control" [(ngModel)]="mainContents"></textarea>
+    </div>
+
+    <div [innerHTML]="mainContents | markdown"></div>
+
+    <div *ngIf="inEditMode && !mainFactCheck.id">
+        <label>Tags (use new line to separate tags)</label>
+        <textarea [(ngModel)]="tags"></textarea>
+    </div>
+
+    <button *ngIf="!mainFactCheck.id" class="btn btn-submit" (click)="submitNew()">Submit New</button>
+    <button *ngIf="mainFactCheck.id" class="btn btn-submit" (click)="updateTitle()">Update Factcheck</button>
+    <button class="btn btn-info" (click)="clearMain()"></button>
+</div>

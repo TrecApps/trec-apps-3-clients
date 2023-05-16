@@ -20,6 +20,17 @@ export class SubjectService {
     }
   }
 
+  searchByNameAndType(name:string, type:string, callable:Function){
+    let observe = {
+      next: (results: BrandInfo[]) => {
+        callable(results);
+      },
+      error : this.updateObserve.error
+    };
+    console.log("Searching for " + name);
+    this.httpClient.get<BrandInfo[]>(`${environment.resource_url}search/resourceByType/${name.replace(' ', '_').replace('?',"")}?type=${type}`).subscribe(observe);
+  }
+
   searchByName(name: string, callable: Function) {
     
     let observe = {

@@ -10,11 +10,12 @@ import { FactcheckComponent } from './components/factcheck/factcheck.component';
 import { FalsehoodComponent } from './components/falsehood/falsehood.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { SubjectComponent } from './components/subject/subject.component';
 import { MarkedPipe } from './pipes/marked.pipe';
 import { ObjNgFor } from './pipes/object.pipe';
+import { TextFieldModule } from "@angular/cdk/text-field";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,9 @@ import { ObjNgFor } from './pipes/object.pipe';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule,
+    TextFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent],

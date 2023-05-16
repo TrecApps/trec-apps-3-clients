@@ -9,8 +9,8 @@ import { environment } from 'src/environments/environment';
 })
 export class FalsehoodService {
 
-  updatePath = "/Fact-Update/falsehood";
-  searchPath = "/Fact-Search/Falsehood";
+  updatePath = "/falsehood";
+  searchPath = "/Falsehood";
   constructor(private httpClient: HttpClient, private authService: AuthService) { }
 
   updateObserve = {

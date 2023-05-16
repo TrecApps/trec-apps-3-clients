@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+svg {
+    width: 1em;
+    height: 1em;
+    ;
+    fill: currentColor;
+    ;
+}
+
+
+
+markdown-toolbar {
+    padding: 8px;
+
+}

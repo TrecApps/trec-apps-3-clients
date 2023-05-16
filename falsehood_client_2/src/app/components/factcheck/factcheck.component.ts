@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FactCheckList, FactCheckRet, Factcheck, FactcheckSubmission, FactcheckUpdate } from 'src/app/models/Falsehood';
+import { AuthService } from 'src/app/services/auth.service';
 import { FactcheckService } from 'src/app/services/factcheck.service';
+import '@github/markdown-toolbar-element';
 
 @Component({
   selector: 'app-factcheck',
@@ -9,14 +11,15 @@ import { FactcheckService } from 'src/app/services/factcheck.service';
 })
 export class FactcheckComponent {
 
-  constructor(private factcheckService: FactcheckService){
-
+  authService : AuthService;
+  constructor(private factcheckService: FactcheckService, authService: AuthService){
+    this.authService = authService;
   }
 
   // Search Functionality
   useCommonTags = true;
   tagString = "";
-  nameString = ""
+  nameString = "";
 
   usePage = 0;
   useSize = 20;

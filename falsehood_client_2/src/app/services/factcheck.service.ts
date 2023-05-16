@@ -9,8 +9,8 @@ import { environment } from 'src/environments/environment';
 })
 export class FactcheckService {
 
-  updatePath = "/Fact-Update/fact-check";
-  searchPath = "/Fact-Search/FactCheck";
+  updatePath = "/fact-check";
+  searchPath = "/FactCheck";
   constructor(private httpClient: HttpClient, private authService: AuthService) { }
 
   updateObserve = {

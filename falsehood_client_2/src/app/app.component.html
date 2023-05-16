@@ -16,11 +16,12 @@
             <li class="nav-item"><a class="nav-link" routerLink="MediaOutlet">Media Outlets</a></li>
             <li class="nav-item"><a class="nav-link" routerLink="Regions">Regions</a></li>
             <li class="nav-item"><a class="nav-link" routerLink="Institution">Institutions</a></li> -->
-            <li class="nav-item"><a class="nav-link" routerLink="Subject">Brand Resource</a></li>
+            
           
           </div>
-          <li class="nav-item" *ngIf="authService.loginToken && authService.hasPermission('USER_ADMIN')"><a class="nav-link" routerLink="verifyId">Verify Users</a></li>
-          <li class="nav-item" *ngIf="authService.loginToken && authService.hasPermission('SUBSCRIPTION_ADMIN')"><a class="nav-link" routerLink="Subscription">Subscriptions</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="Subject">Brand Resource</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="Factcheck">Factcheck</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="Falsehood">Falsehood</a></li>
           
           <img width="32" height="32" style="border-radius: 50%;" src="{{authService.profilePic}}">
           <li class="nav-item" *ngIf="!authService.loginToken"><a class="nav-link" routerLink="Login">Log-In</a></li>

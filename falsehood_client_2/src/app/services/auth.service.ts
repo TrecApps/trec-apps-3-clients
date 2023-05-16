@@ -29,6 +29,10 @@ export class AuthService {
     return false;
   }
 
+  hasAuthority(credit: number){
+    return this.loginToken && this.loginToken.access_token && this.currentUser && this.currentUser.credibilityRating >= credit;
+  }
+
   constructor(private httpClient: HttpClient) {
     this.loginToken = null;
     this.profilePic = this.profileFallback;
@@ -53,7 +57,7 @@ export class AuthService {
           // To-Do: Add Callback
           callable(true);
         
-          //this.getPermissions();
+          this.getPermissions();
       },
       error: (error: Response | any) => { 
         alert((error instanceof Response) ? error.text : (error.message ? error.message : error.toString()));
@@ -67,15 +71,15 @@ export class AuthService {
     this.httpClient.post<LoginToken>(`${environment.update_url}Auth/login`, login).pipe(take(1)).subscribe(observe);
   }
 
-  // getPermissions(){
-  //   let observe = {
-  //     next: (response: string[]) => {
-  //       this.permissions = response;
-  //     }
-  //   }
+  getPermissions(){
+    let observe = {
+      next: (response: string[]) => {
+        this.permissions = response;
+      }
+    }
 
-  //   this.httpClient.get<string[]>(`${environment.admin_service_url}Permissions`, {headers: this.getHttpHeaders(true, false)}).subscribe(observe);
-  // }
+    this.httpClient.get<string[]>(`${environment.update_url}/Auth/Permissions`, {headers: this.getHttpHeaders(true, false)}).subscribe(observe);
+  }
 
   getHttpHeaders(useJson: boolean, usingContentType : boolean) : HttpHeaders {
     console.log("Getting Headers!");

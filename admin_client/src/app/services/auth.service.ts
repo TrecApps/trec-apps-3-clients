@@ -109,6 +109,9 @@ export class AuthService {
   }
 
   async refreshUser() {
+
+    if(!this.loginToken)return;
+
     let observe = {
       next: (response: TcUser) => { 
         console.info("Birthday Value: ", response.birthday);

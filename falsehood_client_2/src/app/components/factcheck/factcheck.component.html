@@ -119,7 +119,7 @@
                 </button>
             </md-ref>
         </markdown-toolbar>
-        <textarea id="brand_markdown_text" class="form-control" [(ngModel)]="mainContents"></textarea>
+        <textarea id="brand_markdown_text" class="form-control" cdkTextareaAutosize [(ngModel)]="mainContents"></textarea>
 
     </div>
 
@@ -133,4 +133,11 @@
     <button *ngIf="!mainFactCheck.id" class="btn btn-submit" (click)="submitNew()">Submit New</button>
     <button *ngIf="mainFactCheck.id" class="btn btn-submit" (click)="updateTitle()">Update Factcheck</button>
     <button class="btn btn-info" (click)="clearMain()"></button>
+
+    <div *ngIf="mainFactCheck.id && mainFactCheck.reviewStage == 'SUBMITTED' && !isOwner && authService.hasPermission('RESOURCE_EMPLOYEE')">
+        <label>Review Fact-Check</label>
+        <input class="form-control" [(ngModel)]="reviewComment">
+        <button *ngIf="reviewComment" class="btn btn-info" (click)="reviewFactcheck(true)">Approve</button>
+        <button *ngIf="reviewComment" class="btn btn-warning" (click)="reviewFactcheck(false)">Reject</button>
+    </div>
 </div>

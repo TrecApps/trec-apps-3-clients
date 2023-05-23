@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { FactCheckList, FactCheckRet, Factcheck, FactcheckSubmission, FactcheckUpdate } from 'src/app/models/Falsehood';
+import { FactCheckList, FactCheckRet, Factcheck, FactcheckSubmission, FactcheckUpdate, ReviewEntry } from 'src/app/models/Falsehood';
 import { AuthService } from 'src/app/services/auth.service';
 import { FactcheckService } from 'src/app/services/factcheck.service';
+import { Record } from 'src/app/models/Brands';
 import '@github/markdown-toolbar-element';
 
 @Component({
@@ -27,13 +28,16 @@ export class FactcheckComponent {
   // Host object
   factCheckList: Factcheck[] = []
   mainFactCheck: Factcheck | undefined;
+  mainRecords: Record[] = [];
   mainContents = "";
 
   // Edit Functionality
   inEditMode = false;
   titleEdited = false;
   titleCommented = "";
+  reviewComment = "";
   tags = "";
+  isOwner = false;
 
   searchByTags(){
     this.factcheckService.searchFactchecksByTags(this.tagString, this.useCommonTags, this.usePage, this.useSize, (res:FactCheckList) => {
@@ -55,10 +59,25 @@ export class FactcheckComponent {
     this.inEditMode = true;
   }
 
+  reviewFactcheck(approve: boolean){
+
+    let reviewEntry = new ReviewEntry();
+    reviewEntry.comment = this.reviewComment;
+    reviewEntry.falsehood = this.mainFactCheck.id;
+    this.factcheckService.reviewFactcheck(reviewEntry, approve, () => this.onSelect(this.mainFactCheck.id));
+  }
+
   onSelect(id:string){
     this.factcheckService.retrieveFactCheck(id, (res: FactCheckRet) => {
       this.mainFactCheck = res.factCheck;
       this.mainContents = res.content;
+      this.mainRecords = res.records;
+      for(let record of this.mainRecords){
+        if(record.keyword == "Factcheck-Submit"){
+          this.isOwner = this.authService.currentUser.id == record.userId;
+          break;
+        }
+      }
     })
   }
 

@@ -56,6 +56,7 @@ export class FactCheckList{
 export class FactCheckRet{
     factCheck: Factcheck;
     content: string;
+    records: Record[];
 }
 
 export class FalsehoodList{

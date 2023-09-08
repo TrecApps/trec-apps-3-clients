@@ -25,7 +25,7 @@ export class AppComponent {
   // }
 
   ngOnInit(): void {
-    document.body.style.backgroundColor = GlobalConstants.siteBackground
+    document.body.style.backgroundColor = GlobalConstants.lightBlue;
     console.log("Initializing Component!");
 
   }

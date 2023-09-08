@@ -1,14 +1,15 @@
 <app-nav></app-nav>
-<h1>Create User</h1>
 
-<div class="container">
+<div class="container scrollable-child uShadow">
     <button class="btn btn-info" (click)="routeToSubscriptions()"  *ngIf="userService.verificationStatus == 1">Subscriptions</button>
     <button class="btn btn-info" (click)="routeToBrands()"  *ngIf="userService.verificationStatus == 1">Brands</button>
 
     <div *ngIf="userActive.value" class="form">
 
-        <div class="userBorder" *ngIf="userService.currentUser.emailVerified">
-            <img width="100" height="100" src="{{userService.profilePic}}">
+        <div class="sShadow" *ngIf="userService.currentUser.emailVerified">
+            <div class="profileContainer">
+                <img class="profilePic" src="{{userService.profilePic}}">
+            </div>
             <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
             <button class="btn btn-info" (click)="fileInput.click()">Update Profile Pic</button>
             <button class="btn btn-submit" (click)="updateProfilePic()" *ngIf="selectedFile && selectedFileType">Confirm Profile Selection</button><br><br>
@@ -23,7 +24,7 @@
                 <button class="btn btn-submit" (click)="uploadVerfiyPic()" *ngIf="selectedVerfiyFile && selectedVerifyFileType">Upload Verify Pic</button><br>
             </div>
         </div>
-        <div class="userBorder" *ngIf="!userService.currentUser.emailVerified" class="textBackground">
+        <div class="sShadow" *ngIf="!userService.currentUser.emailVerified" class="textBackground">
             <p>Welcome to TrecApps. To begin using our services in earnest, we need to ensure you are who you say you are.</p>
             <p>The process is short and is as follows:</p>
             <ol>
@@ -41,63 +42,66 @@
 
         <br>
 
-        <div class="userBorder">
+        <div class="sShadow">
             <h2>User Details</h2>
 
-            <label>User ID: </label>
-            <input type="text" [(ngModel)]="userService.currentUser.id" readonly><br>
+            <label class="formEle">User ID: </label>
+            <input class="formEle" type="text" [(ngModel)]="userService.currentUser.id" readonly><br>
 
-            <label>Username: </label>
-            <input type="text" [(ngModel)]="userService.currentUser.userProfile" readonly><br>
+            <label class="formEle">Username: </label>
+            <input class="formEle" type="text" [(ngModel)]="userService.currentUser.userProfile" readonly><br>
 
             <!-- <label>Country Code: +</label>
             <input type="number"  -->
-            <label>Mobile Phone: (Right now, US +1 is assumed, as it is the only one currently supported)</label>
-            <input type="number" [(ngModel)]="userService.currentUser.mobilePhone" > <br>
+            <label class="formEle">Mobile Phone: (Right now, US +1 is assumed, as it is the only one currently supported)</label>
+            <input class="formEle" type="number" [(ngModel)]="userService.currentUser.mobilePhone" > <br>
             <button *ngIf="!userService?.currentUser?.phoneVerified" (click)="attemptPhoneVerification()">Verify Phone</button>
             <br>
 
-            <label>Email: </label>
-            <input type="email" [(ngModel)]="userService.currentUser.email"> 
+            <label class="formEle">Email: </label>
+            <input class="formEle" type="email" [(ngModel)]="userService.currentUser.email"> 
             <button *ngIf="!userService.currentUser.emailVerified" (click)="attemptEmailVerification()">Verify Email</button><br>
   
 
-            <label>Birthday:</label>
-            <input type="date" [(ngModel)]="userService.currentUser.birthday" readonly><br>
+            <label class="formEle">Birthday:</label>
+            <input class="formEle" type="date" [(ngModel)]="userService.currentUser.birthday" readonly><br>
 
-            <label>Birthday Privacy:</label>
-            <select [(ngModel)]="currentBirthdayDetail">
+            <label class="formEle">Birthday Privacy:</label>
+            <select class="formEle" [(ngModel)]="currentBirthdayDetail">
                 <option *ngFor="let birthOpt of birthdayDetails" (select)="birthOpt">{{birthOpt.setting}}</option>
             </select><br>
 
-            <label>Account Restrictions: </label>
-            <input type="text" [(ngModel)]="userService.currentUser.restrictions" readonly><br>
+            <label class="formEle">Account Restrictions: </label>
+            <input class="formEle" type="text" [(ngModel)]="userService.currentUser.restrictions" readonly><br>
 
-            <label>Credibility Rating: </label>
-            <input type="number" [(ngModel)]="userService.currentUser.credibilityRating" readonly><br>
+            <label class="formEle">Credibility Rating: </label>
+            <input class="formEle" type="number" [(ngModel)]="userService.currentUser.credibilityRating" readonly><br>
+            <hr>
+            
 
-            <button class="btn btn-submit" (click)="updateUser()">Update Details</button>
-            <button class="btn btn-submit">Go to Brand Menu</button><!--  -->
+            <button class="btn btn-submit fButton" (click)="updateUser()">Update Details</button>
+            <button class="btn btn-submit fButton">Go to Brand Menu</button><!--  -->
+            <hr>
 
+            <button class="btn btn-submit fButton" (click)="setChangePassword(true)">Change Password Menu</button>
+            <br>
+
+            <label *ngIf="changePassword" class="formEle">Current Password: </label>
+            <input *ngIf="changePassword" class="formEle" type="password" [(ngModel)]="oldPassword"><br>
+
+            <label *ngIf="changePassword" class="formEle">New Password: </label>
+            <input *ngIf="changePassword" class="formEle" type="password" [(ngModel)]="newPassword1"><br>
+
+            <label *ngIf="changePassword" class="formEle">Re-enter New Password: </label>
+            <input *ngIf="changePassword" class="formEle" type="password" [(ngModel)]="newPassword2"><br>
+            <hr>
+
+            <button *ngIf="changePassword" class="btn btn-submit fButton" (click)="updatePassword()" >Update Password</button>
         </div>
+
+        <br>
+        
     </div>
 
-    <br>
-    <div class="userBorder">
-        <button class="btn btn-submit" (click)="setChangePassword(true)">Change Password Menu</button>
-
-        <div *ngIf="changePassword" class="form">
-
-            <label>Current Password: </label>
-            <input type="password" [(ngModel)]="oldPassword"><br>
-
-            <label>New Password: </label>
-            <input type="password" [(ngModel)]="newPassword1"><br>
-
-            <label>Re-enter New Password: </label>
-            <input type="password" [(ngModel)]="newPassword2"><br>
-
-            <button class="btn btn-submit" (click)="updatePassword()" >Update Password</button>
-        </div>
-    </div>
+    
 </div>

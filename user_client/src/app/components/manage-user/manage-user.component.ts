@@ -4,6 +4,7 @@ import { Logger } from '@azure/msal-browser';
 import { BooleanRef } from 'src/app/models/Holders';
 import { PasswordChange } from 'src/app/models/Login';
 import { SessionList } from 'src/app/models/Sessions';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 class BirthdayDetails {
@@ -50,7 +51,7 @@ export class ManageUserComponent implements OnInit {
   selectedVerfiyFile:File | undefined;
   selectedVerifyFileType: string| undefined;
 
-  constructor(userService: UserService, private router: Router) { 
+  constructor(userService: UserService, private router: Router, private authService: AuthService) { 
 
     this.userActive = new BooleanRef(false);
     this.userService = userService;
@@ -68,11 +69,17 @@ export class ManageUserComponent implements OnInit {
     router.events.subscribe((event) => {
       if(event instanceof NavigationEnd){
         let endEvent : NavigationEnd = event;
+        
 
         console.log("Navigation End url is "+ endEvent.url);
 
         if(endEvent.url == "/user"){
-          this.refreshUser();
+          
+          if(this.authService.hasActiveTokens()){
+             this.refreshUser();
+          } else {
+            this.authService.attemptRefresh(() => this.refreshUser());
+          }
         }
       }
       

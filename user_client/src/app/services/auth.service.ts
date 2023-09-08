@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Login, LoginToken } from '../models/Login';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,36 @@ export class AuthService {
 
   loginToken: LoginToken | null;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
     this.loginToken = null;
+  }
+
+  hasActiveTokens(): boolean {
+    return this.loginToken != null;
+  }
+
+  attemptRefresh(func: Function | undefined): void {
+    // If we have a cookie, then we'll send it to the refresh Endpoint
+    this.httpClient.get<LoginToken>(`${environment.user_service_url}refresh_token`, {
+      withCredentials: true
+    }).subscribe(
+    {
+      next: (tok: LoginToken) => {
+        this.loginToken = tok;
+
+        if(func){
+          func();
+        } else {
+          this.router.navigateByUrl("user");
+        }
+
+        
+      },
+      error:  (e) => {
+        console.log("Failed to Refresh", e);
+        this.router.navigateByUrl("logon");
+      }
+    })
   }
 
   private refreshTokenCallback() {
@@ -44,6 +73,7 @@ export class AuthService {
   }
 
   getHttpHeaders(useJson: boolean, usingContentType : boolean) : HttpHeaders {
+
     console.log("Getting Headers!");
     let ret:HttpHeaders = new HttpHeaders();
     ret = ret.append('Authorization', this.getAuthorization());

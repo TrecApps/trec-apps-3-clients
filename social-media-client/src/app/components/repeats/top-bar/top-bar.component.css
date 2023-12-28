@@ -1,0 +1,47 @@
+.top-bar {
+    height: 42px;
+    width: auto;
+}
+
+.top-bar-left {
+    flex-basis: 40%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 66px;   
+}
+
+.comp-logo img {
+    width: 75px;
+    height: 30px;
+    margin-right: 3px;
+}
+
+.comp-logo {
+    display:flex;
+}
+
+.search-wrap {
+    display: inline;
+    z-index: 1;
+    width: 70%;
+}
+
+.s-icon {
+    background-color: white;
+    height: 23px;
+    margin: 1px 1px 1px -2px;
+    border-radius: 3px;
+}
+
+.top-icon img {
+    height: 20px;
+    width: 20px;
+}
+
+input#main-search {
+    height: 22px;
+    border-radius: 3px;
+    border: 0.5px solid gray;
+    width: 100%;
+}

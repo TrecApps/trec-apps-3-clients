@@ -1,0 +1,18 @@
+<div class="container d-bordered">
+    <h1>Build your Profile</h1>
+    <br>
+
+    <label for="about-me-box">About Me</label>
+    <textarea id="about-me-box" class="form-control" [ngModel]="preProfileService.aboutMe"></textarea>
+    <br>
+
+    <label for="pronoun-select">Pronouns</label>
+    <select id="pronoun-select" class="form-control" [ngModel]="preProfileService.pronouns">
+        <option *ngFor="let opt of preProfileService.pronounList">{{opt}}</option>
+    </select>
+    <br>
+
+    <label for="display-name-field">Display Name</label>
+    <input type="text" class="form-control" [ngModel]="preProfileService.displayName">
+</div>
+

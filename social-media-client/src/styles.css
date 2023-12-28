@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+
+.flex-and-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-and-bottom {
+    display: flex;
+    justify-content: center;
+    align-items:end;
+}
+
+.top-css {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: white;
+    padding: 0 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.d-bordered {
+    border-style: double;
+    border-color: darkblue;
+    border-radius: 10px;
+    padding: 15px;
+}

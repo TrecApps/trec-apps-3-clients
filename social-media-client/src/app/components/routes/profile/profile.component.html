@@ -1,0 +1,28 @@
+<app-top-bar></app-top-bar>
+
+<div class="main-area" [style.min-height]="minHeight" [style.max-height]="maxHeight">
+    <img [src]="profileService.coverPhoto" alt="Cover Photo" style="float:left; padding-left: 10%; bottom: 0px; display: block; width: 80%; height:100%;" [style.min-height]="minHeight" [style.max-height]="maxHeight">
+    <div class="main-panel flex-and-center" style="bottom: 0px;">
+            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="userService.id == profileService.id">
+                <button class="btn btn-info pic-button" (click)="prepNewCoverPhoto()">Set Cover Photo</button>
+            </div>
+            <div class="flex-and-center profile-container" style="width: 33%;" >
+                <img class="profilePic" src="{{profileService.profilePhoto}}">
+            </div>
+            <div class="set-profile-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="userService.id == profileService.id">
+                <button class="btn btn-info pic-button" (click)="prepNewProfilePhoto()">Set Profile Photo</button>
+            </div>
+    </div>
+</div>
+
+<div class="profile-pic-buffer">
+
+</div>
+
+<div *ngIf="profileRequestBody">
+    <app-pre-profile ></app-pre-profile>
+    <br>
+    <div class="elePadding container">
+        <button class="btn btn-submit" style="width:90%" (click)="createProfile()">Create Profile</button>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+.main-panel {
+    border-radius: 2px;
+    min-height: 200px;
+    max-height: 600px;
+    width: 100%;
+    background-size: 100%;
+    background-position: center;
+    position:absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.main-area {
+    position:relative;
+    background-color: black;
+    overflow: visible;
+    display: inline-block;
+    width: 100%;
+}
+
+.set-cover-wrap {
+    left: 10px;
+    bottom: 10px;
+}
+
+.set-profile-wrap {
+    right: 10px;
+    bottom: 10px;
+}
+
+.profile-container {
+	min-width: 100px;
+	max-width: 250px;
+	max-height: 250px;
+	display: flexbox;
+	justify-content: center;
+	align-items: center;
+	clip-path: circle();
+    top: 50%;
+    position: relative;
+}
+
+.pic-button {
+    bottom: 5%;
+    position:relative;
+}
+
+.buffer {
+    height: 125px;
+}
+
+.profile-pic-buffer {
+    min-height: 125px;
+}

@@ -11,7 +11,9 @@ export const environment = {
   //user_admin_url: 'http://localhost:4200/admin/',
   user_subscription_url: 'http://localhost:4200/sub/',
   image_service_url: "http://localhost:4200/image/",
-  profile_service_url: ""
+  profile_service_url: "http://localhost:4200/api/",
+  resource_service_url: "https://trec-apps-resources-test.azurewebsites.net/actuator",
+  app_name: "Coffe-Shop"
 };
 
 /*

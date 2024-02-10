@@ -1,0 +1,55 @@
+<div class="d-bordered">
+    <div *ngIf="isEditing">
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" class="form-control" [(ngModel)]="certification.title">
+        </div>
+        <div class="form-group">
+            <label>Institution</label>
+            <input type="text" class="form-control" [(ngModel)]="certification.institution">
+        </div>
+        <div class="form-group">
+            <label>Certification ID</label>
+            <input type="text" class="form-control" [(ngModel)]="certification.certificationId">
+        </div>
+        <div class="form-group">
+            <label>Year Earned</label>
+            <input type="number" min="1940" [defaultValue]="2012" [(ngModel)]="certification.yearEarned">
+            <label>Month Earned</label>
+            <select class="form-control" [(ngModel)]="certification.monthEarned">
+                <option *ngFor="let month of monthList" value="month">{{month}}</option>
+            </select>
+            <hr>
+            <label>Year Expires</label>
+            <input type="number" [min]="certification.yearEarned" [defaultValue]="2012" [(ngModel)]="certification.yearExpires">
+            <label>Month Expires</label>
+            <select class="form-control" [(ngModel)]="certification.monthExpires">
+                <option *ngFor="let month of monthList" value="month">{{month}}</option>
+            </select>
+        </div>
+        <button class="btn btn-submit" (click)="saveCertification()">Save</button>
+
+    </div>
+    <div *ngIf="!isEditing">
+        <h3>{{certification.title}}</h3>
+        <table>
+            <tr *ngIf="certification.institution">
+                <td><b>Institution</b></td>
+                <td>{{certification.institution}}</td>
+            </tr>
+            <tr>
+                <td><b>Earned</b></td>
+                <td>{{ certification.monthEarned + ", " + certification.yearEarned}}</td>
+            </tr>
+            <tr>
+                <td><b>Ended</b></td>
+                <td>{{ certification.monthExpires + ", " + certification.yearExpires}}</td>
+            </tr>
+            <tr *ngIf="certification.certificationId">
+                <td><b>Certification ID</b></td>
+                <td>{{certification.certificationId}}</td>
+            
+            </tr>
+        </table>
+    </div>
+</div>

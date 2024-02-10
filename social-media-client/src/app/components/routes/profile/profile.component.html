@@ -1,7 +1,9 @@
 <app-top-bar></app-top-bar>
 
 <div class="main-area" [style.min-height]="minHeight" [style.max-height]="maxHeight">
-    <img [src]="profileService.coverPhoto" alt="Cover Photo" style="float:left; padding-left: 10%; bottom: 0px; display: block; width: 80%; height:100%;" [style.min-height]="minHeight" [style.max-height]="maxHeight">
+    <img [src]="profileService.coverPhoto" alt="Cover Photo" 
+        style="float:left; padding-left: 10%; bottom: 0px; display: block; width: 80%; height:100%;"
+        [style.min-height]="minHeight" [style.max-height]="maxHeight">
     <div class="main-panel flex-and-center" style="bottom: 0px;">
             <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="userService.id == profileService.id">
                 <button class="btn btn-info pic-button" (click)="prepNewCoverPhoto()">Set Cover Photo</button>
@@ -26,3 +28,92 @@
         <button class="btn btn-submit" style="width:90%" (click)="createProfile()">Create Profile</button>
     </div>
 </div>
+
+<div *ngIf="!profileRequestBody && profile" style="display: flex; flex-flow: row wrap; overflow-y: scroll;">
+
+    <div class="profile-details-section d-bordered">
+
+        <h3 (click)="toggleShowDetails()">
+            <img *ngIf="!isDouble" class="expand_icon expand_i_reg" [@rotate]="(showProfileDetails) ? 'expanded' : 'collapse'" src="assets/icons/Less_than.png">
+            {{ profile.displayName }}
+        </h3>
+
+        <div  [@doShowDetails]="(showProfileDetails || isDouble) ? 'expanded': 'collapse'">
+
+            <label>About Me</label>
+            <div class="d-bordered" *ngIf="!aboutMeEdit">
+                <p>{{profile.aboutMe}}</p>
+            </div>
+            <div *ngIf="isSelfProfile">
+            
+                <textarea *ngIf="aboutMeEdit" class="form-control" [(ngModel)]="profile.aboutMe"></textarea>
+                <button class="btn btn-info" (click)="toggleAboutMeEdit()">{{ aboutMeEdit ? 'Cancel' : 'Edit About Me' }}</button>
+                <button *ngIf="aboutMeEdit && (curAboutMe != profile.aboutMe)" class="btn btn-submit" (click)="updateAboutMe()">Save About Me</button>
+            </div>
+
+            <hr>
+            <h1>Favorite Movies</h1>
+            <app-brand-searcher *ngIf="isSelfProfile" [type]="brandTypeFilm" [label]="'Favorite Movies'" (brandInfoSelected)="addMovie($event)"></app-brand-searcher>
+            <ol style="list-style: none;">
+                <li class="favorites-list" *ngFor="let bi of profile.favoriteMovies">
+                    <div class="favorites-display">{{ bi.name }}</div>
+                    <div class="red-button-container-small" *ngIf="isSelfProfile" style="margin-right: 5px; margin-top:5px; margin-bottom:5px;">
+                    
+                        <button (click)="removeOptionMovie(bi)">
+                            <img style="width:20px; height:20px" src="assets/icons/X-image.png" alt="exit button">
+                        </button>
+                    </div>
+                </li>
+            </ol>
+            <button *ngIf="isSelfProfile && moviesChanged" class="btn btn-submit" (click)="updateMovies()">Save Movie List</button>
+
+            <hr>
+            <h1>Favorite Songs</h1>
+            <app-brand-searcher *ngIf="isSelfProfile" [type]="brandTypeSong" [label]="'Favorite Songs'" (brandInfoSelected)="addSongs($event)"></app-brand-searcher>
+            <ol style="list-style: none;">
+                <li class="favorites-list" *ngFor="let bi of profile.favoriteSongs">
+                    <div class="favorites-display">{{ bi.name }}</div>
+                    <div class="red-button-container-small" *ngIf="isSelfProfile" style="margin-right: 5px; margin-top:5px; margin-bottom:5px;">
+                    
+                        <button (click)="removeOptionSong(bi)">
+                            <img style="width:20px; height:20px" src="assets/icons/X-image.png" alt="exit button">
+                        </button>
+                    </div>
+                </li>
+            </ol>
+            <button *ngIf="isSelfProfile && moviesChanged" class="btn btn-submit" (click)="updateSongs()">Save Song List</button>
+
+            <hr>
+            <h1>Favorite Books</h1>
+            <app-brand-searcher *ngIf="isSelfProfile" [type]="brandTypeBook" [label]="'Favorite Books'" (brandInfoSelected)="addBook($event)"></app-brand-searcher>
+            <ol style="list-style: none;">
+                <li class="favorites-list" *ngFor="let bi of profile.favoriteBooks">
+                    <div class="favorites-display">{{ bi.name }}</div>
+                    <div class="red-button-container-small" *ngIf="isSelfProfile" style="margin-right: 5px; margin-top:5px; margin-bottom:5px;">
+                    
+                        <button (click)="removeOptionBook(bi)">
+                            <img style="width:20px; height:20px" src="assets/icons/X-image.png" alt="exit button">
+                        </button>
+                    </div>
+                </li>
+            </ol>
+            <button *ngIf="isSelfProfile && moviesChanged" class="btn btn-submit" (click)="updateBooks()">Save Book List</button>
+        </div>
+    </div>
+
+    <div class="posts-section">
+
+        <app-post *ngFor="let p of postList" [actPost]="p"></app-post>
+
+    </div>
+
+
+
+
+</div>
+
+<div *ngIf="profileNotFound" class="d-bordered flex-and-center" style="width: 90%; min-height:250px">
+    <h1>Profile Not Found</h1>
+</div>
+
+<app-image #imageComp></app-image>

@@ -1,3 +1,6 @@
+import { BrandInfo } from "./BrandInfo";
+import { Certifications, Education, Experience, Publication } from "./ProfileDetails";
+
 export class PropertyTreeNode {
     type: string = "";
     subNodes: Map<string, PropertyTreeNode> = new Map<string, PropertyTreeNode>();
@@ -18,6 +21,7 @@ export class Detail {
 }
 
 export class Profile {
+
     aboutMe: String | undefined;
     displayName: String = "";
 
@@ -27,5 +31,37 @@ export class Profile {
 
     coverImage: String | undefined;
 
-    details: Map<String, Detail> = new Map<String, Detail>();
-}    
+    certId: number = 0;
+    certifications : Certifications[] = [];
+
+    eduId: number = 0;
+    educations  : Education[] = [];
+
+    expId: number = 0;
+    experiences  : Experience[] = [];
+
+    pubId: number = 0;
+    publications  : Publication[] = [];
+
+
+    favoriteMovies : BrandInfo[] = [];
+
+    favoriteAnimals : BrandInfo[] = [];
+    favoritePlants : BrandInfo[] = [];
+    favoriteSongs : BrandInfo[] = [];
+    favoriteBooks : BrandInfo[] = [];
+    favoriteShows : BrandInfo[] = [];
+    favoriteRestaurants : BrandInfo[] = [];
+    favoriteVideoGames : BrandInfo[] = [];
+    favoriteGames : BrandInfo[] = [];
+}
+
+export function getProfileSkaffold(): Profile {
+    let ret = new Profile();
+
+    ret.aboutMe = "I created this website";
+    ret.displayName = "John Jacko";
+    ret.pronouns = "(he/him)";
+    
+    return ret;
+}

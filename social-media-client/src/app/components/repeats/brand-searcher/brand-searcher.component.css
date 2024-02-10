@@ -1,0 +1,24 @@
+.sercher-group {
+    position: relative;
+    overflow-y: visible;
+    height: 50px;
+}
+
+.option-holder {
+    width: 100%;
+
+    max-height: 320px;
+    overflow-y: scroll;
+}
+
+.brand-option {
+    width: 100%;
+    padding: 5px;
+    background-color: aquamarine;
+    border-color: beige;
+    border-width: 2px;
+}
+
+.brand-option:hover {
+    background-color: aliceblue;
+}

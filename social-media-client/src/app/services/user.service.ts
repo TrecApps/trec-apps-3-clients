@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TcUser } from '../models/UserObjs';
+import { TcBrand, TcUser, UserInfo } from '../models/UserObjs';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -17,14 +17,22 @@ export class UserService {
 
   tcUser: TcUser | undefined;
 
+  tcBrand: TcBrand | undefined;
+
   isCurrentUser(id: String | null) : boolean {
     if(!id){ return true; }
 
-    return this.tcUser?.id === id;
+    return `User-${this.tcUser?.id}` == id;
   }
 
   getCurrentUserId(): String | undefined{
-    return this.tcUser?.id;
+    if(this.tcBrand?.id){
+      return `Brand-${this.tcBrand.id}`;
+    }
+    if(this.tcUser?.id){
+      return `User-${this.tcUser.id}`;
+    }
+    return undefined;
   }
 
   getCurrentDisplayName() : string | undefined {
@@ -35,9 +43,9 @@ export class UserService {
 
   refreshUser(callable: Function) {
     let observe = {
-      next: (response: TcUser) => { 
-        console.info("Birthday Value: ", response.birthday);
-        this.tcUser = response;
+      next: (response: UserInfo) => { 
+        this.tcUser = response.user;
+        this.tcBrand = response.brand;
         callable();
 
       },
@@ -50,7 +58,7 @@ export class UserService {
       }
     };
 
-    this.client.get<TcUser>(`${environment.user_service_url}Users/Current`,{headers: this.authService.getHttpHeaders(true, false)}).subscribe(observe);
+    this.client.get<UserInfo>(`${environment.user_service_url}Profile/User`,{headers: this.authService.getHttpHeaders(true, false)}).subscribe(observe);
 
   }
 }

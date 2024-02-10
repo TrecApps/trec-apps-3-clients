@@ -1,0 +1,88 @@
+<div *ngIf="actPost" class="whole-comment d-bordered">
+
+    <div style="display: flex; flex-direction: column; width: 100%;">
+        <div class="comment-top">
+            <div class="comment-profile-holder">
+                <img [src]="imageLink" alt="Poster Photo">
+            </div>
+
+            <div class="commenter-details">
+                <span class="comment-profile-name">{{actPost.displayName}}</span>
+            </div>
+
+        </div>
+
+        <hr class="comment-divider">
+
+        <div class="comment-content" [innerHTML]="actPost.contents.at(-1) | htmlRemover | tcFormatter ">
+
+        </div>
+
+        <hr class="comment-divider">
+
+        <div class="comment-reaction-bar">
+
+            <app-reaction-button 
+                [isSelected]="actPost.returnReaction?.type == 'Like'"
+                [positiveReaction]="true"
+                [reactionType]="'Like'"
+                [divClass]="'comment-reaction-holder'"
+                (onSelectedEmitter)="reactionOnSelect($event)"></app-reaction-button>
+
+            <app-reaction-button 
+                [isSelected]="actPost.returnReaction?.type == 'Dislike'"
+                [positiveReaction]="false"
+                [reactionType]="'Dislike'"
+                [divClass]="'comment-reaction-holder'"
+                (onSelectedEmitter)="reactionOnSelect($event)"></app-reaction-button>
+            <!-- <div class="post-reaction-holder">
+                <img src="assets/icons/Like-O.png" alt="Approve Button">
+            </div>
+            <div class="post-reaction-holder">
+                <img src="assets/icons/Dislike-O.png" alt="Disapprove Button">
+            </div> -->
+        </div>
+
+    </div>
+    
+    <hr>
+
+    <app-comment style="width:100%" [editComment]="editReply"></app-comment>
+    
+    <hr>
+
+    <div *ngFor="let cl of actPost.replies" style="width: 100%; margin-bottom: 15px;">
+        <div style="display: flex; flex-direction: column; align-items: center; width: 100%">
+            <button class="btn btn-light" style="width:80%; min-width: 300px;margin: 5px;" (click)="toggleCommentList(cl)">{{cl.show ? 'Hide' : 'Show'}} Comments</button>
+        
+            <div *ngIf="cl.show" 
+             style="display: flex; flex-direction: column; width:100%; background-color: rgba(0,255,255,0.2); border-radius: 3px; border: solid darkblue 1px">
+                <div *ngFor="let comment of cl.comments" style="display: flex; flex-direction: row;">
+                    <div style="width: 10%;"></div>
+
+                    <app-comment style="width: 90%;"  [actPost]="comment"></app-comment>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-info" style="width: 95%" (click)="seekMoreComments()">Additional Comments</button>
+
+</div>
+
+
+<div *ngIf="editComment" class="whole-comment-draft d-bordered">
+    <div class="comment-profile-holder" style="margin: 10px;">
+        <img [src]="imageLink" alt="Poster Photo">
+    </div>
+
+    <div class="comment-draft-body">
+        <div class="comment-menu-options">
+
+        </div>
+        <textarea [(ngModel)]="editComment.comment"></textarea>
+        <button class="btn btn-submit" style="margin-top: 10px;" (click)="uploadComment()">Submit Comment</button>
+    </div>
+
+</div>

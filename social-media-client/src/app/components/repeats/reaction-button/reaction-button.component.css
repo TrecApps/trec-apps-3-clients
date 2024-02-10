@@ -1,0 +1,29 @@
+.post-reaction-holder img {
+    width: 30px;
+    height: 30px;
+    margin: 3px;
+}
+
+.post-reaction-holder{
+    margin-right: 5px;
+}
+
+.post-reaction-holder:hover {
+    background-color: wheat;
+    border-radius: 10px;
+}
+
+.comment-reaction-holder img {
+    width: 20px;
+    height: 20px;
+    margin: 2px;
+}
+
+.comment-reaction-holder{
+    margin-right: 5px;
+}
+
+.comment-reaction-holder:hover {
+    background-color: wheat;
+    border-radius: 10px;
+}

@@ -1,0 +1,84 @@
+<div class="d-bordered">
+    <div *ngIf="isEditing">
+        <div class="form-group">
+            <label>Type</label>
+            <select class="form-control" [(ngModel)]="experience.type">
+                <option *ngFor="let expType of experienceType" [value]="expType">{{expType}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Institution</label>
+            <!--To-Do: Create Component to search types-->
+            <input type="text" class="form-control" [(ngModel)]="experience.institutionStr">
+
+        </div>
+        <div class="form-group">
+            <label>Basic Description</label>
+            <textarea class="form-control" [(ngModel)]="experience.basicDescription"></textarea>
+            <hr>
+            <label>Listed Description</label>
+            <ul>
+                <li *ngFor="let i in experience.complexDescription">{{experience.complexDescription[i]}} 
+                    <div class="red-button-container">
+                        <button (click)="removeComplexDesc(i)"><img src="assets/icons/X-image.png" alt="exit button"></button>
+                    </div>
+                </li>
+            </ul>
+            <input type="text" class="form-control" [(ngModel)]="complexDesc">
+            <button class="btn btn-info" (click)="addToComplexDesc()">Add to Description List</button>
+        </div>
+        <div class="form-group">
+            <label>Year Started</label>
+            <input type="number" min="1940" [defaultValue]="2012" [(ngModel)]="experience.startYear">
+            <label>Month Started</label>
+            <select class="form-control" [(ngModel)]="experience.startMonth">
+                <option *ngFor="let month of monthList" value="month">{{month}}</option>
+            </select>
+            <hr>
+            <label>Year Ended</label>
+            <input type="number" [min]="experience.startYear" [defaultValue]="2012" [(ngModel)]="experience.endYear">
+            <label>Month Ended</label>
+            <select class="form-control" [(ngModel)]="experience.startMonth">
+                <option *ngFor="let month of monthList" value="month">{{month}}</option>
+            </select>
+        </div>
+        <button class="btn btn-submit" (click)="saveExperience()">Save</button>
+    </div>
+    <div *ngIf="!isEditing">
+        <h3>{{experience.type + ": "+ (  experience.institution || experience.institutionStr )}}</h3>
+        <table>
+            <tr>
+                <td><b>Started</b></td>
+                <td>{{ experience.startMonth + ", " + experience.startYear}}</td>
+            </tr>
+            <tr>
+                <td><b>Ended</b></td>
+                <td>{{ experience.endMonth + ", " + experience.endYear}}</td>
+            </tr>
+            <tr *ngIf="experience.basicDescription">
+                <td><b>Basic Description</b></td>
+                <td>{{ experience.basicDescription }}</td>
+            </tr>
+            <tr *ngIf="experience.complexDescription">
+                <td><b>Detailed Description</b></td>
+                <td>
+                    <ul>
+                        <li *ngFor="let desc of experience.complexDescription">{{desc}}</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+
+        <button class="btn btn-info" *ngIf="isSelfProfile" (click)="addSubExperience()">Add Sub-Experience</button>
+
+        <div *ngIf="experience.subExperience" style="padding-left:3%; border-left: black;">
+            <h3 (click)="toggleShowSubExperiences()">
+                <img class="expand_icon expand_i_reg" [@rotate]="(showSubExperiences) ? 'expanded' : 'collapse'" src="assets/icons/Less_than.png">
+                Sub-Experiences
+            </h3>
+            <div  [@doShowDetails]="(showSubExperiences) ? 'expanded': 'collapse'">
+                <app-experience *ngFor="let subExp of experience.subExperience" [isEditing]="false" [experience]="subExp" [isSelfProfile]="isSelfProfile"></app-experience>
+            </div>
+        </div>
+    </div>
+</div>

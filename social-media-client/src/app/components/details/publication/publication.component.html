@@ -1,0 +1,73 @@
+<div class="d-bordered">
+    <div *ngIf="isEditing">
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" class="form-control" [(ngModel)]="publication.title">
+        </div>
+        <div class="form-group">
+            <label>Publisher</label>
+            <input type="text" class="form-control" [(ngModel)]="publication.publisher">
+        </div>
+        <div class="form-group">
+            <label>URL</label>
+            <input type="text" class="form-control" [(ngModel)]="publication.url">
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control" [(ngModel)]="publication.description"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Year Published</label>
+            <input type="number" min="1940" [defaultValue]="2012" [(ngModel)]="publication.publicationYear">
+            <label>Month Published</label>
+            <select class="form-control" [(ngModel)]="publication.publicationMonth">
+                <option *ngFor="let month of monthList" value="month">{{month}}</option>
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <label>Contributors</label>
+            <ul>
+                <li *ngFor="let i in publication.contributors">{{publication.contributors[i]}} 
+                    <div class="red-button-container">
+                        <button (click)="removeContributor(i)"><img src="assets/icons/X-image.png" alt="exit button"></button>
+                    </div>
+                </li>
+            </ul>
+            <label>New Contributor</label>
+            <label>Name</label>
+            <input type="text" class="form-control" [(ngModel)]="currentContributor.contributor">
+            <label>Contribution Type</label>
+            <input type="text" class="form-control" [(ngModel)]="currentContributor.contributionType">
+            <button class="btn btn-info" (click)="addContributor()">Add Contributor</button>
+        </div>
+        <button class="btn btn-submit" (click)="savePublication()">Save</button>
+
+    </div>
+    <div *ngIf="!isEditing">
+        <h3>{{publication.title}}</h3>
+        <table>
+            <tr *ngIf="publication.publisher">
+                <td>Publisher</td>
+                <td>{{publication.publisher}}</td>
+            </tr>
+            <tr>
+                <td>Publishing Date</td>
+                <td>{{ publication.publicationMonth + ", " + publication.publicationYear}}</td>
+            </tr>
+            <tr *ngIf="publication.description">
+                <td>Description</td>
+                <td>{{ publication.description }}</td>
+            </tr>
+            <tr *ngIf="publication.contributors">
+                <td>Contributors</td>
+                <td>
+                    <ul>
+                        <li *ngFor="let contributor of publication.contributors">{{ contributor.contributor + (contributor.contributionType ? (" (" + contributor.contributionType + ")") : "") }}</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

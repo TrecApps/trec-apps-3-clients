@@ -1,0 +1,70 @@
+<div *ngIf="actPost" class="whole-post d-bordered">
+
+    <div style="display: flex; flex-direction: column; width:100%">
+        <div class="post-top">
+            <div class="post-profile-holder">
+                <img [src]="imageLink" alt="Poster Photo">
+            </div>
+
+            <div class="poster-details">
+                <span class="post-profile-name">{{actPost.displayName}}</span>
+            </div>
+
+        </div>
+
+        <hr class="post-divider">
+
+        <div class="post-content" [innerHTML]="actPost.contents.at(-1) | htmlRemover | tcFormatter ">
+
+        </div>
+
+        <hr class="post-divider">
+
+        <div class="post-reaction-bar">
+
+            <app-reaction-button 
+                [isSelected]="actPost.returnReaction?.type == 'Like'"
+                [positiveReaction]="true"
+                [reactionType]="'Like'"
+                (onSelectedEmitter)="reactionOnSelect($event)"></app-reaction-button>
+
+            <app-reaction-button 
+                [isSelected]="actPost.returnReaction?.type == 'Dislike'"
+                [positiveReaction]="false"
+                [reactionType]="'Dislike'"
+                (onSelectedEmitter)="reactionOnSelect($event)"></app-reaction-button>
+            <!-- <div class="post-reaction-holder">
+                <img src="assets/icons/Like-O.png" alt="Approve Button">
+            </div>
+            <div class="post-reaction-holder">
+                <img src="assets/icons/Dislike-O.png" alt="Disapprove Button">
+            </div> -->
+        </div>
+
+    </div>
+
+    <hr>
+
+    <app-comment style="width:95%" [editComment]="editComment"></app-comment>
+    
+    <hr>
+
+    <div *ngFor="let cl of actPost.comments" style="width: 100%; margin-bottom: 20px;">
+        <div style="display: flex; flex-direction: column; align-items: center; width: 100%">
+            <button class="btn btn-light" style="width:80%; min-width: 300px;margin: 5px;" (click)="toggleCommentList(cl)">{{cl.show ? 'Hide' : 'Show'}} Comments</button>
+        
+            <div *ngIf="cl.show" 
+             style="display: flex; flex-direction: column; width:100%; background-color: rgba(0,255,255,0.2); border-radius: 5px; border: solid darkblue">
+                <div *ngFor="let comment of cl.comments" style="display: flex; flex-direction: row;">
+                    <div style="width: 10%;"></div>
+
+                    <app-comment style="width: 90%;"  [actPost]="comment"></app-comment>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-info" style="width: 95%" (click)="seekMoreComments()">Additional Comments</button>
+
+</div>

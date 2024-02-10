@@ -1,6 +1,7 @@
 export class ResponseObj {
-    status: number;
-    message: String;
+    status: number = 200;
+    message: String = "";
 
     id: String| undefined;
+    data: String | undefined;
 }

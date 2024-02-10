@@ -27,3 +27,133 @@
     border-radius: 10px;
     padding: 15px;
 }
+
+/* Regular Red Button */
+
+.red-button-container {
+    width: 30px;
+    height: 30px;
+}
+
+.red-button-container button img {
+    width: 30px;
+    height: 30px;
+}
+
+.red-button-container button {
+    width:30px;
+    height:30px;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
+.red-button-container:hover {
+    background-color: red;
+}
+
+/* Small red button */
+
+.red-button-container-small {
+    width: 20px;
+    height: 20px;
+}
+
+.red-button-container-small button img {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: -5px;
+    bottom: -5px;
+    right: 0;
+    left: 0;
+}
+
+.red-button-container-small button {
+    width:20px;
+    height:20px;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
+.red-button-container-small:hover {
+    background-color: red;
+}
+
+/* Div container for input elements like checkboxes and radio-buttons */
+.input-container {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 22px;
+    
+    padding-left: 35px;
+}
+
+/* hide default control */
+.input-container input {
+    position:absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* set up alternative control */
+.tc-radio {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 30px;
+    width: 30px;
+    background-color: #eee;
+    border-radius: 50%;         /* make it a circle */
+}
+
+/* when mouse is hovering over conteiner, darken the control */
+.input-container:hover input ~ .tc-radio {
+    background-color: #ccc;
+}
+
+/* When radio-button is clicked, add blue back ground */
+.input-container input:checked ~ .tc-radio {
+    background-color: aqua;
+}
+
+/* Use :after to add dot at the end, make it invisible by default */
+.tc-radio::after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the dot upon beling clicked */
+.input-container input:checked ~ .tc-radio::after{
+    display: block;
+}
+
+/* set the radio dot */
+.input-container .tc-radio::after {
+    top:9px;
+    left:9px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+}
+
+
+/* expend Icon Images */
+img.expand_icon {
+    border-radius: 50%;
+    transform:rotate(180deg);
+}
+
+img.expand_i_small {
+    width: 25px;
+    height: 25px;
+}
+
+img.expand_i_reg {
+    width: 30px;
+    height: 30px;
+}

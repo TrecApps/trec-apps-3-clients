@@ -1,0 +1,111 @@
+<div style="display: flex; position: absolute; width:100%; justify-content: center; align-items: center;">
+<div class="galleryPanel" [@onShowGallery]="doShow ? 'doShow' : 'doHide'">
+    <div class="form">
+        <div style="display: flex; flex-direction: column ;margin:10px; justify-content: center; align-items: center; gap:10px;">
+            <div style="display: flex; flex-direction: row ;margin:10px; justify-content: center; align-items: center; gap:10px;width:100%">
+                <input type="text" class="form-control" placeholder="Search By Tag" [(ngModel)]="searchTerm">
+                <div class="red-button-container" [@xHover]="xButtonHover ? 'hover' : 'leave'" (mouseenter)="setHover(true)" (mouseleave)="setHover(false)">
+                    
+                    <button (click)="hideGallery()"><img src="assets/icons/X-image.png" alt="exit button"></button>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap:15px">
+                <label class="input-container">Use Gallery
+                    <input id="galleryT" type="radio" formGroup="galleryType" name="galleryType" (click)="setUseGallery(true)">
+                    <span class="tc-radio"></span>
+                </label>
+                <label class="input-container">Use Cards
+                    <input id="galleryF" type="radio" formGroup="galleryType" name="galleryType" (click)="setUseGallery(false)" checked>
+                    <span class="tc-radio"></span>
+                </label>
+                <input style="display: none" type="file" (change)="imageFromDevice($event)" accept="image/png, image/gif, image/jpeg, image/webp, image/svg" #imageInput>
+                <button class="btn btn-info" (click)="imageInput.click()">Image From Device</button>
+            </div>
+        </div>
+    </div>
+    
+    <hr>
+
+    <ul class="image-gal" *ngIf="useGallery">
+        <!-- <li style="height:200px;" *ngFor="let entry of images | imageFilter:showSelfArt:showCommissions:searchTerm"> -->
+        <li style="height:200px;" *ngFor="let entry of images">
+                <!-- <div 
+                    (mouseenter)="toggleTagView(entry, true)"
+                    (mouseleave)="toggleTagView(entry, false)"
+                    (click)="setImageEntry(entry)"
+                    style="height: 100%; align-items: center; justify-content: center; display: flex; position: relative;"
+                    > -->
+            <div *ngIf="entry.imageData"
+                style="height: 100%; align-items: center; justify-content: center; display: flex; position: relative;"
+            >
+                <img class="imageEntry mx-auto" src="{{entry.imageData}}" alt="{{entry.name}}">
+                <!-- <div class="overlay" [@imageTranslate]="entry.isHovering ? 'expanded' : 'collapse'">
+                    <span style="color:white">{{entry.title}}</span>
+                    <ul style="list-style-type: none;">
+                        <li style="color:white" *ngFor="let tag of entry.tags">#{{tag}}</li>
+                    </ul>
+                </div> -->
+            </div>
+        </li>
+    </ul> 
+
+    <ul class="image-gal" *ngIf="!useGallery">
+        <!-- <li *ngFor="let entry of images | imageFilter:showSelfArt:showCommissions:searchTerm"> -->
+        <li *ngFor="let entry of images">
+            <div class="imageCard" *ngIf="entry.imageData">
+                <!-- <div (mouseenter)="toggleTagView(entry, true)" (mouseleave)="toggleTagView(entry, false)" 
+                    class="cardEntryWrapper" (click)="setImageEntry(entry)"> -->
+                    
+                <div class="cardEntryWrapper">
+                    <img class="cardEntry mx-auto" src="{{entry.imageData}}" alt="{{entry.name}}">
+                    <!-- <div class="overlay" [@imageTranslate]="entry.isHovering ? 'expanded' : 'collapse'">
+                        <span style="color:white">{{entry.title}}</span>
+                        <ul style="list-style-type: none;">
+                            <li style="color:white" *ngFor="let tag of entry.tags">#{{tag}}</li>
+                        </ul>
+                    </div> -->
+                </div>
+                <div *ngIf="entry.name" style="display: flex;">
+                    <p style="text-align: center; color:white"><b>Title: </b>{{ entry.name }}</p>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <br>
+
+    <button *ngIf="hasMore" class="btn btn-light" style="min-width: 85%;" (click)="retrieveImages()">Seek More Images</button>
+
+    <div class="selected-image-panel" [@onShowSelected]="selectedImage ? 'doShow' : 'doHide'">
+        <div class="image-container-buffer"></div>
+        <div class="selected-image-container">
+            <div class="selected-image-holder">
+                <img *ngIf="selectedImage" [src]="selectedImage">
+            </div>
+        </div>
+        <div class="image-container-buffer"></div>
+
+        <div class="selected-image-dashboard d-bordered">
+            <label>Name</label>
+            <input type="text" class="form-control" [(ngModel)]="imageName">
+            <hr>
+
+            <label>Public Image</label>
+            <input type="checkbox" class="form-control" [(ngModel)]="imagePublic">
+            <p *ngIf="imagePublic"><b>Note:</b> If TrecApps deems this image <i>Adult Material</i>, then your image will not truly be public</p>
+            <hr>
+
+            <label>Tags (use newlines or ';' to seperate)</label>
+            <textarea class="form-control" maxlength="300" [(ngModel)]="imageTags">
+
+            </textarea>
+            <button *ngIf="selectedImageId && (imageTags != initialTags)" class="btn btn-info" (click)="updateTags()">Update Tags</button>
+            <hr>
+
+            <button *ngIf="!selectedImageId" class="btn btn-submit" (click)="uploadFile()">Upload File</button>
+        </div>
+        <div class="image-container-buffer"></div>
+    </div>
+
+</div>
+</div>

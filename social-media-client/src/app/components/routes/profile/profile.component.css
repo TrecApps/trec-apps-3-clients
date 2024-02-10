@@ -52,3 +52,39 @@
 .profile-pic-buffer {
     min-height: 125px;
 }
+
+/* Here, we are under the top panel and ready to show Profile Details and Posts by the User */
+
+.profile-details-section{
+    min-width: 320px;
+    flex-grow: 1;
+    margin: 0 2%;
+}
+
+.posts-section {
+    min-width: 320px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0 2%;
+    columns: 1;
+    align-content: center;
+}
+
+.favorites-list {
+    border-color: darkred;
+    border-style: solid;
+    background-color: khaki;
+    width: 100%;
+    min-height: 30px;
+    margin: 2px;
+    display: flex;
+    flex-direction: row;
+}
+
+.favorites-display {
+    left: 5px;
+    padding:3px;
+    flex-grow: 1;
+
+}

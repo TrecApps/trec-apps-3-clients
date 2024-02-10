@@ -1,0 +1,11 @@
+<div class="form-group searcher-group">
+    <label>{{ label }}</label>
+    <input type="text" class="form-control" [(ngModel)]="name" (click)="onInputTextedClicked()" (input)="onInputChange()">
+
+    <div class="option-holder" *ngIf="showOptions">
+        <div class="brand-option" *ngFor="let brand of entries" (click)="onBrandSelected(brand)">
+            {{ brand.name }}
+        </div>
+    </div>
+
+</div>

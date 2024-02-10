@@ -23,3 +23,15 @@ export class TcUser {
 
     profilePics: Object | undefined;
 }
+
+export class TcBrand {
+    name: string | undefined;
+    profile: string | undefined;
+    id: string | undefined;
+    infoId: string | undefined;
+}
+
+export class UserInfo {
+    user: TcUser | undefined;
+    brand: TcBrand | undefined;
+}

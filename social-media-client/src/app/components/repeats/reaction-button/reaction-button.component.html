@@ -1,3 +1,8 @@
+
+
 <div [class]="divClass" (click)="onSelected()">
     <img [src]="'assets/icons/' + reactionType +'-'+ (isSelected ? 'S' : 'O') +'.png'" [alt]="reactionType + 'Button'">
+    <div class="reaction-count-holder">
+        <p *ngIf="count" >{{count}}</p>
+    </div>
 </div>

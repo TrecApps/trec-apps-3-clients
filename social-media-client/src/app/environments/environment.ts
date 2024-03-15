@@ -10,8 +10,12 @@ export const environment = {
   user_service_url: 'http://localhost:4200/api/',
   //user_admin_url: 'http://localhost:4200/admin/',
   user_subscription_url: 'http://localhost:4200/sub/',
+
+
   image_service_url: "http://localhost:4200/image/",
   profile_service_url: "http://localhost:4200/api/",
+  post_service_url: "http://localhost:4200/posts/",
+  comment_service_url:"http://localhost:4200/comments/",
   resource_service_url: "https://trec-apps-resources-test.azurewebsites.net/actuator",
   app_name: "Coffe-Shop"
 };

@@ -1,7 +1,7 @@
 <app-top-bar></app-top-bar>
 
 <div class="main-area" [style.min-height]="minHeight" [style.max-height]="maxHeight">
-    <img [src]="profileService.coverPhoto" alt="Cover Photo" 
+    <img [src]="profileService.coverPhoto" (error)="coverPhotoFallback()" alt="Cover Photo" class="cover-img"
         style="float:left; padding-left: 10%; bottom: 0px; display: block; width: 80%; height:100%;"
         [style.min-height]="minHeight" [style.max-height]="maxHeight">
     <div class="main-panel flex-and-center" style="bottom: 0px;">
@@ -9,7 +9,7 @@
                 <button class="btn btn-info pic-button" (click)="prepNewCoverPhoto()">Set Cover Photo</button>
             </div>
             <div class="flex-and-center profile-container" style="width: 33%;" >
-                <img class="profilePic" src="{{profileService.profilePhoto}}">
+                <img class="profilePic" [src]="profileService.profilePhoto">
             </div>
             <div class="set-profile-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="userService.id == profileService.id">
                 <button class="btn btn-info pic-button" (click)="prepNewProfilePhoto()">Set Profile Photo</button>
@@ -103,6 +103,13 @@
 
     <div class="posts-section">
 
+        <app-post-edit 
+            #postEditor 
+            [profilePic]="profileService.profilePhoto.toString()"
+            [categoryList]="categoryList" 
+            (makePost)="makePost($event)" 
+            (imageActivator)="activateImage()"></app-post-edit>
+
         <app-post *ngFor="let p of postList" [actPost]="p"></app-post>
 
     </div>
@@ -116,4 +123,4 @@
     <h1>Profile Not Found</h1>
 </div>
 
-<app-image #imageComp></app-image>
+<app-image #imageComp (useImage)="insertImage($event)"></app-image>

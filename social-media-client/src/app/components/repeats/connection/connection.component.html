@@ -1,0 +1,17 @@
+
+<div *ngIf="profile && target" class="con-base">
+    <div class="con-prof-holder">
+        <img class="con-prof-img" [src]="imgUrl" (error)="imgUrl = imgUrlDefault">
+    </div>
+    <div class="con-details-containe r">
+        <a (click)="routeToProfile()" ><p>{{ profile.displayName }}</p></a>
+        <p>{{ profile.aboutMe }}</p>
+    </div>
+    <div class="con-action-container">
+        <button *ngIf="conn.type == one_way_con" class="btn btn-warn" (click)="deleteConnection(conn.id)">Unfollow</button>
+        <button *ngIf="conn.type == confirm_con" class="btn btn-danger" (click)="deleteConnection(conn.id)">Remove Connection</button>
+        <button *ngIf="conn.type == request_con && target == conn.requester" class="btn btn-primary" (click)="connectionResponse(target, true)">Accept</button>
+        <button *ngIf="conn.type == request_con && target == conn.requester" class="btn btn-warn" (click)="connectionResponse(target, false)">Reject</button>
+        <p *ngIf="conn.type == request_con && target == conn.requestee">{{ profile.displayName }} hasn't responded</p>
+    </div>
+</div>

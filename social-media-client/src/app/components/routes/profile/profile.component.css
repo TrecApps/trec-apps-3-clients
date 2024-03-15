@@ -59,10 +59,12 @@
     min-width: 320px;
     flex-grow: 1;
     margin: 0 2%;
+    max-width: 750px;
 }
 
 .posts-section {
     min-width: 320px;
+    max-width: 750px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -87,4 +89,15 @@
     padding:3px;
     flex-grow: 1;
 
+}
+
+
+/* Set backup profile and cover images */
+
+.cover-img:before {
+    background-image: url("/assets/icons/non-cover.png");
+}
+
+.profilePic:before {
+    background-image: url("/assets/icons/non-profile.png");
 }

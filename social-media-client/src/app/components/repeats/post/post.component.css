@@ -48,6 +48,10 @@
     padding: 5px;
 }
 
+.post-content img {
+    max-width: 100%;
+}
+
 .post-divider {
     width: 95%;
 

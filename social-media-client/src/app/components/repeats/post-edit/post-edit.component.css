@@ -1,0 +1,99 @@
+
+.whole-post-edit {
+    background-color: azure;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.post-top-edit {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.post-profile-holder-edit {
+    margin:7px;
+}
+
+.post-profile-holder-edit img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.post-toolbar {
+    display: flex;
+    flex-flow: row wrap;
+    background-color: azure;
+    padding-left: 5px;
+    width: 100%;
+
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+}
+
+.md-toolbar-button {
+    width: 40px;
+    height: 45px;
+}
+
+.md-toolbar-button img{
+    width: 40px;
+    height: 40px;
+}
+
+.post-divider-edit {
+    width:95%;
+}
+
+.post-img-gallery {
+    max-height: 110px;
+    padding: 5px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+}
+
+.post-img-holder {
+    background-color: black;
+    width: 100px;
+    height: 100px;
+}
+
+.post-img-holder img {
+    object-position: center;
+    object-fit: fill;
+}
+
+.post-button-holder {
+    width: 100%;
+    height: 50px;
+    background-color: #ddd;
+    position: relative;
+}
+
+.post-button {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    bottom: 10px;
+    padding-top: 10px;
+    background-color: limegreen;
+}
+
+.post-button:hover {
+    border: gold solid 2px;
+}
+
+.post-botton p {
+    color:peachpuff;
+}

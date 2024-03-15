@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 
@@ -14,7 +15,7 @@ export class ReactionEvent {
 @Component({
   selector: 'app-reaction-button',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './reaction-button.component.html',
   styleUrl: './reaction-button.component.css'
 })
@@ -34,7 +35,14 @@ export class ReactionButtonComponent {
   @Output()
   onSelectedEmitter = new EventEmitter<ReactionEvent>();
 
+  count: number = 0;
+
   onSelected(){
     this.onSelectedEmitter.emit(new ReactionEvent(this.reactionType, this.positiveReaction));
+  }
+
+  setCount(count: number){
+    console.log("Updating Reaction Count of " + this.reactionType + " to " + count);
+    this.count = count;
   }
 }

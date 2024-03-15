@@ -28,5 +28,12 @@
       "logLevel": "debug",
       "changeOrigin": true,
       "pathRewrite": {"^/image" : ""}
+    },
+    "/posts/**" : {
+      "target": "http://127.0.0.1:8088",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true,
+      "pathRewrite": {"^/posts" : ""}
     }
   }

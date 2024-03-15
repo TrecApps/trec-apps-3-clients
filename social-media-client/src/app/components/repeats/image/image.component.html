@@ -1,6 +1,6 @@
 <div style="display: flex; position: absolute; width:100%; justify-content: center; align-items: center;">
-<div class="galleryPanel" [@onShowGallery]="doShow ? 'doShow' : 'doHide'">
-    <div class="form">
+<div class="galleryPanel" style="overflow-y: scroll;overflow-x: hidden;" [@onShowGallery]="doShow ? 'doShow' : 'doHide'">
+    <div class="form" style="height:auto">
         <div style="display: flex; flex-direction: column ;margin:10px; justify-content: center; align-items: center; gap:10px;">
             <div style="display: flex; flex-direction: row ;margin:10px; justify-content: center; align-items: center; gap:10px;width:100%">
                 <input type="text" class="form-control" placeholder="Search By Tag" [(ngModel)]="searchTerm">
@@ -24,47 +24,33 @@
             </div>
         </div>
     </div>
+    <div style="height:auto; padding: auto; margin: auto">
+        <hr>
+    </div>
     
-    <hr>
 
     <ul class="image-gal" *ngIf="useGallery">
         <!-- <li style="height:200px;" *ngFor="let entry of images | imageFilter:showSelfArt:showCommissions:searchTerm"> -->
-        <li style="height:200px;" *ngFor="let entry of images">
-                <!-- <div 
-                    (mouseenter)="toggleTagView(entry, true)"
-                    (mouseleave)="toggleTagView(entry, false)"
-                    (click)="setImageEntry(entry)"
-                    style="height: 100%; align-items: center; justify-content: center; display: flex; position: relative;"
-                    > -->
+        <li style="height:200px;" *ngFor="let entry of images" (click)="selectImage(entry)">
+
             <div *ngIf="entry.imageData"
                 style="height: 100%; align-items: center; justify-content: center; display: flex; position: relative;"
             >
                 <img class="imageEntry mx-auto" src="{{entry.imageData}}" alt="{{entry.name}}">
-                <!-- <div class="overlay" [@imageTranslate]="entry.isHovering ? 'expanded' : 'collapse'">
-                    <span style="color:white">{{entry.title}}</span>
-                    <ul style="list-style-type: none;">
-                        <li style="color:white" *ngFor="let tag of entry.tags">#{{tag}}</li>
-                    </ul>
-                </div> -->
+
             </div>
         </li>
     </ul> 
 
     <ul class="image-gal" *ngIf="!useGallery">
         <!-- <li *ngFor="let entry of images | imageFilter:showSelfArt:showCommissions:searchTerm"> -->
-        <li *ngFor="let entry of images">
+        <li *ngFor="let entry of images" (click)="selectImage(entry)">
             <div class="imageCard" *ngIf="entry.imageData">
-                <!-- <div (mouseenter)="toggleTagView(entry, true)" (mouseleave)="toggleTagView(entry, false)" 
-                    class="cardEntryWrapper" (click)="setImageEntry(entry)"> -->
+
                     
                 <div class="cardEntryWrapper">
                     <img class="cardEntry mx-auto" src="{{entry.imageData}}" alt="{{entry.name}}">
-                    <!-- <div class="overlay" [@imageTranslate]="entry.isHovering ? 'expanded' : 'collapse'">
-                        <span style="color:white">{{entry.title}}</span>
-                        <ul style="list-style-type: none;">
-                            <li style="color:white" *ngFor="let tag of entry.tags">#{{tag}}</li>
-                        </ul>
-                    </div> -->
+
                 </div>
                 <div *ngIf="entry.name" style="display: flex;">
                     <p style="text-align: center; color:white"><b>Title: </b>{{ entry.name }}</p>
@@ -103,6 +89,9 @@
             <hr>
 
             <button *ngIf="!selectedImageId" class="btn btn-submit" (click)="uploadFile()">Upload File</button>
+
+            <button class="btn btn-dark" (click)="DoneViewingImage(false)">Exit Image</button>
+            <button class="btn btn-submit" (click)="DoneViewingImage(true)">{{ executeMessage }}</button>
         </div>
         <div class="image-container-buffer"></div>
     </div>

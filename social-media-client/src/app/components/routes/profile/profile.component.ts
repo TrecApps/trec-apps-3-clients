@@ -12,17 +12,20 @@ import { ImageComponent } from '../../repeats/image/image.component';
 import { FormsModule } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PostComponent } from '../../repeats/post/post.component';
-import { Post, posts1 } from '../../../models/posts';
+import { AddPost, Post, posts1 } from '../../../models/posts';
 import { BrandSearcherComponent } from '../../repeats/brand-searcher/brand-searcher.component';
 import { BRAND_RESOURCE_TYPE } from '../../../services/brand-resource-get.service';
 import { BrandInfo } from '../../../models/BrandInfo';
 import { AuthService } from '../../../services/auth.service';
 import { ResponseObj } from '../../../models/ResponseObj';
+import { environment } from '../../../environments/environment';
+import { ImageInsert, PostEditComponent } from '../../repeats/post-edit/post-edit.component';
+import { PostService } from '../../../services/post.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule ,TopBarComponent, PreProfileComponent, HttpClientModule, ImageComponent, FormsModule, PostComponent, BrandSearcherComponent],
+  imports: [CommonModule ,TopBarComponent, PreProfileComponent, HttpClientModule, ImageComponent, FormsModule, PostComponent, BrandSearcherComponent, PostEditComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
   animations: [
@@ -67,6 +70,8 @@ export class ProfileComponent implements OnInit{
 
   profileNotFound: boolean = false;
 
+  categoryList: string[] = [];
+
 
   // Profile Edit activation methods
   toggleAboutMeEdit(){
@@ -82,6 +87,9 @@ export class ProfileComponent implements OnInit{
 
   @ViewChild('imageComp')
   imageComp: ImageComponent | undefined;
+
+  @ViewChild('postEditor')
+  postEditor: PostEditComponent | undefined;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: { target: { innerWidth: number; }; }) {
@@ -105,15 +113,30 @@ export class ProfileComponent implements OnInit{
 
 
 
+  // Strings pointing to the cover and profile pictures
+  coverPhotoUrl: string = "";
+  profilePicUrl: string = "";
+
+  coverPhotoFallback(){
+    this.profileService.setCoverPhoto("/assets/icons/non-cover.png")
+  }
+
+  profilePicFallback(){
+    this.profileService.setProfilePhoto("/assets/icons/non-profile.png")
+  }
+
   constructor(profileService: ProfileService, 
     userService: UserService,
      private router: Router,
      private route: ActivatedRoute,
      private authService: AuthService,
-     private preProfileService: PreProfileService)
+     private preProfileService: PreProfileService,
+     private postService: PostService)
   {
     this.profileService = profileService;
     this.userService = userService;
+
+    //this.profilePicUrl = `${envir}`
 
     this.brandTypeFilm = BRAND_RESOURCE_TYPE.FILM;
     this.brandTypeSong = BRAND_RESOURCE_TYPE.SONG;
@@ -181,6 +204,7 @@ export class ProfileComponent implements OnInit{
       } else if(id){
         this.profileNotFound = true;
       }
+        
     }
     let target: String | null | undefined = id;
     console.log("Assessing User id " + id);
@@ -188,10 +212,30 @@ export class ProfileComponent implements OnInit{
     if(!target){
       target = this.userService.getCurrentUserId();
     }
-    if(target)
+    if(target){
+      
+      let strTarget = target;
       this.profileService.getProfile(target).subscribe({
         next: (profile: Profile) => {
           response(profile);
+          
+          this.foundEndOfPosts = false;
+
+          let idSplit = strTarget.split("-");
+
+          let actId = idSplit.at(1);
+
+          if(idSplit.at(0) == "User" && actId){
+            this.profileService.setProfilePhoto(`${environment.image_service_url}Profile/of/${actId}?app=${environment.app_name}`);
+            this.profileService.setCoverPhoto(`${environment.image_service_url}Profile/of/${actId}?app=cover-${environment.app_name}`);
+            this.retrievePosts(actId.toString(), true);
+          } else if(actId){
+            this.profileService.setProfilePhoto(`${environment.image_service_url}Profile/byBrand/${actId}?app=${environment.app_name}`);
+            this.profileService.setCoverPhoto(`${environment.image_service_url}Profile/byBrand/${actId}}?app=cover-${environment.app_name}`);
+            this.retrievePosts(actId.toString(), false);
+          }
+        
+
         },
         error: (e: any) => {
           let notAuthed = false;
@@ -207,20 +251,40 @@ export class ProfileComponent implements OnInit{
             response(null);
           }
         }
-    })
+      })
+    }
+  }
 
-    // if(target){
+  foundEndOfPosts = false;
+  postPageSize = 10;
 
-      // response(null);
+  retrievePosts(id: string, byUser: boolean){
 
-      // To-Do: Call Service for Profile Info and get profile info that way
+    console.log("Retrieving Posts? " + !this.foundEndOfPosts + " by User ? " + byUser);
+    
+    if(this.foundEndOfPosts) {
+      return;
+    }
 
+    let observe = {
+      next: (posts: Post[]) => {
+        if(posts.length < this.postPageSize){
+          this.foundEndOfPosts = true;
+        }
+        this.postList = this.postList.concat(posts);
+      }
+    }
 
+    if(byUser) {
+      this.postService.getByUser(id, this.postList.length / this.postPageSize, this.postPageSize).subscribe(observe);
+    } else {
+      this.postService.getByBrand(id, this.postList.length / this.postPageSize, this.postPageSize).subscribe(observe);
+    }
 
-    //}
   }
 
   ngOnInit(): void {
+    this.categoryList = this.postService.categoryList;
   }
 
   prepNewCoverPhoto() {
@@ -235,7 +299,7 @@ export class ProfileComponent implements OnInit{
 
   prepNewProfilePhoto() {
     if(this.imageComp){
-      this.imageComp.prepGallery(0);
+      this.imageComp.prepGallery(1);
     }
   }
 
@@ -399,6 +463,61 @@ export class ProfileComponent implements OnInit{
         alert(ro.message);
       }
     })
+  }
+
+
+  // Post Management
+
+  updatePost(id: string, addPost: AddPost) {
+    for(let p of this.postList){
+      if(p.postId == id) {
+        p.contents.push(addPost.content);
+        break;
+      }
+    }
+  }
+
+  makePost(addPost: AddPost){
+
+    let error = (r: Response) => {
+      alert("Could not Persist Post!");
+      if(r.status == 401){
+        this.authService.logout();
+      }
+    }
+
+    let observe = addPost.id ? {
+      next: (ro: ResponseObj) => {
+        if(ro.id){
+          this.updatePost(ro.id.toString(), addPost);
+        }
+      },
+      error
+    } : {
+      next: (ro: ResponseObj) => {
+        if(ro.id){
+          this.postService.getPost(ro.id.toString()).subscribe({
+            next: (p: Post) => {
+              this.postList.unshift(p);
+            }
+          })
+        }
+      },
+      error
+    }
+
+    this.postService.persistPost(addPost).subscribe(observe);
+  }
+
+  activateImage(){
+    if(this.imageComp){
+      this.imageComp.prepGallery(2);
+    }
+  }
+
+  insertImage(imageInsert: ImageInsert){
+    this.imageComp?.hideGallery();
+    this.postEditor?.addImage(imageInsert);
   }
   
 }

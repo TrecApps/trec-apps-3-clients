@@ -1,6 +1,6 @@
 <br>
 <div class="container" id="loginContainer" [style.background-color]=color1>
-    <div id="messageJumbo" class="jumbotron fadeInGradient" [style.background]="loginGradient"><h1 [style.color]=color5>TrecAccount Login</h1> <div id="logoContainer" class="containGlobal"><img class="LoginImage fadeInRight" src="../../../assets/icons/outline.png"> <div class="clearfix"></div><img (click)="moveToCreate()" class="LoginImage-ref-2 fadeInLeftRef" id="Globe1" src="../../../assets/icons/glob-2.png"><img id="Globe2" class="LoginImage-ref fadeInRightRef" src="../../../assets/icons/world-1.png"></div> </div>
+    <div id="messageJumbo" class="jumbotron fadeInGradient" [style.background]="loginGradient"><h1 [style.color]=color5>TrecAccount Login</h1> <div id="logoContainer" class="containGlobal"><img class="LoginImage fadeInRight" src="../../../assets/icons/outline.png"> <div class="clearfix"></div><img class="LoginImage-ref-2 fadeInLeftRef" id="Globe1" src="../../../assets/icons/glob-2.png"><img id="Globe2" class="LoginImage-ref fadeInRightRef" src="../../../assets/icons/world-1.png"></div> </div>
     
     <div width="100%" class="form" >
         <h4 *ngIf="loginFail" color="red">Failed To Login</h4>
@@ -14,7 +14,22 @@
         <div id="buttonContainer"> 
         <input type="submit" class="btn btn-submit" id="loginButton" [style.background-color]=color3 [style.color]=color2 value="Submit" (click)="logon()">
         <br>
-        <button class="btn btn-submit" id="registerButton" [style.background-color]=color3 [style.color]=color2 (click)="moveToCreate()">Create New Trec-Account</button>
+        <a 
+            id="registerLink"
+            href="https://test.trecapps.com/Users/create"
+            target="_blank"
+            class="btn btn-submit"
+            [style.background-color]=color3 
+            [style.color]=color2 >
+            Create New Trec-Account
+            <!-- <button 
+                class="btn btn-submit" 
+                style="margin-top:10px"
+                id="registerButton" 
+                [style.background-color]=color3 
+                [style.color]=color2 
+                >Create New Trec-Account</button> -->
+        </a>
         </div>
     </div>
 </div>

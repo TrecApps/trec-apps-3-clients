@@ -1,0 +1,64 @@
+<div class="whole-post-edit d-bordered">
+    <div style="display: flex; flex-direction: column; width:100%">
+        <div class="post-top-edit">
+            <div class="post-profile-holder-edit">
+                <img [src]="profilePic" alt="Poster Photo">
+            </div>
+
+            <div class="post-toolbar">
+                <div class="md-toolbar-button" (click)="onClickBold()">
+                    <img [src]="isBold ? 'assets/md-images/sel-Bold.png' : 'assets/md-images/reg-Bold.png'" title="Bold">
+                </div>
+                <div class="md-toolbar-button" (click)="onClickItalic()">
+                    <img [src]="isItalic ? 'assets/md-images/sel-Italic.png' : 'assets/md-images/reg-Italic.png'" title="Italic">
+                </div>
+    
+                <div class="md-toolbar-button"></div>
+
+                <div class="md-toolbar-button" (click)="onClickPicture()">
+                    <img [src]="'assets/md-images/reg-Picture.png'" title="Picture">
+                </div>
+                <div class="md-toolbar-button" (click)="onToggleGallery()">
+                    <img [src]="showGallery ? 'assets/md-images/sel-Table.png' : 'assets/md-images/reg-Table.png'" title="Table">
+                </div>
+                <div class="md-toolbar-button"></div>
+
+                <select *ngIf="categoryList" class="form-select" [(ngModel)]="post.category">
+                    <option value="">[None]</option>
+                    <option *ngFor="let cat of categoryList" [value]="cat">{{ cat }}</option>
+                </select>
+
+            </div>
+
+        </div>
+
+        <hr class="post-divider-edit">
+
+        <textarea #myArea style="height: 90%"
+            class="form-control"
+            (focus)="callibrateState()" 
+            (click)="callibrateState()" 
+            (keypress)="callibrateState()"
+            [(ngModel)]="post.content"></textarea>
+
+        <hr>
+
+        <div class="post-img-gallery" *ngIf="showGallery">
+        
+            <div *ngFor="let img of imageList" class="post-img-holder">
+                <img [src]="img">
+            </div>
+        
+        </div>
+
+        <hr>
+
+        <div class="post-button-holder">
+            <div class="post-button flex-and-center" (click)="makePost.emit(post)">
+                <p>{{ post.id ? 'Update Post' : 'Post' }}</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>

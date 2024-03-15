@@ -7,12 +7,15 @@
     width: 80%;
     background-color: rgba(255,255,255, 0.8);
     margin: auto;
+    height: auto;
+    
 }
 
 .galleryPanel hr {
     width: 50%;
     margin: .875em auto 1.2525em;
     border: 1px solid;
+    height:auto;
 }
 
 .selected-image-panel {
@@ -80,11 +83,14 @@
     justify-content: center; 
     gap: 10px;
     margin-left: -15px;
+    height: fit-content;
+    margin: auto;
 }
 
 .image-gal > li {
     position: relative;
     cursor: pointer;
+    display:block;
 
     flex: 0 1 auto;
 

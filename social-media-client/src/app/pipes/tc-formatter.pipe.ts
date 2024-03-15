@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { environment } from '../environments/environment';
 
 class ImageSlice {
   index: number = -1;
@@ -20,7 +21,41 @@ class FormatMarker{
 })
 export class TcFormatterPipe implements PipeTransform {
 
+  imageMarker = ":Image:";
 
+  replaceImages(value: string): string {
+    let startIndex = 0; 
+
+    while((startIndex = value.indexOf(this.imageMarker)) != -1){
+      // Locate the Beginning of the String to replace 
+      let endIndex = startIndex + this.imageMarker.length;
+
+      // Now locate the end of the marker to replace. 
+      for(; endIndex < value.length; endIndex++) {
+        let ch = value.charAt(endIndex).trim();
+
+        // We have found whitespace if this is true
+        if(!ch.length){
+          break;
+        }
+
+      }
+
+      let slice = value.substring(startIndex + 1, endIndex).split(":");
+
+      if(slice.length > 1){
+        let id = slice.at(1);
+        let preText = value.substring(0, startIndex);
+        let repText = `<img src="${environment.image_service_url}ImageRetrieval/simpleId/${id}">`;
+        let postText = value.substring(endIndex);
+
+        value = `${preText}${repText}${postText}`;
+
+        startIndex = preText.length + repText.length;
+      }
+    }
+    return value;
+  }
 
   getImageSlice(value: string, startIndex: number): ImageSlice {
     let ret = new ImageSlice();
@@ -120,14 +155,7 @@ export class TcFormatterPipe implements PipeTransform {
     }
 
     
-
-
-    value = value.replaceAll("\n", "<br>");
-
-    
-
-
-    return value;
+    return this.replaceImages(value).replaceAll("\n", "<br>");
   }
 
 

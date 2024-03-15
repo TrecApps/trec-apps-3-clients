@@ -1,7 +1,7 @@
 import { Reaction } from "./Reaction";
 
 export class AddPost{
-    content: String ="";
+    content: string ="";
     moduleId: String | undefined;
     tags: String | undefined;
     id: String | undefined;

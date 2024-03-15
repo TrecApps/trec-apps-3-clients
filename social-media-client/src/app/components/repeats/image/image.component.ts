@@ -2,12 +2,14 @@ import { style, trigger, state, transition, animate } from '@angular/animations'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ImageEntry, ImageMeta } from '../../../models/Image';
 import { ImageMetaChecker, ImageService } from '../../../services/image.service';
 import { ProfileService } from '../../../services/profile.service';
 import { environment } from '../../../environments/environment';
+import { ResponseObj } from '../../../models/ResponseObj';
+import { ImageInsert } from '../post-edit/post-edit.component';
 
 @Component({
   selector: 'app-image',
@@ -17,8 +19,8 @@ import { environment } from '../../../environments/environment';
   styleUrl: './image.component.css',
   animations: [
     trigger('onShowGallery', [
-      state('doShow', style({ height: '80%', overflow: 'hidden'})),
-      state('doHide', style({ height: '0px', overflow: 'hidden'})),
+      state('doShow', style({ height: '80%'})),
+      state('doHide', style({ height: '0px'})),
       transition('doShow => doHide', [ animate('0.33s')]),
       transition('doHide => doShow', [ animate('0.33s')])
     ]),
@@ -63,6 +65,9 @@ export class ImageComponent {
 
   hasMore: boolean = false;
 
+  @Output()
+  useImage = new EventEmitter<ImageInsert>();
+
 
   permittedFileTypes = [
     "gif",
@@ -102,6 +107,13 @@ export class ImageComponent {
     this.hasMore = false;
 
     this.retrieveImages();
+
+    switch(num){
+      case 1: this.executeMessage = "Set as Profile"; break;
+      case 0: this.executeMessage = "Set as Cover Photo"; break;
+      case 2: this.executeMessage = "Add to Post/Comment"; break;
+    }
+
   }
 
   retrieveImages(){
@@ -124,25 +136,64 @@ export class ImageComponent {
   selectionHandlers: Function[] = [
     (s: String) => {  // Use this for setting Cover Photo
       let data = this.getImageData(s);
+      console.log("Image ID for Cover " + s + " yeilded " + data);
       if(data){
-        this.profileService.setCoverPhoto(s);
-        this.imageService.setCoverPhoto(s, false); // To-Do: Add Support for Brand Accounts
+        this.profileService.setCoverPhoto(data);
+         // To-Do: Add Support for Brand Accounts
+        this.imageService.setCoverPhoto(s, false).subscribe({
+          next: (ro: ResponseObj) => {
+            alert("Successfully updated Cover Photo!");
+            this.doShow = false;
+          },
+          error: (ro: ResponseObj) => {
+            alert(ro.message);
+          }
+        });
       }
     },
     (s: String) => {  // Use this for setting Profile Pic
       let data = this.getImageData(s);
+
+      console.log("Image ID for profile " + s + " yeilded " + data);
+
       if(data){
-        this.profileService.setProfilePhoto(s);
-        this.imageService.setProfile(s, false); // To-Do: Add Support for Brand Accounts
+        this.profileService.setProfilePhoto(data);
+        // To-Do: Add Support for Brand Accounts
+        this.imageService.setProfile(s, false).subscribe({
+          next: (ro: ResponseObj) => {
+            alert("Successfully updated Profile!");
+            this.doShow = false;
+          },
+          error: (ro: ResponseObj) => {
+            alert(ro.message);
+          }
+        }); 
       }
     },
     (s: String) => {  // Use this for selecting images for a post
 
-        // To-Do: Figure out how this will work
+        let data = this.getImageData(s);
+
+        console.log("Running Insertion Handler For Image");
+        let imageInsert = data ? ImageInsert.generate(s.toString(), data.toString()) :
+          ImageInsert.generate(s.toString());
+        this.useImage.emit(imageInsert);
     }
   ];
 
+  DoneViewingImage(execute: boolean){
+
+    if(execute && this.currentHandler && this.selectedImageId){
+      console.log("Executing Image Handler");
+      this.currentHandler(this.selectedImageId)
+    }
+
+    this.selectedImage = undefined;
+    this.selectedImageId = undefined;
+  }
+
   currentHandler: Function | undefined;
+  executeMessage: string = "";
 
   constructor(private imageService: ImageService, private profileService: ProfileService){
     this.imageServer = environment.image_service_url;
@@ -151,28 +202,7 @@ export class ImageComponent {
   setUseGallery(ug: boolean){
     this.useGallery = ug;
   }
-
-  // onNewFileSelected(event: any){
-
-  //   this.imageName = "";
-
-  //   this.selectedFile = event.target.files[0]
-  //   console.log("File Selectd: " + this.selectedFile);
-  //   if(!this.selectedFile)return;
-
-  //   let t = this.selectedFile.type.toLowerCase().trim();
-  //   console.log("File Type is " + this.selectedFile.type + " ("+ t +") and name is " + this.selectedFile.name);
-  //   for(let possibleType of this.permittedFileTypes) {
-  //     if(t == `image/${possibleType}`)
-  //     {
-  //       this.selectedFileType = possibleType;
-  //       break;
-  //     }
-  //   }
-  //   console.log("Selected File type is " + this.selectedFileType);
-  // }
-
-  
+ 
 
   uploadFile(){
     if(!this.selectedFileType || !this.selectedImage){
@@ -185,8 +215,6 @@ export class ImageComponent {
       return;
     }
 
-    let captureHandler = this.currentHandler;
-
     let postHandler = (success: boolean, result: String) => {
       console.log("Image Response is " + success + " with a result of ", result);
       if(!success){
@@ -198,8 +226,11 @@ export class ImageComponent {
           if(meta.extraDetails?.isAdultContent) {
             alert("TrecApps has detected Adult Content in this image. We cannot show it!");
           } else {
-            captureHandler(id);
+            this.images = [];
+            this.imagePageCount = 0;
+            this.hasMore = false;
           }
+          this.retrieveImages();
         }
 
         let checkerFailure = (message: String, id: String) => {
@@ -217,6 +248,8 @@ export class ImageComponent {
     this.imageService.postImage(this.selectedImage, this.selectedFileType, postHandler, this.imageName);
     
   }
+
+
 
   imageFromDevice(event: any){
     this.selectedFile = event.target.files[0]

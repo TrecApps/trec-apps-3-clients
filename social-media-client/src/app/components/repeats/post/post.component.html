@@ -1,6 +1,6 @@
 <div *ngIf="actPost" class="whole-post d-bordered">
 
-    <div style="display: flex; flex-direction: column; width:100%">
+    <div style="display: flex; flex-direction: column; width:100%; position:relative">
         <div class="post-top">
             <div class="post-profile-holder">
                 <img [src]="imageLink" alt="Poster Photo">
@@ -22,13 +22,13 @@
 
         <div class="post-reaction-bar">
 
-            <app-reaction-button 
+            <app-reaction-button #likeButton
                 [isSelected]="actPost.returnReaction?.type == 'Like'"
                 [positiveReaction]="true"
                 [reactionType]="'Like'"
                 (onSelectedEmitter)="reactionOnSelect($event)"></app-reaction-button>
 
-            <app-reaction-button 
+            <app-reaction-button #dislikeButton
                 [isSelected]="actPost.returnReaction?.type == 'Dislike'"
                 [positiveReaction]="false"
                 [reactionType]="'Dislike'"

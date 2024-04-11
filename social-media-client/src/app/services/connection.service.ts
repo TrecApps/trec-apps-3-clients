@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { ConnectionEntry, ConnectionType } from '../models/Connection';
+import { ConnectionEntry, ConnectionRequestTarget, ConnectionStatus, ConnectionType, connectionRequestTargetToStr } from '../models/Connection';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { ResponseObj } from '../models/ResponseObj';
@@ -13,14 +13,22 @@ export class ConnectionService {
 
   constructor(private authService: AuthService, private client: HttpClient) { }
 
-  getConnectionList(ct: ConnectionType) : Observable<ConnectionEntry[]> {
+  getConnectionList(ct: ConnectionRequestTarget) : Observable<ConnectionEntry[]> {
 
-    let params = new HttpParams().append("target", ct);
+    let params = new HttpParams().append("target", connectionRequestTargetToStr(ct));
 
     return this.client.get<ConnectionEntry[]>(`${environment.profile_service_url}Connections/list`, {
       headers: this.authService.getHttpHeaders(false, false), params
     })
 
+  }
+
+  getConnectionListByOther(profile: string): Observable<ConnectionStatus[]> {
+    let params = new HttpParams().append("profile", profile); 
+
+    return this.client.get<ConnectionStatus[]>(`${environment.profile_service_url}Connections/listByProfile`, {
+      headers: this.authService.getHttpHeaders(false, false), params
+    })
   }
 
   makeConnectionRequest(profileId: string): Observable<ResponseObj> {

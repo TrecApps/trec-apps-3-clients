@@ -21,11 +21,17 @@ import { ResponseObj } from '../../../models/ResponseObj';
 import { environment } from '../../../environments/environment';
 import { ImageInsert, PostEditComponent } from '../../repeats/post-edit/post-edit.component';
 import { PostService } from '../../../services/post.service';
+import { ConnectionService } from '../../../services/connection.service';
+import { ConnectionListComponent } from '../../repeats/connection-list/connection-list.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule ,TopBarComponent, PreProfileComponent, HttpClientModule, ImageComponent, FormsModule, PostComponent, BrandSearcherComponent, PostEditComponent],
+  imports: [CommonModule ,TopBarComponent, 
+    PreProfileComponent, HttpClientModule, 
+    ImageComponent, FormsModule,
+    PostComponent, BrandSearcherComponent, 
+    PostEditComponent, ConnectionListComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
   animations: [
@@ -44,6 +50,9 @@ import { PostService } from '../../../services/post.service';
   ]
 })
 export class ProfileComponent implements OnInit{
+message() {
+throw new Error('Method not implemented.');
+}
 
 
 
@@ -72,6 +81,30 @@ export class ProfileComponent implements OnInit{
 
   categoryList: string[] = [];
 
+  connectionStatus: string = "";
+  profileId: string = "";
+  connectionId: number = -1;
+
+  showMode: number = 0;
+
+  // ConnectionLists
+  @ViewChild('confirmedList')
+  confirmedList: ConnectionListComponent| undefined;
+
+  // @ViewChild('awaitList')
+  // awaitList: ConnectionListComponent | undefined;
+
+  // @ViewChild('respondList')
+  // respondList: ConnectionListComponent | undefined;
+
+  setShowMode(sm: number){
+    this.showMode = sm;
+    if(this.showMode && this.confirmedList 
+      //&& this.awaitList && this.respondList
+      ){
+      this.confirmedList.onPrepare();
+    }
+  }
 
   // Profile Edit activation methods
   toggleAboutMeEdit(){
@@ -131,10 +164,13 @@ export class ProfileComponent implements OnInit{
      private route: ActivatedRoute,
      private authService: AuthService,
      private preProfileService: PreProfileService,
-     private postService: PostService)
+     private postService: PostService,
+     private connectionService: ConnectionService)
   {
     this.profileService = profileService;
     this.userService = userService;
+
+
 
     //this.profilePicUrl = `${envir}`
 
@@ -146,9 +182,10 @@ export class ProfileComponent implements OnInit{
     router.events.subscribe((event) => {
       if(event instanceof NavigationEnd){
         let endEvent: NavigationEnd = event;
-        if(endEvent.url != "/profile")
+      
+        if(!endEvent.url.startsWith("/profile"))
         {
-          console.log(`End Event url was ${endEvent.url}`);
+          //console.log(`End Event url was ${endEvent.url}`);
           return;
         }
 
@@ -158,12 +195,20 @@ export class ProfileComponent implements OnInit{
           return;
         }
 
+        this.connectionStatus = "";
+        this.connectionId = -1;
+
         let id: string| null = null;
         if(route.snapshot.queryParamMap.has("id")){
           id = route.snapshot.queryParamMap.get("id");
         }
 
         this.isDouble = this.checkIfDouneCol(window.innerWidth);
+
+        if(this.showMode == 1 && this.confirmedList){
+          this.confirmedList.connections = [];
+          this.showMode = 0;
+        }
 
         // Ned to Uncomment this line once we are ready to test Back End Interactivity
         this.callProfileRetreival(id);
@@ -172,6 +217,36 @@ export class ProfileComponent implements OnInit{
     });
 
     this.isDouble = this.checkIfDouneCol(window.innerWidth);
+  }
+
+  requestConnection(){
+    this.connectionService.makeConnectionRequest(this.profileId).subscribe({
+      next: (ro: ResponseObj) => {
+        alert("Request Made!");
+        this.connectionStatus = "AWAITING";
+        if(ro.id)
+        this.connectionId = parseInt(ro.id.toString());
+      }
+    })
+  }
+
+  respondToConnection(confirming: boolean){
+    this.connectionService.makeConnectionResponse(this.profileId, confirming).subscribe({
+      next: (ro: ResponseObj) => {
+        this.connectionStatus = confirming ? "CONNECTED": "NOT_FOUND";
+      }
+    })
+  }
+
+  removeConnection(){
+    if(this.connectionId == -1) return;
+    this.connectionService.removeConnection(this.connectionId).subscribe({
+      next: (ro: ResponseObj) => {
+        this.connectionId = -1;
+        this.connectionStatus = 'NOT_FOUND';
+
+      }
+    })
   }
 
   setUpFakeProfile(isSelf: boolean){
@@ -217,9 +292,18 @@ export class ProfileComponent implements OnInit{
       let strTarget = target;
       this.profileService.getProfile(target).subscribe({
         next: (profile: Profile) => {
+
+          if(!this.isSelfProfile){
+            this.profileService.getConnectionStatus(strTarget.toString()).subscribe({
+              next: (ro: ResponseObj) => this.connectionStatus = ro.message.toString()
+            })
+          }
+
           response(profile);
           
           this.foundEndOfPosts = false;
+          console.log("strTarget is ", strTarget);
+          this.profileId = strTarget.toString();
 
           let idSplit = strTarget.split("-");
 
@@ -234,7 +318,6 @@ export class ProfileComponent implements OnInit{
             this.profileService.setCoverPhoto(`${environment.image_service_url}Profile/byBrand/${actId}}?app=cover-${environment.app_name}`);
             this.retrievePosts(actId.toString(), false);
           }
-        
 
         },
         error: (e: any) => {
@@ -281,6 +364,10 @@ export class ProfileComponent implements OnInit{
       this.postService.getByBrand(id, this.postList.length / this.postPageSize, this.postPageSize).subscribe(observe);
     }
 
+  }
+
+  prepBlock(){
+    alert("Not Yet Implemented");
   }
 
   ngOnInit(): void {

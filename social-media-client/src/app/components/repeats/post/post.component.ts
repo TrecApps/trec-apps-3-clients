@@ -1,5 +1,5 @@
 import { AfterContentInit, AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { AddPost, CommentList, CommentPost, Post } from '../../../models/posts';
+import { AddPost, CommentList, CommentPost, Post, Comment } from '../../../models/posts';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { RouterModule } from '@angular/router';
@@ -11,6 +11,8 @@ import { ProfileService } from '../../../services/profile.service';
 import { ReactionService } from '../../../services/reaction.service';
 import { ReactionStats, ResponseObj } from '../../../models/ResponseObj';
 import { Reaction } from '../../../models/Reaction';
+import { CommentService } from '../../../services/comment.service';
+
 
 @Component({
   selector: 'app-post',
@@ -47,7 +49,15 @@ throw new Error('Method not implemented.');
   reactionId: number = -1;
   reactionType: string | undefined;
 
-  constructor(private profileService: ProfileService, private reactionService: ReactionService){
+  defaultCommentCountSize: number = 10;
+  commentCount: number = 0;
+
+  hasMoreComments: boolean = true;
+
+  constructor(
+    private profileService: ProfileService,
+    private reactionService: ReactionService,
+    private commentService: CommentService){
     //this.imageLink = `${environment.image_service_url}Profile/`;
     this.imageLink = "assets/scaffolds/Profile_JLJ.png";
 
@@ -57,8 +67,30 @@ throw new Error('Method not implemented.');
   ngAfterViewInit(): void {
     if(this.actPost){
       this.refreshReactionCount();
+      this.getComments()
     }
   }
+
+  getComments() {
+    if(!this.actPost?.postId) return;
+    this.commentService.getCommentsByPost(this.actPost.postId.toString(), this.defaultCommentCountSize,this.commentCount).subscribe({
+      next: (comments: Comment[]) => {
+        if(!this.actPost) return;
+        let cl = new CommentList();
+        cl.comments = comments;
+        cl.show = true;
+        this.commentCount++;
+        
+        if(!this.actPost.comments)
+          this.actPost.comments = [];
+
+        this.actPost.comments.push(cl);
+
+        this.hasMoreComments = cl.comments.length >= this.defaultCommentCountSize;
+      }
+    })
+  }
+
   ngOnInit(): void {
     if(this.actPost){
       this.editComment = new CommentPost("", this.actPost?.postId || "", 0);

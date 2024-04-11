@@ -5,14 +5,43 @@
         style="float:left; padding-left: 10%; bottom: 0px; display: block; width: 80%; height:100%;"
         [style.min-height]="minHeight" [style.max-height]="maxHeight">
     <div class="main-panel flex-and-center" style="bottom: 0px;">
-            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="userService.id == profileService.id">
+
+            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="isSelfProfile">
                 <button class="btn btn-info pic-button" (click)="prepNewCoverPhoto()">Set Cover Photo</button>
             </div>
+            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'REQUESTED'">
+                <button class="btn btn-info pic-button" (click)="respondToConnection(true)">Confirm Connection Request</button>
+            </div>
+            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'NOT_FOUND'">
+                <button class="btn btn-info pic-button" (click)="requestConnection()">Make Connection</button>
+            </div>
+            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'AWAITING'">
+                <button class="btn btn-info pic-button">Awaiting Response</button>
+            </div>
+            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'CONNECTED'">
+                <button class="btn btn-info pic-button" (click)="message()">Message</button>
+            </div>
+
+
             <div class="flex-and-center profile-container" style="width: 33%;" >
                 <img class="profilePic" [src]="profileService.profilePhoto">
             </div>
-            <div class="set-profile-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="userService.id == profileService.id">
+
+
+            <div class="set-profile-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="isSelfProfile">
                 <button class="btn btn-info pic-button" (click)="prepNewProfilePhoto()">Set Profile Photo</button>
+            </div>
+            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'REQUESTED'">
+                <button class="btn btn-warn pic-button" (click)="respondToConnection(false)">Reject Connection Request</button>
+            </div>
+            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'AWAITING'">
+                <button class="btn btn-warn pic-button" (click)="removeConnection()">Remove Connection Request</button>
+            </div>
+            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'CONNECTED'">
+                <button class="btn btn-warn pic-button" (click)="removeConnection()">Remove Connection</button>
+            </div>
+            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'NOT_FOUND'">
+                <button class="btn btn-danger pic-button" (click)="prepBlock()">Block</button>
             </div>
     </div>
 </div>
@@ -33,12 +62,50 @@
 
     <div class="profile-details-section d-bordered">
 
-        <h3 (click)="toggleShowDetails()">
+        <div class="details-selection-section">
+            <div class="details-selection" (click)="setShowMode(0)">
+                About {{ profile.displayName }}
+            </div>
+            <div class="details-selection" (click)="setShowMode(1)">
+                {{ profile.displayName }}'s Connections
+            </div>
+        </div>
+
+        <hr>
+
+        <div *ngIf="showMode == 1">
+            <app-connection-list #confirmedList
+                [mode]="'ALL'" 
+                [userDisplayName]="profile.displayName + '\'s Connections'"
+                [profileId]="profileId"></app-connection-list>
+            
+            <!-- <div *ngIf="isSelfProfile">
+                <hr>
+                <app-connection-list #awaitList
+                    [mode]="'AWAITING'"
+                    [userDisplayName]="'Awaiting Connections'"
+                    [profileId]="profileId"
+                ></app-connection-list>
+                <hr>
+                <app-connection-list #respondList
+                    [mode]="'REQUESTED'"
+                    [userDisplayName]="'Awaiting a Response'"
+                    [profileId]="profileId"
+                ></app-connection-list>
+
+            </div> -->
+        </div>
+
+        
+
+
+        <div *ngIf="showMode == 0">
+            <h3 (click)="toggleShowDetails()">
             <img *ngIf="!isDouble" class="expand_icon expand_i_reg" [@rotate]="(showProfileDetails) ? 'expanded' : 'collapse'" src="assets/icons/Less_than.png">
             {{ profile.displayName }}
-        </h3>
+            </h3>
 
-        <div  [@doShowDetails]="(showProfileDetails || isDouble) ? 'expanded': 'collapse'">
+            <div  [@doShowDetails]="(showProfileDetails || isDouble) ? 'expanded': 'collapse'">
 
             <label>About Me</label>
             <div class="d-bordered" *ngIf="!aboutMeEdit">
@@ -98,12 +165,13 @@
                 </li>
             </ol>
             <button *ngIf="isSelfProfile && moviesChanged" class="btn btn-submit" (click)="updateBooks()">Save Book List</button>
+            </div>
         </div>
     </div>
 
     <div class="posts-section">
 
-        <app-post-edit 
+        <app-post-edit *ngIf="isSelfProfile"
             #postEditor 
             [profilePic]="profileService.profilePhoto.toString()"
             [categoryList]="categoryList" 

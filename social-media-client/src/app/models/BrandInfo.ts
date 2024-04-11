@@ -12,3 +12,11 @@ export class BrandInfo {
         }
     }
 }
+
+export class BrandInfoImg {
+    brandInfo: BrandInfo;
+    imgData: string | undefined;
+    constructor(brandInfo: BrandInfo){
+        this.brandInfo = brandInfo;
+    }
+}

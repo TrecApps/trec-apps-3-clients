@@ -18,7 +18,7 @@ export class ReactionService {
     reactionPost.isPrivate = isPrivate;
     reactionPost.id = reactionId;
     
-    return this.client.post<ResponseObj>(`${environment.post_service_url}Reactions`, reactionPost, {
+    return this.client.post<ResponseObj>(`${environment.post_service_url}PostReact`, reactionPost, {
       headers: this.authService.getHttpHeaders(true, true)
     })
   }
@@ -26,7 +26,7 @@ export class ReactionService {
   removeReactionOnPost(id: number): Observable<ResponseObj>{
     let params = new HttpParams().append("reactionId", id);
 
-    return this.client.delete<ResponseObj>(`${environment.post_service_url}Reactions`, {
+    return this.client.delete<ResponseObj>(`${environment.post_service_url}PostReact`, {
       headers: this.authService.getHttpHeaders(false, false),
       params
     })
@@ -34,7 +34,7 @@ export class ReactionService {
 
   getReactionCountByPost(id: string): Observable<ReactionStats> {
     let params = new HttpParams().append("id", id);
-    return this.client.get<ReactionStats>(`${environment.post_service_url}Reactions/CountByPost`, {
+    return this.client.get<ReactionStats>(`${environment.post_service_url}PostReact/CountByPost`, {
       headers: this.authService.getHttpHeaders(false, false),
       params
     })
@@ -46,7 +46,7 @@ export class ReactionService {
     reactionPost.isPrivate = isPrivate;
     reactionPost.id = reactionId;
     
-    return this.client.post<ResponseObj>(`${environment.comment_service_url}Reactions`, reactionPost, {
+    return this.client.post<ResponseObj>(`${environment.comment_service_url}CommentReact`, reactionPost, {
       headers: this.authService.getHttpHeaders(true, true)
     })
   }
@@ -54,7 +54,7 @@ export class ReactionService {
   removeReactionOnComment(id: number): Observable<ResponseObj>{
     let params = new HttpParams().append("reactionId", id);
 
-    return this.client.delete<ResponseObj>(`${environment.comment_service_url}Reactions`, {
+    return this.client.delete<ResponseObj>(`${environment.comment_service_url}CommentReact`, {
       headers: this.authService.getHttpHeaders(false, false),
       params
     })
@@ -62,7 +62,7 @@ export class ReactionService {
 
   getReactionCountByComment(id: string): Observable<ReactionStats> {
     let params = new HttpParams().append("id", id);
-    return this.client.get<ReactionStats>(`${environment.comment_service_url}Reactions/CountByComment`, {
+    return this.client.get<ReactionStats>(`${environment.comment_service_url}CommentReact/CountByComment`, {
       headers: this.authService.getHttpHeaders(false, false),
       params
     })

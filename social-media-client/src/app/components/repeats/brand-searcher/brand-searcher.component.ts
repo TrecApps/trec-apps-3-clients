@@ -3,7 +3,7 @@ import { BrandResourceGetService } from '../../../services/brand-resource-get.se
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TextGenerationService } from '../../../services/text-generation.service';
-import { BrandInfo } from '../../../models/BrandInfo';
+import { BrandInfo, BrandInfoImg } from '../../../models/BrandInfo';
 import { Observable } from 'rxjs';
 
 
@@ -30,7 +30,7 @@ export class BrandSearcherComponent implements OnDestroy{
 
   name: string = "";
 
-  entries: BrandInfo[] = [];
+  entries: BrandInfoImg[] = [];
 
   showOptions: boolean = true;
 
@@ -50,10 +50,10 @@ export class BrandSearcherComponent implements OnDestroy{
 
     let tempName = this.name.trim();
     if(tempName){
-      let observable: Observable<BrandInfo[]> = this.type ?
+      let observable: Observable<BrandInfoImg[]> = this.type ?
        this.brandGetService.getBrandsByNameAndType(tempName, this.type) : this.brandGetService.getBrandsByName(tempName);
        observable.subscribe({
-        next: (brands: BrandInfo[]) => this.entries = brands
+        next: (brands: BrandInfoImg[]) => this.entries = brands
        });
     } else {
       this.entries = [];

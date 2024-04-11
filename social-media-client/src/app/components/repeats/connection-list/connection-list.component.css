@@ -1,0 +1,72 @@
+.connection-parent{
+    margin: 2px;
+    padding: 2px;
+    border-style: double;
+    border-color: darkblue;
+    border-radius: 2px;
+    display:flex;
+    flex-direction: column;
+
+    background: rgb(227,227,227);
+    background: radial-gradient(circle, rgba(227,227,227,1) 0%, rgba(186,186,251,1) 83%, rgba(0,136,255,1) 100%); 
+}
+
+.tc-hr-holder hr {
+    width: 70%;
+    margin: .875em auto 1.2525em;
+    border: 1px solid;
+    height:auto;
+}
+
+.connection-holder {
+    height:44px;
+    width: 100%;
+
+    border: solid darkblue 2px;
+    background-color: aqua;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.connection-holder:hover {
+    background-color: #88ffff;
+}
+
+.connection-profile-holder{
+    height:36px;
+    width:36px;
+
+    margin: 2px;
+
+    border: solid black 1px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.connection-profile-holder img {
+    height: 100%;
+    width: 100%;
+    /* margin: 2px; */
+}
+
+.connection-name-holder {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 3px;
+}
+
+.connection-name-holder p {
+    margin: 2px;
+    color: darkblue;
+}
+
+.connection-action-holder {
+    min-width: 30%;
+
+    display: flex;
+    justify-content: flex-end;
+    padding: 2px;
+}

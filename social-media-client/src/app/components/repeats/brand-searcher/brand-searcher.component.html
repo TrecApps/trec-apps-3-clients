@@ -3,8 +3,13 @@
     <input type="text" class="form-control" [(ngModel)]="name" (click)="onInputTextedClicked()" (input)="onInputChange()">
 
     <div class="option-holder" *ngIf="showOptions">
-        <div class="brand-option" *ngFor="let brand of entries" (click)="onBrandSelected(brand)">
-            {{ brand.name }}
+        <div class="search-option" *ngFor="let brand of entries" (click)="onBrandSelected(brand.brandInfo)">
+            <div class="search-img-holder">
+                <img [src]="brand.imgData || '/assets/icons/none.png'">
+            </div>
+            <div class="search-name-holder">
+                <p class="search-name">{{ brand.brandInfo }}</p>
+            </div>
         </div>
     </div>
 

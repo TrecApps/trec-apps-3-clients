@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
-import { BrandInfo } from '../models/BrandInfo';
+import { BrandInfo, BrandInfoImg } from '../models/BrandInfo';
 import { environment } from '../environments/environment';
 
 export const BRAND_RESOURCE_TYPE = {
@@ -48,14 +48,14 @@ export const BRAND_RESOURCE_TYPE = {
   APP: "APP"
 }
 
-const brandDatabaseScaffold: BrandInfo[] = [
-  new BrandInfo("1", "Star Wars Episode III: Revenge of the Sith", BRAND_RESOURCE_TYPE.FILM),
-  new BrandInfo("2", "Star Wars Episode II: Attack of the Clones", BRAND_RESOURCE_TYPE.FILM),
-  new BrandInfo("3", "Harry Potter and the Prisoner of Azkaban", BRAND_RESOURCE_TYPE.FILM),
-  new BrandInfo("4", "Harry Potter and the Goblet of Fire", BRAND_RESOURCE_TYPE.FILM),
-  new BrandInfo("5", "Rogue One - A Star Wars Story", BRAND_RESOURCE_TYPE.FILM),
-  new BrandInfo("6", "North America", BRAND_RESOURCE_TYPE.CONTINENT),
-  new BrandInfo("7", "South America", BRAND_RESOURCE_TYPE.CONTINENT)
+const brandDatabaseScaffold: BrandInfoImg[] = [
+  new BrandInfoImg(new BrandInfo("1", "Star Wars Episode III: Revenge of the Sith", BRAND_RESOURCE_TYPE.FILM)),
+  new BrandInfoImg(new BrandInfo("2", "Star Wars Episode II: Attack of the Clones", BRAND_RESOURCE_TYPE.FILM)),
+  new BrandInfoImg(new BrandInfo("3", "Harry Potter and the Prisoner of Azkaban", BRAND_RESOURCE_TYPE.FILM)),
+  new BrandInfoImg(new BrandInfo("4", "Harry Potter and the Goblet of Fire", BRAND_RESOURCE_TYPE.FILM)),
+  new BrandInfoImg(new BrandInfo("5", "Rogue One - A Star Wars Story", BRAND_RESOURCE_TYPE.FILM)),
+  new BrandInfoImg(new BrandInfo("6", "North America", BRAND_RESOURCE_TYPE.CONTINENT)),
+  new BrandInfoImg(new BrandInfo("7", "South America", BRAND_RESOURCE_TYPE.CONTINENT))
 ];
 
 @Injectable({
@@ -67,10 +67,10 @@ export class BrandResourceGetService {
 
   }
 
-  getBrandsByName(name: string): Observable<BrandInfo[]>{
-    return new Observable((observer: Subscriber<BrandInfo[]>)=> {
-      observer.next(brandDatabaseScaffold.filter((bi: BrandInfo) => {
-        return bi.name.includes(name);
+  getBrandsByName(name: string): Observable<BrandInfoImg[]>{
+    return new Observable((observer: Subscriber<BrandInfoImg[]>)=> {
+      observer.next(brandDatabaseScaffold.filter((bi: BrandInfoImg) => {
+        return bi.brandInfo.name.includes(name);
       }));
       observer.complete();
     });
@@ -78,11 +78,11 @@ export class BrandResourceGetService {
     //return this.client.get<BrandInfo[]>(`${environment.resource_service_url}search/resources/${name}`);
   }
 
-  getBrandsByNameAndType(name: string, type: string): Observable<BrandInfo[]>{
+  getBrandsByNameAndType(name: string, type: string): Observable<BrandInfoImg[]>{
 
-    return new Observable((observer: Subscriber<BrandInfo[]>)=> {
-      observer.next(brandDatabaseScaffold.filter((bi: BrandInfo) => {
-        return bi.resourceTypePrimary == type && bi.name.includes(name);
+    return new Observable((observer: Subscriber<BrandInfoImg[]>)=> {
+      observer.next(brandDatabaseScaffold.filter((bi: BrandInfoImg) => {
+        return bi.brandInfo.resourceTypePrimary == type && bi.brandInfo.name.includes(name);
       }));
       observer.complete();
     });

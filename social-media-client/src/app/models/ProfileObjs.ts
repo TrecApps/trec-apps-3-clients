@@ -65,3 +65,10 @@ export function getProfileSkaffold(): Profile {
     
     return ret;
 }
+
+export class ProfileSel {
+    id: string = "";
+    name: string = "";
+
+    shortAboutMe: string | undefined;
+}

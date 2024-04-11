@@ -1,13 +1,10 @@
 
 .home-base {
     height: auto;
-
     display: flex;
     flex-flow: row wrap;
-
     padding: 3px;
-
-    
+    margin-top: 5px;
 }
 
 /* Right Section */

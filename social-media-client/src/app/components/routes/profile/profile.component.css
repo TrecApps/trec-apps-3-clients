@@ -62,6 +62,26 @@
     max-width: 750px;
 }
 
+.details-selection-section {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.details-selection {
+    background-color: aqua;
+    padding: 5px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    margin: 5px;
+}
+
+.details-selection:hover {
+    background-color: aliceblue;
+}
+
 .posts-section {
     min-width: 320px;
     max-width: 750px;

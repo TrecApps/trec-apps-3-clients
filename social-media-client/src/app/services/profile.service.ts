@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { HttpClient } from '@angular/common/http';
-import { Profile, ProfileCreateBody, PropertyTreeNode } from '../models/ProfileObjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Profile, ProfileCreateBody, ProfileSel, PropertyTreeNode } from '../models/ProfileObjs';
 import { environment } from '../environments/environment';
 import { CommentPost } from '../models/posts';
 import { Observable } from 'rxjs';
@@ -13,8 +13,8 @@ import { BrandInfo } from '../models/BrandInfo';
 })
 export class ProfileService {
   id: String = "";
-  coverPhoto: String = "assets/scaffolds/Part_3_Ch_18.png";
-  profilePhoto: String = "assets/scaffolds/Profile_JLJ.png";
+  coverPhoto: String = "assets/icons/non-cover.png";
+  profilePhoto: String = "assets/icons/non-profile.png";
 
   pronouns: string[] = [];
 
@@ -41,9 +41,25 @@ export class ProfileService {
     return this.client.get<Profile>(url, {headers});
   }
 
+  searchProfiles(term: string, size: number = 10, page: number = 0): Observable<ProfileSel[]>{
+    let headers = this.authService.getHttpHeaders(false, false);
+    let params = new HttpParams().append("query", term).append("size", size).append("page", page)
+
+    return this.client.get<ProfileSel[]>(`${environment.profile_service_url}Profile/search`, {
+      headers, params
+    })
+  }
+
   establishProfile(body: ProfileCreateBody): Observable<Profile> {
     return this.client.post<Profile>(`${environment.profile_service_url}Profile`, body, {
       headers: this.authService.getHttpHeaders(true, true)
+    });
+  }
+
+  getConnectionStatus(id: string): Observable<ResponseObj> {
+    let params = new HttpParams().append("id", id);
+    return this.client.get<ResponseObj>(`${environment.profile_service_url}Connections/Current`, {
+      params, headers: this.authService.getHttpHeaders(false, false)
     });
   }
 

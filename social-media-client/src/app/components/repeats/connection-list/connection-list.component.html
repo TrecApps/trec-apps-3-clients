@@ -1,0 +1,39 @@
+<div class="connection-parent tc-hr-holder">
+    <div class="flex-and-center">
+        <h5>{{userDisplayName}}</h5>
+    </div>
+    
+    <hr>
+
+    <div class="connection-holder" *ngFor="let c of connections">
+        <div class="connection-profile-holder">
+            <img [src]="c.profileId.startsWith('User') ? (userImage + c.profileId.substring(5) + '?app=' + cAppName) : (brandImage + c.profileId.substring(6) + '?app=' + cAppName)" alt="Unknown Pic">
+        </div>
+        <div class="connection-name-holder">
+            <p (click)="switchToProfile(c.profileId)"><u><b>{{ c.displayName }}</b></u></p>
+        </div>
+        <div class="connection-action-holder">
+
+            <div *ngIf="c.statusToViewer == 'NOT_FOUND'">
+                <button style="padding:3px; margin: 3px" class="btn btn-primary" (click)="makeConnectionRequest(c)">Connect</button>
+                <button style="padding:3px; margin: 3px" class="btn btn-danger" (click)="initiateBlock(c)">Block</button>
+            </div>
+
+            <div *ngIf="c.statusToViewer == 'REQUESTED'">
+                <button style="padding:3px; margin: 3px" class="btn btn-primary" (click)="makeConnectionResponse(c, true)">Confirm</button>
+                <button style="padding:3px; margin: 3px" class="btn btn-warning" (click)="makeConnectionResponse(c, false)">Reject</button>
+            </div>
+
+            <div *ngIf="c.statusToViewer == 'AWAITING'">
+                <button style="padding:3px; margin: 3px" class="btn btn-white">Awaiting Response</button>
+                <button style="padding:3px; margin: 3px" class="btn btn-warning" (click)="removeConnection(c)">Remove Request</button>
+            </div>
+
+            <div *ngIf="c.statusToViewer == 'CONNECTED'">
+                <button style="padding:3px; margin: 3px" class="btn btn-primary" (click)="initiateMessage(c)">Message</button>
+                <button style="padding:3px; margin: 3px" class="btn btn-warning" (click)="removeConnection(c)">Remove</button>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -22,12 +22,17 @@
       "changeOrigin": true,
       "pathRewrite": {"^/sub" : ""}
     },
-    "/image/**" : {
-      "target": "http://localhost:8089",
-      "secure": false,
+    "/Images-api/**" : {
+      "target": "https://test.trecapps.com",
+      "secure": true,
       "logLevel": "debug",
-      "changeOrigin": true,
-      "pathRewrite": {"^/image" : ""}
+      "changeOrigin": true
+    },
+    "/Brands-api/**": {
+      "target": "https://test.trecapps.com",
+      "secure": true,
+      "logLevel": "debug",
+      "changeOrigin": true
     },
     "/posts/**" : {
       "target": "http://127.0.0.1:8088",
@@ -35,5 +40,12 @@
       "logLevel": "debug",
       "changeOrigin": true,
       "pathRewrite": {"^/posts" : ""}
+    },
+    "/comments/**": {
+      "target": "http://127.0.0.1:8088",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true,
+      "pathRewrite": {"^/comments" : ""}
     }
   }

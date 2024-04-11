@@ -13,7 +13,7 @@ export class UserService {
 
   id: String = "";
 
-  topBarColor: String = "#3267D4";
+  topBarColor: String = "cornflowerblue";
 
   tcUser: TcUser | undefined;
 
@@ -21,8 +21,9 @@ export class UserService {
 
   isCurrentUser(id: String | null) : boolean {
     if(!id){ return true; }
-
-    return `User-${this.tcUser?.id}` == id;
+    let ret = `User-${this.tcUser?.id}` == id
+    console.log("Is Current User ", ret);
+    return ret;
   }
 
   getCurrentUserId(): String | undefined{
@@ -41,11 +42,27 @@ export class UserService {
 
   constructor(private authService: AuthService, private router: Router, private client: HttpClient) { }
 
+  defaultPic: string = "assets/icons/non-profile.png";
+  profilePic: string = this.defaultPic;
+
+  onProfileNotAvailable(){
+    this.profilePic = this.defaultPic;
+  }
+
   refreshUser(callable: Function) {
     let observe = {
       next: (response: UserInfo) => { 
         this.tcUser = response.user;
         this.tcBrand = response.brand;
+
+        if(this.tcBrand?.id){
+          this.profilePic = `${environment.image_service_url}Profile/byBrand/${this.tcBrand.id}?app=${environment.app_name}`
+        } else if(this.tcUser?.id){
+          this.profilePic = `${environment.image_service_url}Profile/of/${this.tcUser.id}?app=${environment.app_name}`
+        } else {
+          this.onProfileNotAvailable();
+        }
+
         callable();
 
       },
@@ -58,7 +75,7 @@ export class UserService {
       }
     };
 
-    this.client.get<UserInfo>(`${environment.user_service_url}Profile/User`,{headers: this.authService.getHttpHeaders(true, false)}).subscribe(observe);
+    this.client.get<UserInfo>(`${environment.user_service_url}Auth/User`,{headers: this.authService.getHttpHeaders(true, false)}).subscribe(observe);
 
   }
 }

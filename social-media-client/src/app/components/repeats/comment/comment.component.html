@@ -3,7 +3,7 @@
     <div style="display: flex; flex-direction: column; width: 100%;">
         <div class="comment-top">
             <div class="comment-profile-holder">
-                <img [src]="imageLink" alt="Poster Photo">
+                <img [src]="commenterImageLink" alt="Poster Photo">
             </div>
 
             <div class="commenter-details">
@@ -60,21 +60,21 @@
                 <div *ngFor="let comment of cl.comments" style="display: flex; flex-direction: row;">
                     <div style="width: 10%;"></div>
 
-                    <app-comment style="width: 90%;"  [actPost]="comment"></app-comment>
+                    <app-comment style="width: 90%;"  [actPost]="comment" (onCommentPersisted)="newCommentHandler($event)"></app-comment>
                 </div>
 
             </div>
         </div>
     </div>
 
-    <button class="btn btn-info" style="width: 95%" (click)="seekMoreComments()">Additional Comments</button>
+    <button class="btn btn-info" style="width: 95%" *ngIf="hasMoreReplies" (click)="seekMoreComments()">Additional Comments</button>
 
 </div>
 
 
 <div *ngIf="editComment" class="whole-comment-draft d-bordered">
     <div class="comment-profile-holder" style="margin: 10px;">
-        <img [src]="imageLink" alt="Poster Photo">
+        <img [src]="currentProfImageLink" alt="Poster Photo">
     </div>
 
     <div class="comment-draft-body">

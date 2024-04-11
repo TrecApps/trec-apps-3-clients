@@ -2,30 +2,37 @@
 
 <div class="home-base">
 
+    <div style="width: 10%"></div>
+
     <div class="home-right-container">
 
         <div class="home-profile-area">
             <div class="home-profile-top">
                 <div class="home-profile-pic-holder">
-                    <img src="assets/scaffolds/Profile_JLJ.png">
+                    <img [src]="profileImage">
                 </div>
             </div>
 
             <div class="home-profile-pic-buffer"></div>
 
             <div class="home-profile-name-holder">
-                <p>John Jacko</p>
+                <p>{{ homeDisplayName }}</p>
             </div>
 
         </div>
 
     </div>
 
+    <div style="width: 5%"></div>
+
     <div class="home-middle-container">
-        <app-post-edit [profilePic]="'assets/scaffolds/Profile_JLJ.png'"></app-post-edit>
+        <app-post-edit [profilePic]="profileImage"></app-post-edit>
     </div>
+
+    <div style="width: 5%"></div>
 
     <div class="home-left-container d-bordered">
         <div style="width:100%; height: 10px; background-color: red;"></div>
+        <app-connection-list #homeConnections [mode]="'CONFIRMED'" [profileId]="currentProfile" [userDisplayName]="'Connections'"></app-connection-list>
     </div>
 </div>

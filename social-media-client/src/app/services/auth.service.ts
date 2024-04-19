@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { take } from 'rxjs';
 import { environment } from '../environments/environment';
 import { Login, LoginToken } from '../models/Login';
@@ -68,8 +68,9 @@ export class AuthService {
         callable(false);
       }
     };
+    let params = new HttpParams().append("app", environment.app_name);
 
-    this.httpClient.post<LoginToken>(`${environment.user_service_url}Auth/login`, login).pipe(take(1)).subscribe(observe);
+    this.httpClient.post<LoginToken>(`${environment.user_service_url}Auth/login`, login, {params}).pipe(take(1)).subscribe(observe);
   }
 
   getHttpHeaders(useJson: boolean, usingContentType : boolean) : HttpHeaders {

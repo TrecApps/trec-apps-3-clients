@@ -7,7 +7,7 @@ export const environment = {
   //user_service_url: 'https://azurewebsites.net/'
   //user_service_url: 'https://trecappsusertest.azurewebsites.net/',
   user_admin_url: 'https://trec-apps-test-admin.azurewebsites.net/',
-  user_service_url: 'http://localhost:4200/api/',
+  user_service_url: 'http://localhost:4200/User-api/',
   //user_admin_url: 'http://localhost:4200/admin/',
   user_subscription_url: 'http://localhost:4200/sub/',
 
@@ -17,7 +17,7 @@ export const environment = {
   post_service_url: "http://localhost:4200/posts/",
   comment_service_url:"http://localhost:4200/comments/",
   resource_service_url: "http://localhost:4200/Brands-api/",
-  app_name: "Coffe-Shop"
+  app_name: "Coffee-Shop"
 };
 
 /*

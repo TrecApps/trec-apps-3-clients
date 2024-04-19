@@ -22,6 +22,12 @@
       "changeOrigin": true,
       "pathRewrite": {"^/sub" : ""}
     },
+    "/User-api/**" : {
+      "target": "https://test.trecapps.com",
+      "secure": true,
+      "logLevel": "debug",
+      "changeOrigin": true
+    },
     "/Images-api/**" : {
       "target": "https://test.trecapps.com",
       "secure": true,

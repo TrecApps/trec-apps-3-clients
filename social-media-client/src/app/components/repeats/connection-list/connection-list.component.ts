@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ResponseObj } from '../../../models/ResponseObj';
 import { Router } from '@angular/router';
+import { BlockService } from '../../../services/block.service';
 
 @Component({
   selector: 'app-connection-list',
@@ -35,7 +36,11 @@ export class ConnectionListComponent implements OnInit {
   cAppName: string = environment.app_name;
 
 
-  constructor(private connectionServcie: ConnectionService, private userService: UserService, private router: Router){
+  constructor(
+    private connectionServcie: ConnectionService,
+    private userService: UserService,
+    private router: Router,
+    private blockService: BlockService){
 
   }
 
@@ -159,7 +164,20 @@ export class ConnectionListComponent implements OnInit {
   }
 
   initiateBlock(cs: ConnectionStatus){
-    alert("Not Yet Implemented");
+    let allApps = confirm("Do you wish to block this person Across all of TrecApps?");
+
+    if(!confirm("Are you sure you wish to block this person. You will not be visible to them.")){
+      return;
+    }
+
+    this.blockService.blockPerson(cs.profileId, !allApps).subscribe({
+      next: (ro: ResponseObj) => {
+        alert(`Successfully Blocked ${cs.displayName}`);
+      },
+      error: (ro: ResponseObj) => {
+        alert(ro.message);
+      }
+    })
   }
 
   makeConnectionResponse(cs:ConnectionStatus, approve: boolean){

@@ -23,6 +23,7 @@ import { ImageInsert, PostEditComponent } from '../../repeats/post-edit/post-edi
 import { PostService } from '../../../services/post.service';
 import { ConnectionService } from '../../../services/connection.service';
 import { ConnectionListComponent } from '../../repeats/connection-list/connection-list.component';
+import { BlockService } from '../../../services/block.service';
 
 @Component({
   selector: 'app-profile',
@@ -165,7 +166,8 @@ throw new Error('Method not implemented.');
      private authService: AuthService,
      private preProfileService: PreProfileService,
      private postService: PostService,
-     private connectionService: ConnectionService)
+     private connectionService: ConnectionService,
+     private blockService: BlockService)
   {
     this.profileService = profileService;
     this.userService = userService;
@@ -199,8 +201,8 @@ throw new Error('Method not implemented.');
         this.connectionId = -1;
 
         let id: string| null = null;
-        if(route.snapshot.queryParamMap.has("id")){
-          id = route.snapshot.queryParamMap.get("id");
+        if(this.route.snapshot.queryParamMap.has("id")){
+          id = this.route.snapshot.queryParamMap.get("id");
         }
 
         this.isDouble = this.checkIfDouneCol(window.innerWidth);
@@ -248,6 +250,8 @@ throw new Error('Method not implemented.');
       }
     })
   }
+
+
 
   setUpFakeProfile(isSelf: boolean){
     this.isSelfProfile = isSelf;
@@ -367,7 +371,20 @@ throw new Error('Method not implemented.');
   }
 
   prepBlock(){
-    alert("Not Yet Implemented");
+    let allApps = confirm("Do you wish to block this person Across all of TrecApps?");
+
+    if(!confirm("Are you sure you wish to block this person. You will not be visible to them.")){
+      return;
+    }
+
+    this.blockService.blockPerson(this.profileId, !allApps).subscribe({
+      next: (ro: ResponseObj) => {
+        alert(`Successfully Blocked ${this.profile?.displayName}`);
+      },
+      error: (ro: ResponseObj) => {
+        alert(ro.message);
+      }
+    })
   }
 
   ngOnInit(): void {

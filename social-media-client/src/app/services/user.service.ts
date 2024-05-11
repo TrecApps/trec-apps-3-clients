@@ -40,6 +40,13 @@ export class UserService {
     return this.tcUser?.displayName;
   }
 
+  getProfileImageByProfile(profile: string): string {
+    if(profile.startsWith('Brand-')){
+      return `${environment.image_service_url}Profile/byBrand/${profile.substring(6)}?app=${environment.app_name}`
+    }
+    return `${environment.image_service_url}Profile/of/${profile.substring(5)}?app=${environment.app_name}`
+  }
+
   constructor(private authService: AuthService, private router: Router, private client: HttpClient) { }
 
   defaultPic: string = "assets/icons/non-profile.png";

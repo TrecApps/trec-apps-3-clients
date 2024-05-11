@@ -16,6 +16,12 @@ export class MessagingService {
   constructor(private authService:AuthService, private client: HttpClient, private userService: UserService) { }
 
   conversations: ConversationEntry[] = [];
+
+  currentConversation: ConversationEntry | undefined;
+
+  setConversation(con: ConversationEntry | undefined){
+    this.currentConversation = con;
+  }
   
 
   onLogin(){
@@ -72,6 +78,14 @@ export class MessagingService {
         }
       })
     }
+  }
+
+  getLatestMessages(conversationId: string): Observable<Message[]> {
+    let params = new HttpParams().append("conversation", conversationId);
+
+    return this.client.get<Message[]>(`${environment.messaging_service_url}Messages/latest`, {
+      headers: this.authService.getHttpHeaders(false, false), params
+    });
   }
 
   getMessages(conversationId: string, page: number, pageLocation: number): Observable<Message[]> {

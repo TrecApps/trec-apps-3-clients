@@ -8,6 +8,8 @@ import { environment } from '../../../environments/environment';
 import { ResponseObj } from '../../../models/ResponseObj';
 import { Router } from '@angular/router';
 import { BlockService } from '../../../services/block.service';
+import { MessagingService } from '../../../services/messaging.service';
+import { ConversationEntry } from '../../../models/Messaging';
 
 @Component({
   selector: 'app-connection-list',
@@ -40,7 +42,8 @@ export class ConnectionListComponent implements OnInit {
     private connectionServcie: ConnectionService,
     private userService: UserService,
     private router: Router,
-    private blockService: BlockService){
+    private blockService: BlockService,
+    private messageService: MessagingService){
 
   }
 
@@ -201,7 +204,13 @@ export class ConnectionListComponent implements OnInit {
   }
 
   initiateMessage(cs: ConnectionStatus) {
-    alert("Not Implemented");
+    this.messageService.prepConversation(cs.profileId, cs.displayName, (val: ConversationEntry | undefined) => {
+      if(!val){
+        alert("Could not initiate Conversation");
+      } else {
+        this.messageService.setConversation(val);
+      }
+    })
   }
 
 }

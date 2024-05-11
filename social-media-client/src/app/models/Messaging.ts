@@ -23,6 +23,7 @@ export class ConversationEntry {
     creator: string = "";
     lastSpeaker: string = "";
     lastMessage: string = "";
+    pageSize: number = 0;
 }
 
 

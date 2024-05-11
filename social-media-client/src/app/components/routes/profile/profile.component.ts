@@ -24,6 +24,8 @@ import { PostService } from '../../../services/post.service';
 import { ConnectionService } from '../../../services/connection.service';
 import { ConnectionListComponent } from '../../repeats/connection-list/connection-list.component';
 import { BlockService } from '../../../services/block.service';
+import { MessagingService } from '../../../services/messaging.service';
+import { ConversationEntry } from '../../../models/Messaging';
 
 @Component({
   selector: 'app-profile',
@@ -51,9 +53,16 @@ import { BlockService } from '../../../services/block.service';
   ]
 })
 export class ProfileComponent implements OnInit{
-message() {
-throw new Error('Method not implemented.');
-}
+  message() {
+    if(this.profile?.displayName)
+    this.messageService.prepConversation(this.profileId, this.profile.displayName.toString(), (val: ConversationEntry | undefined) => {
+      if(!val){
+        alert("Could not initiate Conversation");
+      } else {
+        this.messageService.setConversation(val);
+      }
+    })
+  }
 
 
 
@@ -167,7 +176,8 @@ throw new Error('Method not implemented.');
      private preProfileService: PreProfileService,
      private postService: PostService,
      private connectionService: ConnectionService,
-     private blockService: BlockService)
+     private blockService: BlockService,
+     private messageService: MessagingService)
   {
     this.profileService = profileService;
     this.userService = userService;

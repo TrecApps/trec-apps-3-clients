@@ -1,1 +1,53 @@
-<p>message-pane works!</p>
+
+<div class="message-pane">
+    <div class="message-top">
+        <div class="message-top-profile-section">
+            <div class="message-top-profile-holder">
+                <img [src]="profile">
+            </div>
+        </div>
+        <div class="message-names-holder">
+            <span>{{ conversationEntry.participants[0].displayName }}</span>
+            <span *ngFor="let p of conversationEntry.participants.slice(1)">, {{ p.displayName }}</span>
+        </div>
+        <div class="red-button-container" [@xHover]="xButtonHover ? 'hover' : 'leave'" (mouseenter)="setHover(true)" (mouseleave)="setHover(false)">
+                    
+            <button (click)="closeMessage()"><img src="assets/icons/X-image.png" alt="exit button"></button>
+        </div>
+    </div>
+
+    <div class="message-pane-body">
+        <div class="message-pane-entry flex-and-center">
+            <p *ngIf="page == 0 && pageEarly == 0">End of Messages</p>
+            <p *ngIf="page || pageEarly" (click)="retrieveMessages()">{{loading ? 'Loading...' : 'Load Older Messages'}}</p>
+        </div>
+        <div class="message-pane-entry" *ngFor="let message of messages">
+            <div class="message-pane-profile-section">
+                <div class="message-pane-profile-holder">
+                    <img src="assets/icons/w-search.png">
+                </div>
+            </div>
+
+            <div class="message-pane-content-holder">
+                <div class="message-pane-content-name">
+                    <span>{{ getDisplayName(message.profile) }}</span>
+                </div>
+                <div class="messaging-pane-content">
+                    <span>{{ message.contents.at(message.contents.length - 1) }}</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="message-new-message-holder">
+        <input type="text" placeholder="Write a message..." class="message-new-message" [(ngModel)]="inputMessage">
+    </div>
+    <div class="message-new-message-options">
+
+        <div style="flex-grow: 1;"></div>
+
+        <button class="btn btn-primary" (click)="sendMessage()">Send</button>
+    </div>
+
+</div>

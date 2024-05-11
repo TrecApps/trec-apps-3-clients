@@ -1,3 +1,7 @@
 <div class="second-screen">
-    
+
+    <div class="message-pane-holder flex-and-center" *ngIf="messageService.currentConversation">
+        <app-message-pane [conversationEntry]="messageService.currentConversation"></app-message-pane>
+    </div>
+
 </div>

@@ -1,0 +1,20 @@
+<div>
+
+    <div class="holder-reaction-bar" *ngIf="event.type == reactionComment || event.type == reactionPost">
+        <div class="holder-reactor-holder" *ngIf="reactorProfile">
+            <img [src]="reactorProfile">
+        </div>
+        <p class="reactor-message"><a>{{ displayName }} reacted with {{ event.reaction }} to:</a></p>
+        <hr>
+    </div>
+    <div *ngIf="comment">
+        <app-comment [actPost]="comment"></app-comment>
+        <br>
+        <p>For Post</p>
+    </div>
+
+    <app-post *ngIf="post" [actPost]="post"></app-post>
+    
+
+
+</div>

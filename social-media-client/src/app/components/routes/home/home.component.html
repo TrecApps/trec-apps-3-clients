@@ -27,6 +27,12 @@
 
     <div class="home-middle-container">
         <app-post-edit [profilePic]="profileImage"></app-post-edit>
+        <hr>
+
+        <div *ngFor="let event of homePageContent">
+            <app-post-holder [event]="event"></app-post-holder>
+        </div>
+
     </div>
 
     <div style="width: 5%"></div>

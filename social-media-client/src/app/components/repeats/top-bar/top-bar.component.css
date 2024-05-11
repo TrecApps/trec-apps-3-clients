@@ -170,3 +170,13 @@ input#main-search {
     height: 100%;
     transform: rotate(270deg);
 }
+
+.core-option-holder {
+    width: 100%;
+    border: 2px solid black;
+    background-color: aliceblue;
+}
+
+.core-option-holder:hover {
+    background-color: antiquewhite;
+}

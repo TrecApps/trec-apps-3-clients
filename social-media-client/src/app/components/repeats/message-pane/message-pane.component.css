@@ -1,0 +1,124 @@
+
+
+.message-pane {
+    background-color: darkslategray;
+}
+
+.message-top {
+    min-height: 48px;
+    display: flex;
+    flex-direction: row;
+    border-bottom: solid 2px lightgreen;
+}
+
+.message-top-profile-section {
+    padding: 4px;
+    height: 56px;
+}
+
+.message-top-profile-holder {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.message-top-profile-holder img {
+    width: 100%;
+    height: 100%;
+}
+
+.message-names-holder {
+    flex-grow: 1;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    
+}
+
+.message-names-holder span {
+    color: white;
+    font-size: 20px;
+}
+
+.message-pane-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
+    overflow-y: scroll;
+}
+
+.message-pane-entry {
+    border: 1px aqua solid;
+    min-height:60px;
+    display: flex;
+    flex-direction: row;
+}
+
+.message-pane-profile-section {
+    width: 60px;
+    height: 100%;
+    padding: 2px;
+}
+
+.message-pane-profile-holder {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.message-pane-profile-holder img {
+    width: 100%;
+    height: 100%;
+}
+
+.message-pane-content-holder {
+    flex-grow:1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin-left: 5px;
+}
+
+.message-pane-content-name {}
+
+.message-pane-content-name span {
+    color: white;
+    font-size: 18px;
+}
+
+.messaging-pane-content {}
+
+.messaging-pane-content span {
+    color: white;
+    font-size: 16px;
+}
+
+.message-new-message-holder {
+    border-top: lightgreen 2px solid;
+    min-height:75px;
+    padding: 3px;
+}
+
+.message-new-message-holder input {
+    border: none;
+    background-color: transparent;
+    color: aliceblue;
+    outline: none;
+    background-color: #5e5e5e;
+    min-height: 69px;
+    width: 100%;
+    border-radius: 2px;
+}
+
+.message-new-message-options {
+    display: flex;
+    flex-direction: row;
+    padding: 2px;
+}
+
+.message-new-message-options button {
+    /* position: absolute;
+    right: 3px; */
+}

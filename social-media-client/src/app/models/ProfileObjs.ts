@@ -71,4 +71,38 @@ export class ProfileSel {
     name: string = "";
 
     shortAboutMe: string | undefined;
+    homeContentPages: number = 0;
+}
+
+export enum SocialMediaEventType {
+    POST,
+    COMMENT,
+    POST_REACTION,
+    COMMENT_REACTION
+}
+
+export class SocialMediaEvent {
+    resourceId: string = "";
+    type: SocialMediaEventType = SocialMediaEventType.POST;
+    module: string = "";
+    profile: string = "";
+    reaction: string = "";
+    category: string = "";
+    postId: string = "";
+}
+
+export class SocialMediaEventList {
+    page: number;
+
+    lateBounds: number;
+    earlyBounds: number;
+
+    events: SocialMediaEvent[];
+
+    constructor(page: number, lateBounds: number, earlyBounds: number, events: SocialMediaEvent[]){
+        this.earlyBounds = earlyBounds;
+        this.events = events;
+        this.lateBounds = lateBounds;
+        this.page = page;
+    }
 }

@@ -5,11 +5,15 @@ import { UserService } from '../../../services/user.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { ConnectionListComponent } from '../../repeats/connection-list/connection-list.component';
 import { environment } from '../../../environments/environment';
+import { ProfileDetailsService } from '../../../services/profile-details.service';
+import { SocialMediaEvent, SocialMediaEventList } from '../../../models/ProfileObjs';
+import { PostHolderComponent } from '../../repeats/post-holder/post-holder.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [TopBarComponent, PostEditComponent, ConnectionListComponent],
+  imports: [CommonModule, TopBarComponent, PostEditComponent, ConnectionListComponent, PostHolderComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -23,10 +27,17 @@ export class HomeComponent {
   @ViewChild('homeConnections')
   homeConnections: ConnectionListComponent | undefined;
 
-  constructor(us: UserService, private router: Router){
+  homePageContent: SocialMediaEvent[];
+
+  currentContentPage: number = 0;
+  currentEarliestPost: number = 0;
+
+  currentList: SocialMediaEventList | undefined;
+
+  constructor(us: UserService, private router: Router, private profileDetilsService: ProfileDetailsService){
     this.userService = us;
 
-    
+    this.homePageContent = [];
 
     this.router.events.subscribe((event) => {
       if(event instanceof NavigationEnd) {
@@ -56,9 +67,36 @@ export class HomeComponent {
         if(this.homeConnections){
           this.homeConnections.onPrepare();
         }
+
+        this.profileDetilsService.initializeHomePageContent().subscribe({
+          next: (list: SocialMediaEventList) => {
+            this.currentContentPage = list.page;
+            this.currentEarliestPost = list.earlyBounds;
+            this.homePageContent = list.events.reverse();
+
+            this.currentList = list;
+          }
+        })
       }
     })
 
   }
+
+  getNextContent(){
+    if(!this.currentList) return;
+    this.profileDetilsService.getMoreContent(this.currentList).subscribe({
+      next: (list: SocialMediaEventList) => {
+        this.currentContentPage = list.page;
+        this.currentEarliestPost = list.earlyBounds;
+        this.homePageContent = list.events.reverse();
+
+        this.currentList = list;
+      }
+    })
+  }
+
+
+
+
 
 }

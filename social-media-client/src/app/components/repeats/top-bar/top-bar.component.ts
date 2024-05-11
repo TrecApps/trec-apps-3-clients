@@ -6,13 +6,29 @@ import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ProfileService } from '../../../services/profile.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-top-bar',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './top-bar.component.html',
-  styleUrl: './top-bar.component.css'
+  styleUrl: './top-bar.component.css',
+  animations: [
+    trigger('translate', [
+      state('collapse', style({ height: '0px', overflow: 'hidden'})),
+      state('expanded', style({ height: '*', overflow: 'hidden'})),
+      transition('collapse => expanded', [ animate('0.33s')]),
+      transition('expanded => collapse', [animate('0.33s')])
+    ]),
+    trigger('rotate', [
+      state('collapse', style({ transform: 'rotate(180deg)'})),
+      state('expanded', style({ transform: 'rotate(270deg)'})),
+      transition('collapse => expanded', [ animate('0.33s')]),
+      transition('expanded => collapse', [animate('0.33s')])
+    ])
+  ]
 })
 export class TopBarComponent {
   userService: UserService;
@@ -37,6 +53,13 @@ export class TopBarComponent {
   bBell: string = "assets/icons/b-bell.png";
   curBell: string = this.wBell;
 
+
+  menuExtended: boolean = false;
+
+  toggleMenuExtension(){
+    this.menuExtended = !this.menuExtended;
+  }
+
   onHoverFriends(entered: boolean){
     this.curFriends = entered ? this.bFriends : this.wFriends;
   }
@@ -49,7 +72,11 @@ export class TopBarComponent {
     this.curBell = entered ? this.bBell : this.wBell;
   }
 
-  constructor(userService: UserService, private router: Router, private profileService: ProfileService){
+  onLogout(){
+    this.authService.logout();
+  }
+
+  constructor(userService: UserService, private router: Router, private profileService: ProfileService, private authService: AuthService){
     this.userService = userService;
     this.profilePicBase = `${environment.image_service_url}Profile/of/`;
     this.profilePicBaseBrand = `${environment.image_service_url}Profile/byBrand/`;

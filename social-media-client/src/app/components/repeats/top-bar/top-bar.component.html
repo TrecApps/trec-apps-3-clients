@@ -54,8 +54,17 @@
                 </div>
                 
 
-                <div class="profile-bar-dropdown-button">
-                    <img src="assets/icons/Less_than.png">
+                <div class="profile-bar-dropdown-button" (click)="toggleMenuExtension()">
+                    <img [@rotate]="menuExtended ? 'expanded' : 'collapse'"  src="assets/icons/Less_than.png">
+                </div>
+
+                <div [@translate]="menuExtended ? 'expanded': 'collapse'" class="extender" style="z-index: 10;">
+                    <div class="core-option-holder">
+                        <a><p>Manage Account</p></a>
+                    </div>
+                    <div class="core-option-holder" (click)="onLogout()">
+                        <p>Logout</p>
+                    </div>
                 </div>
 
             </div>

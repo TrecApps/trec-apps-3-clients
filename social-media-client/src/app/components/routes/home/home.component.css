@@ -74,6 +74,10 @@
     min-width: 320px;
     height: 95%;
     overflow-y: scroll;
+
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
 }
 
 /* Left Section */
@@ -81,4 +85,5 @@
 .home-left-container {
     flex-grow: 2;
     min-width: 320px;
+    height: min-content;
 }

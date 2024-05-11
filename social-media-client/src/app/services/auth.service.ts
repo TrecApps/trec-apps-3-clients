@@ -95,7 +95,11 @@ export class AuthService {
   }
 
   logout() {
-    this.httpClient.get(`${environment.user_service_url}Auth/logout`, {headers:this.getHttpHeaders(true, false)});
-    this.clearAuth();
+    this.httpClient.get(`${environment.user_service_url}Auth/logout`, {headers:this.getHttpHeaders(true, false)}).subscribe({
+      next: () => {
+        this.clearAuth();
+        this.router.navigateByUrl("logon");
+      }
+    });
   }
 }

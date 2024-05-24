@@ -24,13 +24,15 @@
         <div class="message-pane-entry" *ngFor="let message of messages">
             <div class="message-pane-profile-section">
                 <div class="message-pane-profile-holder">
-                    <img src="assets/icons/w-search.png">
+                    <img [src]="message.profile.startsWith('User-') ? (imageBaseUrl + 'Profile/of/' + message.profile.substring(5) + '?app=' + appName) :
+                     (imageBaseUrl + 'Profile/byBrand/' + message.profile.substring(6) + '?app=' + appName)">
                 </div>
             </div>
 
             <div class="message-pane-content-holder">
                 <div class="message-pane-content-name">
                     <span>{{ getDisplayName(message.profile) }}</span>
+                    <span> {{ message.timeMade |  date:'MMM d, y - h:mm:ss a'}} </span>
                 </div>
                 <div class="messaging-pane-content">
                     <span>{{ message.contents.at(message.contents.length - 1) }}</span>
@@ -41,7 +43,8 @@
     </div>
 
     <div class="message-new-message-holder">
-        <input type="text" placeholder="Write a message..." class="message-new-message" [(ngModel)]="inputMessage">
+
+        <textarea placeholder="Write a message..." class="message-new-message" [(ngModel)]="inputMessage"></textarea>
     </div>
     <div class="message-new-message-options">
 

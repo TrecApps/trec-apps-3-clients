@@ -4,6 +4,7 @@ import { take } from 'rxjs';
 import { environment } from '../environments/environment';
 import { Login, LoginToken } from '../models/Login';
 import { Router } from '@angular/router';
+import { MessagingService } from './messaging.service';
 
 @Injectable({
   providedIn: 'root',

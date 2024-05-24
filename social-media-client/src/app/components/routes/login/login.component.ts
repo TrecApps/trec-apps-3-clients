@@ -6,6 +6,7 @@ import { AuthService } from '../../../services/auth.service';
 import { UserService } from '../../../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MessagingService } from '../../../services/messaging.service';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit{
   login: Login;
   loginFail: boolean;
 
-  constructor(private authService:AuthService, private userService: UserService, private router:Router) {
+  constructor(private authService:AuthService, private userService: UserService, private router:Router, private messagingService: MessagingService) {
     this.login = new Login();
     this.loginFail = false;
    }
@@ -54,6 +55,7 @@ export class LoginComponent implements OnInit{
       if(!worked) {
         this.loginFail = true;
       } else {
+        this.messagingService.onLogin();
         this.userService.refreshUser(onGainUser);
         
       }

@@ -2,6 +2,7 @@
 
 .message-pane {
     background-color: darkslategray;
+    min-width: 310px;
 }
 
 .message-top {
@@ -101,7 +102,7 @@
     padding: 3px;
 }
 
-.message-new-message-holder input {
+.message-new-message {
     border: none;
     background-color: transparent;
     color: aliceblue;

@@ -6,12 +6,16 @@
     right: 0;
     left: 0;
     bottom: 0;
+
+    display: flex;
+
 }
 
 .message-pane-holder {
+    position: fixed;
     min-width: 320px;
     max-width: 600px;
-    height: 600px;
+    height: 400px;
     max-height: 100%;
     width: 50%;
 

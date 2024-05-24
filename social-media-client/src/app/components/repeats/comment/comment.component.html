@@ -8,6 +8,7 @@
 
             <div class="commenter-details">
                 <span class="comment-profile-name">{{actPost.displayName}}</span>
+                <span *ngIf="actPost.made">{{ actPost.made | date:'MMM d, y - h:mm:ss a' }}</span>
             </div>
 
         </div>

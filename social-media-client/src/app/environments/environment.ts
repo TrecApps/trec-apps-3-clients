@@ -18,7 +18,7 @@ export const environment = {
   comment_service_url:"http://localhost:4200/comments/",
   resource_service_url: "http://localhost:4200/Brands-api/",
 
-  messaging_service_url: "",
+  messaging_service_url: "http://localhost:4200/Message-api/",
 
   app_name: "Coffee-Shop"
 };

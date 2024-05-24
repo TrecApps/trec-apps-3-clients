@@ -6,11 +6,12 @@ import { UserService } from '../../../services/user.service';
 import { ResponseObj } from '../../../models/ResponseObj';
 import { FormsModule } from '@angular/forms';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-message-pane',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ],
   templateUrl: './message-pane.component.html',
   styleUrl: './message-pane.component.css',
   animations: [
@@ -42,6 +43,9 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
   fallbackProfile: string = "assets/icons/non-profile.png";
 
   inputMessage: string = "";
+
+  imageBaseUrl = environment.image_service_url;
+  appName = environment.app_name;
 
   xButtonHover = false;
   setHover(hover: boolean){
@@ -81,7 +85,7 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
     if(this.conversationEntry.participants.length == 2){
       let altProfile = this.conversationEntry.participants[0].profileId;
       if(altProfile == curProfile){
-        altProfile = this.conversationEntry.participants[0].profileId;
+        altProfile = this.conversationEntry.participants[1].profileId;
       }
 
       this.profile = this.userService.getProfileImageByProfile(altProfile);
@@ -124,6 +128,7 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
       this.messageService.sendMessage(this.inputMessage, this.conversationEntry.id).subscribe({
         next: (value: ResponseObj) => {
           this.inputMessage = "";
+          this.retrieveMessages();
         }
       })
     }

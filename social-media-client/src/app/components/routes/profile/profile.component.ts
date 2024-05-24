@@ -325,11 +325,11 @@ export class ProfileComponent implements OnInit{
 
           if(idSplit.at(0) == "User" && actId){
             this.profileService.setProfilePhoto(`${environment.image_service_url}Profile/of/${actId}?app=${environment.app_name}`);
-            this.profileService.setCoverPhoto(`${environment.image_service_url}Profile/of/${actId}?app=cover-${environment.app_name}`);
+            this.profileService.setCoverPhoto(`${environment.image_service_url}Profile/of/${actId}?app=cover-${environment.app_name}&falback=not_found`);
             this.retrievePosts(actId.toString(), true);
           } else if(actId){
             this.profileService.setProfilePhoto(`${environment.image_service_url}Profile/byBrand/${actId}?app=${environment.app_name}`);
-            this.profileService.setCoverPhoto(`${environment.image_service_url}Profile/byBrand/${actId}}?app=cover-${environment.app_name}`);
+            this.profileService.setCoverPhoto(`${environment.image_service_url}Profile/byBrand/${actId}}?app=cover-${environment.app_name}&falback=not_found`);
             this.retrievePosts(actId.toString(), false);
           }
 

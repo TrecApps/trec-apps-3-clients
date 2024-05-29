@@ -22,7 +22,18 @@ export class MessagingService {
   setConversation(con: ConversationEntry | undefined){
     this.currentConversation = con;
   }
+
+  setConversationById(id: string) {
+    this.setConversation(this.getConversationById(id));
+  }
   
+  getConversationById(id: string): ConversationEntry | undefined {
+    for(let ce of this.conversations) {
+      if(ce.id == id)
+        return ce;
+    }
+    return undefined;
+  }
 
   onLogin(){
     if(!environment.messaging_service_url.trim().length) return;

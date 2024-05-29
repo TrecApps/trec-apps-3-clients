@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { ProfileSel } from '../../../models/ProfileObjs';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,9 @@ import { FormsModule } from '@angular/forms';
 import { ProfileService } from '../../../services/profile.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { AuthService } from '../../../services/auth.service';
+import { ImageEndpointType, Notification, NotificationStatus } from '../../../models/Notification';
+import { NotificationService } from '../../../services/notification.service';
+import { MessagingService } from '../../../services/messaging.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -30,7 +33,40 @@ import { AuthService } from '../../../services/auth.service';
     ])
   ]
 })
-export class TopBarComponent {
+export class TopBarComponent implements OnInit, OnDestroy{
+
+
+
+  removeNotificationConnection(_t51: Notification) {
+    this.notificationService.deleteNotifications([_t51.notificationId]).subscribe({
+      next: () => {
+        this.connectionNotifications = this.connectionNotifications.filter((n: Notification) => {
+          return n.notificationId != _t51.notificationId
+        })
+      }
+    })
+  }
+
+  removeNotificationMessage(_t51: Notification) {
+    this.notificationService.deleteNotifications([_t51.notificationId]).subscribe({
+      next: () => {
+        this.messageNotifications = this.messageNotifications.filter((n: Notification) => {
+          return n.notificationId != _t51.notificationId
+        })
+      }
+    })
+  }
+
+  removeNotificationRegular(_t51: Notification) {
+    this.notificationService.deleteNotifications([_t51.notificationId]).subscribe({
+      next: () => {
+        this.regularNotifications = this.regularNotifications.filter((n: Notification) => {
+          return n.notificationId != _t51.notificationId
+        })
+      }
+    })
+  }
+
   userService: UserService;
 
   profileSuggestions: ProfileSel[] = [];
@@ -56,6 +92,22 @@ export class TopBarComponent {
 
   menuExtended: boolean = false;
 
+  // Notification Management
+  connectionNotifications: Notification[] = [];
+  connectionNotificationCounter: number = 0;
+  showConnectionNotes: boolean = false;
+  messageNotifications: Notification[] = [];
+  messageNotificationCounter: number = 0;
+  showMessageNotes: boolean = false;
+  regularNotifications: Notification[] = [];
+  regularNotificationCounter: number = 0;
+  showRegularNotes: boolean = false;
+
+
+  notificationCheckerHandle: NodeJS.Timeout | undefined;
+
+
+
   toggleMenuExtension(){
     this.menuExtended = !this.menuExtended;
   }
@@ -76,10 +128,203 @@ export class TopBarComponent {
     this.authService.logout();
   }
 
-  constructor(userService: UserService, private router: Router, private profileService: ProfileService, private authService: AuthService){
+  
+  constructor(
+    userService: UserService, 
+    private router: Router, 
+    private profileService: ProfileService, 
+    private authService: AuthService, 
+    private notificationService: NotificationService,
+    private messageService: MessagingService
+  ){
     this.userService = userService;
     this.profilePicBase = `${environment.image_service_url}Profile/of/`;
     this.profilePicBaseBrand = `${environment.image_service_url}Profile/byBrand/`;
+  }
+  ngOnInit(): void {
+    setInterval(() => {
+      this.onUpdateNotifications();
+    }, 10000);
+
+    document.addEventListener('click', (event) => {
+      if(this.showConnectionNotes || this.showMessageNotes || this.showRegularNotes) {
+        this.showConnectionNotes = this.showMessageNotes = this.showRegularNotes = false;
+      }
+    })
+  }
+  ngOnDestroy(): void {
+    clearInterval(this.notificationCheckerHandle);
+  }
+
+  onUpdateNotifications(){
+    this.notificationService.getNotifications().subscribe({
+      next: (notifications: Notification[]) => {
+        for(let n of notifications){
+          switch(n.post.category) {
+            case "Messaging":
+              this.addMessageNotification(n);
+              break;
+            case "Connection":
+              this.addConnectionNotification(n);
+              break;
+            default:
+              this.addGeneralNotification(n);
+          }
+        }
+      }
+    })
+  }
+
+  addConnectionNotification(notification: Notification) {
+    this.connectionNotifications = this.updateNotificationList(notification, this.connectionNotifications);
+
+    let unseen = this.connectionNotifications.filter((n: Notification) => {
+      return n.status == NotificationStatus.UNSEEN
+    });
+    this.connectionNotificationCounter = unseen.length;
+  }
+
+  addMessageNotification(notification: Notification) {
+    this.messageNotifications = this.updateNotificationList(notification, this.messageNotifications);
+
+    let unseen = this.messageNotifications.filter((n: Notification) => {
+      return n.status == NotificationStatus.UNSEEN
+    });
+    this.messageNotificationCounter = unseen.length;
+  }
+
+  addGeneralNotification(notification: Notification){
+    this.regularNotifications = this.updateNotificationList(notification, this.regularNotifications);
+
+    let unseen = this.regularNotifications.filter((n: Notification) => {
+      return n.status == NotificationStatus.UNSEEN
+    });
+    this.regularNotificationCounter = unseen.length;
+  }
+
+  isNotificationNew(notification: Notification, list: Notification[]) : boolean {
+    let ret: boolean = true;
+    
+    list.forEach((n: Notification) => {
+      if(!n.post.time || !notification.post.time) return;
+      if(n.post.time > notification.post.time) {
+        ret = false;
+      }
+    })
+
+    return ret;
+  }
+
+  updateNotificationList(notification: Notification, list: Notification[]) : Notification[]
+  {
+    if(this.isNotificationNew(notification, list)) return list;
+
+    list = list.filter((n: Notification) => {
+      return n.notificationId != notification.notificationId;
+    })
+
+    list.push(notification);
+    return list;
+  }
+
+  toggleRegularNotes(){
+    this.showConnectionNotes = false;
+    this.showMessageNotes = false;
+    this.showRegularNotes = !this.showRegularNotes;
+
+    if(this.showRegularNotes){
+      let updates = this.regularNotifications.filter((n: Notification) => {
+        return n.status == NotificationStatus.UNSEEN;
+      }).map((n: Notification) => n.notificationId);
+      this.notificationService.markNotifications(updates).subscribe({
+        next: ()=> {
+          for(let n of this.regularNotifications){
+            if(n.status == NotificationStatus.UNSEEN){
+              n.status = NotificationStatus.UNREAD
+            }
+          }
+        }
+      })
+    }
+  }
+
+  toggleMessageNotes(){
+    this.showConnectionNotes = false;
+    this.showMessageNotes = !this.showMessageNotes;
+    this.showRegularNotes = false;
+
+    if(this.showMessageNotes){
+      let updates = this.messageNotifications.filter((n: Notification) => {
+        return n.status == NotificationStatus.UNSEEN;
+      }).map((n: Notification) => n.notificationId);
+      this.notificationService.markNotifications(updates).subscribe({
+        next: ()=> {
+          for(let n of this.messageNotifications){
+            if(n.status == NotificationStatus.UNSEEN){
+              n.status = NotificationStatus.UNREAD
+            }
+          }
+        }
+      })
+    }
+  }
+
+  getStyle(n: NotificationStatus) : string {
+    return `font-wieght: ${n == NotificationStatus.READ ? 'regular' : 'bold'}`;
+  }
+
+  toggleConnectionNotes() {
+    this.showConnectionNotes = !this.showConnectionNotes;
+    this.showMessageNotes = false;
+    this.showRegularNotes = false;
+
+    if(this.showConnectionNotes){
+      let updates = this.connectionNotifications.filter((n: Notification) => {
+        return n.status == NotificationStatus.UNSEEN;
+      }).map((n: Notification) => n.notificationId);
+      this.notificationService.markNotifications(updates).subscribe({
+        next: ()=> {
+          for(let n of this.connectionNotifications){
+            if(n.status == NotificationStatus.UNSEEN){
+              n.status = NotificationStatus.UNREAD
+            }
+          }
+        }
+      })
+    }
+  }
+
+  getNotificationImage(n: Notification): string {
+    if(!n.post.imageId) return "assets/icons/non-profile.png";
+
+    switch(n.post.type){
+      case ImageEndpointType.BRAND_PROFILE:
+        return `${environment.image_service_url}Profile/byBrand/${n.post.imageId}?app=${environment.app_name}`;
+      case ImageEndpointType.USER_PROFILE:
+        return `${environment.image_service_url}Profile/of/${n.post.imageId}?app=${environment.app_name}`;
+      default:
+        return `${environment.image_service_url}ImageRetrieval/simpleId/${n.post.imageId}`;
+    }
+  }
+
+  handleNotification(n: Notification) {
+    if(n.post.category == "Connection"){
+      this.router.navigate(['profile'], {
+        queryParams: {
+          id: n.post.relevantId
+        }
+      })
+    } else if(n.post.category == "Messaging"){
+      if(n.post.relevantId){
+        this.messageService.setConversationById(n.post.relevantId);
+      }
+    }
+
+    this.notificationService.markNotifications([n.notificationId], true).subscribe({
+      next: () => {
+        n.status = NotificationStatus.READ
+      }
+    })
   }
 
   navToProfile(){

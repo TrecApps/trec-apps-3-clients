@@ -29,4 +29,11 @@ export class NotificationService {
       headers: this.authService.getHttpHeaders(false, false), body: notifications
     });
   }
+
+  markNotifications(notifications: string[], read: boolean = false): Observable<ResponseObj> {
+    let params = new HttpParams().append("read", read);
+    return this.client.put<ResponseObj>(`${environment.profile_service_url}Notifications/mark`, {
+      headers: this.authService.getHttpHeaders(false, false), body: notifications, params
+    });
+  }
 }

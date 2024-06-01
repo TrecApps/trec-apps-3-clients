@@ -34,24 +34,31 @@
 
         <div class="top-bar-not-holder" (mouseenter)="onHoverFriends(true)" (mouseleave)="onHoverFriends(false)" (click)="toggleConnectionNotes()">
             <img [src]="curFriends">
-            <div class="not-counter-holder" *ngIf="connectionNotificationCounter">
-                <p>{{ connectionNotificationCounter }}</p>
+            <div class="not-counter-manager">
+                <div class="not-counter-holder flex-and-center" *ngIf="connectionNotificationCounter">
+                    <p>{{ connectionNotificationCounter }}</p>
+                </div>
             </div>
+            
         </div>
         <div class="top-bar-not-holder" (mouseenter)="onHoverMessage(true)" (mouseleave)="onHoverMessage(false)" (click)="toggleMessageNotes()">
             <img [src]="curMessage">
-            <div class="not-counter-holder" *ngIf="messageNotificationCounter">
-                <p>{{ messageNotificationCounter }}</p>
+            <div class="not-counter-manager">
+                <div class="not-counter-holder flex-and-center" *ngIf="messageNotificationCounter">
+                    <p>{{ messageNotificationCounter }}</p>
+                </div>
             </div>
         </div>
         <div class="top-bar-not-holder" (mouseenter)="onHoverBell(true)" (mouseleave)="onHoverBell(false)" (click)="toggleRegularNotes()">
             <img [src]="curBell">
-            <div class="not-counter-holder" *ngIf="regularNotificationCounter">
-                <p>{{ regularNotificationCounter }}</p>
+            <div class="not-counter-manager">
+                <div class="not-counter-holder flex-and-center" *ngIf="regularNotificationCounter">
+                    <p>{{ regularNotificationCounter }}</p>
+                </div>
             </div>
         </div>
 
-        <div class="extender" *ngIf="showConnectionNotes">
+        <div class="extender" *ngIf="showConnectionNotes" style="z-index: 10;">
             <div class="core-option-holder" *ngFor="let n of connectionNotifications">
                 <div class="note-image-holder" (click)="handleNotification(n)">
                     <img [src]="getNotificationImage(n)">
@@ -66,7 +73,7 @@
             </div>
         </div>
 
-        <div class="extender" *ngIf="showMessageNotes">
+        <div class="extender" *ngIf="showMessageNotes" style="z-index: 10;">
             <div class="core-option-holder" *ngFor="let n of messageNotifications">
                 <div class="note-image-holder" (click)="handleNotification(n)">
                     <img [src]="getNotificationImage(n)">
@@ -81,7 +88,7 @@
             </div>
         </div>
 
-        <div class="extender" *ngIf="showRegularNotes">
+        <div class="extender" *ngIf="showRegularNotes" style="z-index: 10;">
             <div class="core-option-holder" *ngFor="let n of regularNotifications">
                 <div class="note-image-holder" (click)="handleNotification(n)">
                     <img [src]="getNotificationImage(n)">

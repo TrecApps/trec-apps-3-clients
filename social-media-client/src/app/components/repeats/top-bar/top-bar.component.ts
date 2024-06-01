@@ -104,7 +104,7 @@ export class TopBarComponent implements OnInit, OnDestroy{
   showRegularNotes: boolean = false;
 
 
-  notificationCheckerHandle: NodeJS.Timeout | undefined;
+  notificationCheckerHandle: number = 0;
 
 
 
@@ -142,18 +142,18 @@ export class TopBarComponent implements OnInit, OnDestroy{
     this.profilePicBaseBrand = `${environment.image_service_url}Profile/byBrand/`;
   }
   ngOnInit(): void {
-    setInterval(() => {
+    this.notificationCheckerHandle = window.setInterval(() => {
       this.onUpdateNotifications();
     }, 10000);
 
-    document.addEventListener('click', (event) => {
-      if(this.showConnectionNotes || this.showMessageNotes || this.showRegularNotes) {
-        this.showConnectionNotes = this.showMessageNotes = this.showRegularNotes = false;
-      }
-    })
+    // document.addEventListener('click', (event) => {
+    //   if(this.showConnectionNotes || this.showMessageNotes || this.showRegularNotes) {
+    //     this.showConnectionNotes = this.showMessageNotes = this.showRegularNotes = false;
+    //   }
+    // })
   }
   ngOnDestroy(): void {
-    clearInterval(this.notificationCheckerHandle);
+    window.clearInterval(this.notificationCheckerHandle);
   }
 
   onUpdateNotifications(){
@@ -179,7 +179,7 @@ export class TopBarComponent implements OnInit, OnDestroy{
     this.connectionNotifications = this.updateNotificationList(notification, this.connectionNotifications);
 
     let unseen = this.connectionNotifications.filter((n: Notification) => {
-      return n.status == NotificationStatus.UNSEEN
+      return n.status.toString() == "UNSEEN";
     });
     this.connectionNotificationCounter = unseen.length;
   }
@@ -188,7 +188,7 @@ export class TopBarComponent implements OnInit, OnDestroy{
     this.messageNotifications = this.updateNotificationList(notification, this.messageNotifications);
 
     let unseen = this.messageNotifications.filter((n: Notification) => {
-      return n.status == NotificationStatus.UNSEEN
+      return n.status.toString() == "UNSEEN";
     });
     this.messageNotificationCounter = unseen.length;
   }
@@ -197,7 +197,7 @@ export class TopBarComponent implements OnInit, OnDestroy{
     this.regularNotifications = this.updateNotificationList(notification, this.regularNotifications);
 
     let unseen = this.regularNotifications.filter((n: Notification) => {
-      return n.status == NotificationStatus.UNSEEN
+      return n.status.toString() == "UNSEEN";
     });
     this.regularNotificationCounter = unseen.length;
   }
@@ -217,7 +217,9 @@ export class TopBarComponent implements OnInit, OnDestroy{
 
   updateNotificationList(notification: Notification, list: Notification[]) : Notification[]
   {
-    if(this.isNotificationNew(notification, list)) return list;
+    if(!this.isNotificationNew(notification, list)){
+      return list;
+    }
 
     list = list.filter((n: Notification) => {
       return n.notificationId != notification.notificationId;
@@ -280,12 +282,12 @@ export class TopBarComponent implements OnInit, OnDestroy{
 
     if(this.showConnectionNotes){
       let updates = this.connectionNotifications.filter((n: Notification) => {
-        return n.status == NotificationStatus.UNSEEN;
+        return n.status.toString() == "UNSEEN";
       }).map((n: Notification) => n.notificationId);
       this.notificationService.markNotifications(updates).subscribe({
         next: ()=> {
           for(let n of this.connectionNotifications){
-            if(n.status == NotificationStatus.UNSEEN){
+            if(n.status.toString() == "UNSEEN"){
               n.status = NotificationStatus.UNREAD
             }
           }
@@ -297,10 +299,10 @@ export class TopBarComponent implements OnInit, OnDestroy{
   getNotificationImage(n: Notification): string {
     if(!n.post.imageId) return "assets/icons/non-profile.png";
 
-    switch(n.post.type){
-      case ImageEndpointType.BRAND_PROFILE:
+    switch(n.post.type?.toString()){
+      case "BRAND_PROFILE":
         return `${environment.image_service_url}Profile/byBrand/${n.post.imageId}?app=${environment.app_name}`;
-      case ImageEndpointType.USER_PROFILE:
+      case "USER_PROFILE":
         return `${environment.image_service_url}Profile/of/${n.post.imageId}?app=${environment.app_name}`;
       default:
         return `${environment.image_service_url}ImageRetrieval/simpleId/${n.post.imageId}`;
@@ -325,6 +327,7 @@ export class TopBarComponent implements OnInit, OnDestroy{
         n.status = NotificationStatus.READ
       }
     })
+    this.showConnectionNotes = this.showMessageNotes = this.showRegularNotes = false;
   }
 
   navToProfile(){

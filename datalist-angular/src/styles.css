@@ -1,0 +1,11 @@
+/* You can add global styles to this file, and also import other style files */
+
+img.expand_icon {
+    border-radius: 50%;
+    transform:rotate(180deg);
+}
+
+img.expand_i_reg {
+    width: 30px;
+    height: 30px;
+}

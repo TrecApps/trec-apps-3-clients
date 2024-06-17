@@ -1,0 +1,42 @@
+
+<div class="container">
+    <button class="btn btn-info" (click)="createTemplate()">Create New Template</button>
+    <h3 (click)="toggleShowTempates()"><img [@rotate]="showTemplates ? 'expanded' : 'collapse'" class="expand_icon expand_i_reg" src="assets/Less_than.png"> Table Templates</h3>
+    <table [@translate]="showTemplates ? 'expanded': 'collapse'">
+        <tr>
+            <th>Template ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Options</th>
+        </tr>
+
+        <tr *ngFor="let template of templateList">
+            <td>{{template.id}}</td>
+            <td>{{template.name}}</td>
+            <td>{{template.description}}</td>
+            <td>
+                <button class="btn" (click)="editTemplate(template)">Edit</button>
+                <button class="btn" (click)="deleteTemplate(template)">Delete</button>
+                <button class="btn" (click)="listTableByTemplate(template.id)">List Tables</button>
+            </td>
+        </tr>
+    </table>
+    <hr>
+
+    <h3 (click)="toggleShowTempates()"><img [@rotate]="showTemplates ? 'expanded' : 'collapse'" class="expand_icon expand_i_reg" src="assets/Less_than.png"> Table List</h3>
+    <table [@translate]="showTemplates ? 'expanded': 'collapse'">
+        <tr>
+            <th>Name</th>
+            <th>Template</th>
+            <th>Description</th>
+            <th>Options</th>
+        </tr>
+
+        <tr *ngFor="let table of tableList">
+            <td>{{table.name}}</td>
+            <td>{{table.tableTemplateId}}</td>
+            <td>{{table.description}}</td>
+            <td></td>
+        </tr>
+    </table>
+</div>

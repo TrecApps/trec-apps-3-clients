@@ -1,0 +1,74 @@
+
+<div class="container">
+
+    <div *ngIf="tableService.table && !tableService.table.id" class="form">
+        <label>Name</label>
+        <input class="form-control" type="text" [(ngModel)]="tableService.table.name">
+        <br>
+        <label>Description</label>
+        <input class="form-control" type="text" [(ngModel)]="tableService.table.description">
+        <br>
+
+        <select class="form-control" [(ngModel)]="tableService.table.tableTemplateId">
+            <option *ngFor="let t of templates" value="{{t.id}}">{{t.name}}</option>
+        </select>
+        <button class="btn btn-submit" (click)="create()">Create</button>
+    </div>
+
+    <div *ngIf="tableService.table && tableService.table.id">
+        <div *ngIf="viewing">
+            <table class="table table-striped table-border">
+                <tr>
+                    <th>ID</th>
+                    <th *ngFor="let field of templateService.tableTemplate.fields">
+                        {{field[0]}}
+                    </th>
+                </tr>
+                <tr *ngFor="let row in tableService.table.rows; index as rowNum">
+                    <td>{{rowNum}}</td>
+                    <td *ngFor="let field of templateService.tableTemplate.fields">
+                        {{row[field[0]]}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div *ngIf="!viewing" class="form">
+            <button class="btn btn-info" (click)="prepareInsertion()">Add Row</button>
+            <table>
+                <tr>
+                    <th *ngFor="let field of templateService.tableTemplate.fields">
+                        {{field[0]}}  ({{field[1].type}})
+                    </th>
+                </tr>
+                <tr *ngFor="let row of insertions">
+                    <td *ngFor="let field of templateService.tableTemplate.fields">
+                        <div [ngSwitch]="field[1].type">
+                            <input *ngSwitchCase="'STRING'" type="text" [attr.maxlength]="field[1].max" [attr.required]="!field[1].nullable"
+                                (change)="onInsertionDataChanged(row, field[0], $event)">
+                            <input *ngSwitchCase="'INTEGER'" type="number" pattern=" 0+\.[0-9]*[1-9][0-9]*$" [attr.required]="!field[1].nullable"
+                                [attr.max]="field[1].max" [attr.min]="field[1].min"  (change)="onInsertionDataChanged(row, field[0], $event)">
+                            <input *ngSwitchCase="'FLOAT'" type="number" [attr.max]="field[1].fMax" [attr.required]="!field[1].nullable"
+                                [attr.min]="field[1].fMin" (change)="onInsertionDataChanged(row, field[0], $event)">
+                            <select *ngSwitchCase="'BOOL'"  (change)="onInsertionDataChanged(row, field[0], $event)" [attr.required]="!field[1].nullable">
+                                <option value="true">True</option>
+                                <option value="false">False</option>
+                            </select>
+
+                            <select *ngSwitchCase="'ENUM'" [attr.required]="!field[1].nullable" (change)="onInsertionDataChanged(row, field[0], $event)">
+                                <option *ngFor="let eVal of field[1].enumVals" value="{{eVal}}">{{eVal}}</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <ul>
+                <li *ngFor="let er of errorMessages"><p style="color: red;">{{er}}</p></li>
+            </ul>
+
+            <button class="btn btn-submit" (click)="performInsertions()">Confirm Insertions</button>
+        </div>
+
+    </div>
+
+</div>

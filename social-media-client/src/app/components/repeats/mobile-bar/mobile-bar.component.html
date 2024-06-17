@@ -28,7 +28,7 @@
 
 <div class="bottom-bar-base" [style.background-color]="userService.topBarColor">
 
-    <div class="bottom-option" (click)="routeTo('/home')">
+    <div class="bottom-option flex-and-center" (click)="routeTo('/home')">
         <ng-template [ngIf]="router.url.includes('home')" [ngIfElse]="notHome">
 
             <img src="assets/icons/w-home.png" >
@@ -40,7 +40,7 @@
         </ng-template>
     </div>
 
-    <div class="bottom-option" (click)="routeTo('/connections')">
+    <div class="bottom-option flex-and-center" (click)="routeTo('/connections')">
         <ng-template [ngIf]="router.url.includes('connections')" [ngIfElse]="not_conn">
             <img src="assets/icons/w-friends.png">
         </ng-template>
@@ -49,7 +49,7 @@
         </ng-template>
     </div>
 
-    <div class="bottom-option" (click)="routeTo('/messages')">
+    <div class="bottom-option flex-and-center" (click)="routeTo('/messages')">
         <ng-template [ngIf]="router.url.includes('messages')" [ngIfElse]="not_mess">
             <img src="assets/icons/w-message.png">
         </ng-template>
@@ -58,7 +58,7 @@
         </ng-template>
     </div>
 
-    <div class="bottom-option" (click)="routeTo('/notifications')">
+    <div class="bottom-option flex-and-center" (click)="routeTo('/notifications')">
         <ng-template [ngIf]="router.url.includes('notifications')" [ngIfElse]="not_note">
             <img src="assets/icons/w-bell.png">
         </ng-template>
@@ -67,7 +67,7 @@
         </ng-template>
     </div>
 
-    <div class="bottom-option" (click)="routeTo('/options')">
+    <div class="bottom-option flex-and-center" (click)="routeTo('/options')">
         <ng-template [ngIf]="router.url.includes('options')" [ngIfElse]="not_opt">
             <img src="assets/icons/w-message.png">
         </ng-template>

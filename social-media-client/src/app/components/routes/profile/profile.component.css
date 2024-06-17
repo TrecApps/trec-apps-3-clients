@@ -40,6 +40,14 @@
     position: relative;
 }
 
+.profile-container img {
+    min-width: 100px;
+	max-width: 250px;
+	max-height: 250px;
+    width: 33%;
+    height: auto;
+}
+
 .pic-button {
     bottom: 5%;
     position:relative;
@@ -121,3 +129,5 @@
 .profilePic:before {
     background-image: url("/assets/icons/non-profile.png");
 }
+
+

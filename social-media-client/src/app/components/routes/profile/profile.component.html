@@ -7,6 +7,7 @@
         [style.min-height]="minHeight" [style.max-height]="maxHeight">
     <div class="main-panel flex-and-center" style="bottom: 0px;">
 
+        <div *ngIf="!displayService.isMobile">
             <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="isSelfProfile">
                 <button class="btn btn-info pic-button" (click)="prepNewCoverPhoto()">Set Cover Photo</button>
             </div>
@@ -22,13 +23,13 @@
             <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'CONNECTED'">
                 <button class="btn btn-info pic-button" (click)="message()">Message</button>
             </div>
+        </div>
 
+        <div class="flex-and-center profile-container" style="width: 33%;" >
+            <img class="profilePic" [src]="profileService.profilePhoto">
+        </div>
 
-            <div class="flex-and-center profile-container" style="width: 33%;" >
-                <img class="profilePic" [src]="profileService.profilePhoto">
-            </div>
-
-
+        <div *ngIf="!displayService.isMobile">
             <div class="set-profile-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="isSelfProfile">
                 <button class="btn btn-info pic-button" (click)="prepNewProfilePhoto()">Set Profile Photo</button>
             </div>
@@ -44,11 +45,34 @@
             <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'NOT_FOUND'">
                 <button class="btn btn-danger pic-button" (click)="prepBlock()">Block</button>
             </div>
+        </div>
     </div>
 </div>
 
 <div class="profile-pic-buffer">
+    
 
+</div>
+<div *ngIf="displayService.isMobile">
+    <div *ngIf="isSelfProfile" style="flex-direction: column; gap:2px" class="flex-and-center">
+        <button class="btn btn-info pic-button" (click)="prepNewProfilePhoto()">Set Profile Photo</button>
+        <button class="btn btn-info pic-button" (click)="prepNewCoverPhoto()">Set Cover Photo</button>
+    </div>
+    <div *ngIf="connectionStatus == 'REQUESTED'" style="flex-direction: column; gap:2px" class="flex-and-center">
+        <button class="btn btn-info pic-button" (click)="respondToConnection(true)">Confirm Connection Request</button>
+        <button class="btn btn-warn pic-button" (click)="respondToConnection(false)">Reject Connection Request</button>
+    </div>
+    <div *ngIf="connectionStatus == 'AWAITING'" style="flex-direction: column; gap:2px" class="flex-and-center">
+        <button class="btn btn-warn pic-button" (click)="removeConnection()">Remove Connection Request</button>
+    </div>
+    <div *ngIf="connectionStatus == 'CONNECTED'" style="flex-direction: column; gap:2px" class="flex-and-center">
+        <button class="btn btn-info pic-button" (click)="message()">Message</button>
+        <button class="btn btn-warn pic-button" (click)="removeConnection()">Remove Connection</button>
+    </div>
+    <div *ngIf="connectionStatus == 'NOT_FOUND'" style="flex-direction: column; gap:2px" class="flex-and-center">
+        <button class="btn btn-info pic-button" (click)="requestConnection()">Make Connection</button>
+        <button class="btn btn-danger pic-button" (click)="prepBlock()">Block</button>
+    </div>
 </div>
 
 <div *ngIf="profileRequestBody">
@@ -120,7 +144,8 @@
             </div>
 
             <hr>
-            <h1>Favorite Movies</h1>
+            <h3 *ngIf="displayService.isMobile">Favorite Movies</h3>
+            <h1 *ngIf="!displayService.isMobile">Favorite Movies</h1>
             <app-brand-searcher *ngIf="isSelfProfile" [type]="brandTypeFilm" [label]="'Favorite Movies'" (brandInfoSelected)="addMovie($event)"></app-brand-searcher>
             <ol style="list-style: none;">
                 <li class="favorites-list" *ngFor="let bi of profile.favoriteMovies">
@@ -136,7 +161,8 @@
             <button *ngIf="isSelfProfile && moviesChanged" class="btn btn-submit" (click)="updateMovies()">Save Movie List</button>
 
             <hr>
-            <h1>Favorite Songs</h1>
+            <h3 *ngIf="displayService.isMobile">Favorite Movies</h3>
+            <h1 *ngIf="!displayService.isMobile">Favorite Songs</h1>
             <app-brand-searcher *ngIf="isSelfProfile" [type]="brandTypeSong" [label]="'Favorite Songs'" (brandInfoSelected)="addSongs($event)"></app-brand-searcher>
             <ol style="list-style: none;">
                 <li class="favorites-list" *ngFor="let bi of profile.favoriteSongs">
@@ -152,7 +178,8 @@
             <button *ngIf="isSelfProfile && moviesChanged" class="btn btn-submit" (click)="updateSongs()">Save Song List</button>
 
             <hr>
-            <h1>Favorite Books</h1>
+            <h3 *ngIf="displayService.isMobile">Favorite Movies</h3>
+            <h1 *ngIf="!displayService.isMobile">Favorite Books</h1>
             <app-brand-searcher *ngIf="isSelfProfile" [type]="brandTypeBook" [label]="'Favorite Books'" (brandInfoSelected)="addBook($event)"></app-brand-searcher>
             <ol style="list-style: none;">
                 <li class="favorites-list" *ngFor="let bi of profile.favoriteBooks">

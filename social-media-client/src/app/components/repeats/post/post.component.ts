@@ -13,6 +13,7 @@ import { ReactionStats, ResponseObj } from '../../../models/ResponseObj';
 import { Reaction } from '../../../models/Reaction';
 import { CommentService } from '../../../services/comment.service';
 import { UserService } from '../../../services/user.service';
+import { DisplayService } from '../../../services/display.service';
 
 
 @Component({
@@ -55,7 +56,10 @@ throw new Error('Method not implemented.');
 
   hasMoreComments: boolean = true;
 
+  displayService: DisplayService;
+
   constructor(
+    ds: DisplayService,
     private userService: UserService,
     private reactionService: ReactionService,
     private commentService: CommentService,
@@ -63,7 +67,7 @@ throw new Error('Method not implemented.');
     //this.imageLink = `${environment.image_service_url}Profile/`;
     this.imageLink = "assets/scaffolds/Profile_JLJ.png";
 
-
+      this.displayService = ds;
 
   }
   ngAfterViewInit(): void {

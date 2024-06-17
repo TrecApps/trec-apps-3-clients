@@ -29,6 +29,12 @@
     padding: 15px;
 }
 
+.d-bordered-mobile {
+    border-style: double;
+    border-color: darkblue;
+    border-radius: 10px;
+}
+
 /* Regular Red Button */
 
 .red-button-container {
@@ -207,3 +213,16 @@ img.expand_i_reg {
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/* to have h1 behave like h3 when in mobile */
+.h1-to-h3 {
+    font-size: 1.17em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+/* Allow Text in Buttons to word wrap*/
+button {
+    white-space: normal;
+}

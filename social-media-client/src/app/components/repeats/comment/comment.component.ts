@@ -10,6 +10,7 @@ import { ResponseObj } from '../../../models/ResponseObj';
 import { UserService } from '../../../services/user.service';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
+import { DisplayService } from '../../../services/display.service';
 
 
 export class CommentUpdate{
@@ -54,9 +55,13 @@ export class CommentComponent implements OnInit {
   currentProfImageLink: string;
   hasMoreReplies: boolean = true;
 
-  constructor(private commentService: CommentService, private userService: UserService, private router:Router) {
+  displayService: DisplayService
+
+  constructor(private commentService: CommentService, private userService: UserService, private router:Router, ds: DisplayService) {
     this.commenterImageLink = "assets/icons/non-profile.png";
     this.currentProfImageLink = this.commenterImageLink;
+
+    this.displayService = ds;
   }
 
   navigateToProfile(){

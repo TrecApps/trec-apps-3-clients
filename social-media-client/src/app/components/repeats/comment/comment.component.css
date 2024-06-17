@@ -1,13 +1,17 @@
 .whole-comment {
     background-color: azure;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
     margin-top: 10px;
-    margin-right: 10px;
+
     border-radius: 2px;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.whole-comment-desktop {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
 }
 
 .whole-comment-draft {
@@ -15,7 +19,13 @@
     padding: 10px;
     display: flex;
     flex-direction: row;
+}
 
+.whole-comment-draft-mobile {
+    background-color: rgba(0, 243, 12, 0.425);
+    padding: 2px;
+    display: flex;
+    flex-direction: column;
 }
 
 .comment-draft-body {
@@ -67,7 +77,11 @@
 
 .comment-divider {
     width: 95%;
+}
 
+.comment-divider-mobile {
+    margin-top: 2px;
+    margin-bottom: 2px;
 }
 
 .comment-reaction-bar {

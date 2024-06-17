@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MessagingService } from '../../../services/messaging.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DisplayService } from '../../../services/display.service';
 
 @Component({
   selector: 'app-login',
@@ -28,9 +29,17 @@ export class LoginComponent implements OnInit{
   login: Login;
   loginFail: boolean;
 
-  constructor(private authService:AuthService, private userService: UserService, private router:Router, private messagingService: MessagingService) {
-    this.login = new Login();
-    this.loginFail = false;
+  displayService: DisplayService;
+
+  constructor(
+    displayService: DisplayService,
+    private authService:AuthService,
+    private userService: UserService,
+    private router:Router, 
+    private messagingService: MessagingService) {
+      this.displayService = displayService;
+      this.login = new Login();
+      this.loginFail = false;
    }
 
    showSpinner: boolean = false;

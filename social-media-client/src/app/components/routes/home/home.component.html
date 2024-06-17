@@ -1,5 +1,8 @@
 <app-top-bar *ngIf="!displayService.isMobile"></app-top-bar>
-<app-mobile-bar *ngIf="displayService.isMobile"></app-mobile-bar>
+<div style="height: 42px" *ngIf="displayService.isMobile">
+    <app-mobile-bar></app-mobile-bar>
+</div>
+
 
 <div class="home-base">
 
@@ -43,3 +46,4 @@
         <app-connection-list #homeConnections [mode]="'CONFIRMED'" [profileId]="currentProfile" [userDisplayName]="'Connections'"></app-connection-list>
     </div>
 </div>
+<div style="height: 42px" *ngIf="displayService.isMobile"></div>

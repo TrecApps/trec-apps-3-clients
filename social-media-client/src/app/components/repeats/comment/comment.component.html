@@ -1,4 +1,4 @@
-<div *ngIf="actPost" class="whole-comment d-bordered">
+<div *ngIf="actPost" class="whole-comment d-bordered" style="width: 100%">
 
     <div style="display: flex; flex-direction: column; width: 100%;">
         <div class="comment-top">
@@ -13,13 +13,13 @@
 
         </div>
 
-        <hr class="comment-divider">
+        <hr class="comment-divider" [class.comment-divider-mobile]="displayService.isMobile">
 
         <div class="comment-content" [innerHTML]="actPost.contents.at(-1) | htmlRemover | tcFormatter ">
 
         </div>
 
-        <hr class="comment-divider">
+        <hr class="comment-divider" [class.comment-divider-mobile]="displayService.isMobile">
 
         <div class="comment-reaction-bar">
 
@@ -46,20 +46,19 @@
 
     </div>
     
-    <hr>
+    <hr [class.comment-divider-mobile]="displayService.isMobile">
 
     <app-comment style="width:100%" [editComment]="editReply"></app-comment>
     
-    <hr>
+    <hr [class.comment-divider-mobile]="displayService.isMobile">
 
     <div *ngFor="let cl of actPost.replies" style="width: 100%; margin-bottom: 15px;">
         <div style="display: flex; flex-direction: column; align-items: center; width: 100%">
-            <button class="btn btn-light" style="width:80%; min-width: 300px;margin: 5px;" (click)="toggleCommentList(cl)">{{cl.show ? 'Hide' : 'Show'}} Comments</button>
+            <button *ngIf="cl.comments.length" class="btn btn-light" style="width:auto; margin: 5px;" (click)="toggleCommentList(cl)">{{cl.show ? 'Hide' : 'Show'}} Comments</button>
         
-            <div *ngIf="cl.show" 
+            <div *ngIf="cl.show && cl.comments.length" 
              style="display: flex; flex-direction: column; width:100%; background-color: rgba(0,255,255,0.2); border-radius: 3px; border: solid darkblue 1px">
-                <div *ngFor="let comment of cl.comments" style="display: flex; flex-direction: row;">
-                    <div style="width: 10%;"></div>
+                <div *ngFor="let comment of cl.comments" style="display: flex; flex-direction: row; justify-content: end;">
 
                     <app-comment style="width: 90%;"  [actPost]="comment" (onCommentPersisted)="newCommentHandler($event)"></app-comment>
                 </div>
@@ -73,7 +72,7 @@
 </div>
 
 
-<div *ngIf="editComment" class="whole-comment-draft d-bordered">
+<div *ngIf="editComment" [class]="displayService.isMobile ? 'whole-comment-draft-mobile d-bordered-mobile' : 'whole-comment-draft d-bordered'">
     <div class="comment-profile-holder" style="margin: 10px;">
         <img [src]="currentProfImageLink" alt="Poster Photo">
     </div>

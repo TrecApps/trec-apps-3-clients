@@ -1,12 +1,9 @@
 {
-    "/api/**": {
-      "target": "http://127.0.0.1:8080",
-      "secure": false,
+    "/Coffeeshop-Profile-api/**": {
+      "target": "https://test.trecapps.com",
+      "secure": true,
       "logLevel": "debug",
-      "changeOrigin": true,
-      "pathRewrite": {
-        "^/api" : ""
-      }
+      "changeOrigin": true
     },
     "/admin/*" :{
       "target": "http://localhost:8081",
@@ -40,25 +37,16 @@
       "logLevel": "debug",
       "changeOrigin": true
     },
-    "/posts/**" : {
-      "target": "http://127.0.0.1:8088",
-      "secure": false,
+    "/Coffeeshop-Content-api/**" : {
+      "target": "https://test.trecapps.com",
+      "secure": true,
       "logLevel": "debug",
-      "changeOrigin": true,
-      "pathRewrite": {"^/posts" : ""}
-    },
-    "/comments/**": {
-      "target": "http://127.0.0.1:8088",
-      "secure": false,
-      "logLevel": "debug",
-      "changeOrigin": true,
-      "pathRewrite": {"^/comments" : ""}
+      "changeOrigin": true
     },
     "/Message-api/**": {
-      "target": "http://127.0.0.1:8095",
-      "secure": false,
+      "target": "https://test.trecapps.com",
+      "secure": true,
       "logLevel": "debug",
-      "changeOrigin": true,
-      "pathRewrite": {"^/Message-api" : ""}
+      "changeOrigin": true
     }
   }

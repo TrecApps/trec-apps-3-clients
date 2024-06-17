@@ -8,6 +8,7 @@ export class PasswordChange {
 export class Login {
     username: string | undefined;
     password:string|undefined;
+    stayLoggedIn: boolean = true;
 }
 
 export class LoginToken {

@@ -33,7 +33,7 @@ export class AuthService {
         if(func){
           func();
         } else {
-          this.router.navigateByUrl("user");
+          this.router.navigateByUrl("home");
         }
 
         
@@ -76,7 +76,6 @@ export class AuthService {
 
   getHttpHeaders(useJson: boolean, usingContentType : boolean) : HttpHeaders {
 
-    console.log("Getting Headers!");
     let ret:HttpHeaders = new HttpHeaders();
     ret = ret.append('Authorization', this.getAuthorization());
     if(usingContentType) {
@@ -91,7 +90,6 @@ export class AuthService {
   }
 
   getAuthorization() : string {
-    console.log("Auth Token is ", this.loginToken);
     return this.loginToken && this.loginToken.access_token ? this.loginToken.access_token : "";
   }
 

@@ -1,4 +1,5 @@
-<app-top-bar></app-top-bar>
+<app-top-bar *ngIf="!displayService.isMobile"></app-top-bar>
+<app-mobile-bar *ngIf="displayService.isMobile"></app-mobile-bar>
 
 <div class="home-base">
 

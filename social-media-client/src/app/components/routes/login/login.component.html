@@ -5,10 +5,14 @@
     <div width="100%" class="form" >
         <h4 *ngIf="loginFail" color="red">Failed To Login</h4>
         <div> 
-        <label id="usernameLabel" [style.color]=color3>Username</label>
-        <input type="text" class="form-control" name="username" [(ngModel)]="login.username"> <br>
-        <label id="passwordLabel" [style.color]=color3 >Password:</label>
-        <input class="form-control" type="password" name="password" [(ngModel)]="login.password"><br>
+            <label id="usernameLabel" [style.color]=color3>Username</label>
+            <input type="text" class="form-control" name="username" [(ngModel)]="login.username"> <br>
+            <label id="passwordLabel" [style.color]=color3 >Password:</label>
+            <input class="form-control" type="password" name="password" [(ngModel)]="login.password"><br>
+            <label class="form-check-label" for="noExpire" id="noExpireLabel" [style.color]="color3">Stay Logged In (Not recommended on Pubic Devices)</label><br>
+            <input class="form-check-input" type="checkbox" id="noExpire" [(ngModel)]="login.stayLoggedIn" style="margin-left: 0;">
+            
+            
         </div>
 
         <div id="buttonContainer"> 

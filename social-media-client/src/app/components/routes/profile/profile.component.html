@@ -1,4 +1,5 @@
-<app-top-bar></app-top-bar>
+<app-top-bar *ngIf="!displayService.isMobile"></app-top-bar>
+<app-mobile-bar *ngIf="displayService.isMobile"></app-mobile-bar>
 
 <div class="main-area" [style.min-height]="minHeight" [style.max-height]="maxHeight">
     <img [src]="profileService.coverPhoto" (error)="coverPhotoFallback()" alt="Cover Photo" class="cover-img"

@@ -1,0 +1,79 @@
+<div class="search-bar-background" [style.background-color]="userService.topBarColor">
+    <div class="search-wrap">
+        <div class="flex-and-center search-div" style="width: 100%; background-color: white;">
+            <input type="text" name="main-search" id="main-search" class="search-input" [(ngModel)]="searchTerm" (input)="onSearchChange()">
+
+            <div class="s-icon top-icon flex-and-center">
+                <img src="assets/icons/b-search.png" alt="Search img">
+            </div>
+        </div>
+
+        <div class="option-holder extender" *ngIf="profileSuggestions.length">
+            <div *ngFor ="let prof of profileSuggestions" class="search-option" (click)="selectProfile(prof.id)">
+                <div class="search-img-holder">
+                    <img [src]="(prof.id.startsWith('User')) ? (profilePicBase + prof.id.substring(5)) : (profilePicBaseBrand + prof.id.substring(6))">
+                </div>
+                <div class="search-name-holder" >
+                    <p class="search-name">{{ prof.name }}</p>
+                </div>
+            </div>
+            <div style="border-top: solid 2px black; height: 50px;" class="search-name-more-opt">
+                <p><b style="color: darkblue;">More Options</b></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="bottom-bar-base" [style.background-color]="userService.topBarColor">
+
+    <div class="bottom-option" (click)="routeTo('/home')">
+        <ng-template [ngIf]="router.url.includes('home')" [ngIfElse]="notHome">
+
+            <img src="assets/icons/w-home.png" >
+
+        </ng-template>
+
+        <ng-template #notHome>
+            <img src="assets/icons/b-home.png">
+        </ng-template>
+    </div>
+
+    <div class="bottom-option" (click)="routeTo('/connections')">
+        <ng-template [ngIf]="router.url.includes('connections')" [ngIfElse]="not_conn">
+            <img src="assets/icons/w-friends.png">
+        </ng-template>
+        <ng-template #not_conn>
+            <img src="assets/icons/b-friends.png">
+        </ng-template>
+    </div>
+
+    <div class="bottom-option" (click)="routeTo('/messages')">
+        <ng-template [ngIf]="router.url.includes('messages')" [ngIfElse]="not_mess">
+            <img src="assets/icons/w-message.png">
+        </ng-template>
+        <ng-template #not_mess>
+            <img src="assets/icons/b-message.png">
+        </ng-template>
+    </div>
+
+    <div class="bottom-option" (click)="routeTo('/notifications')">
+        <ng-template [ngIf]="router.url.includes('notifications')" [ngIfElse]="not_note">
+            <img src="assets/icons/w-bell.png">
+        </ng-template>
+        <ng-template #not_note>
+            <img src="assets/icons/b-bell.png">
+        </ng-template>
+    </div>
+
+    <div class="bottom-option" (click)="routeTo('/options')">
+        <ng-template [ngIf]="router.url.includes('options')" [ngIfElse]="not_opt">
+            <img src="assets/icons/w-message.png">
+        </ng-template>
+        <ng-template #not_opt>
+            <img src="assets/icons/b-message.png">
+        </ng-template>
+    </div>
+
+</div>

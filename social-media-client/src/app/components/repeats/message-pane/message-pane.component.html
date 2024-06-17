@@ -1,6 +1,6 @@
 
-<div class="message-pane">
-    <div class="message-top">
+<div #fullMessagePane class="message-pane" [style]="maxSizeStyle">
+    <div #topMessagePane class="message-top">
         <div class="message-top-profile-section">
             <div class="message-top-profile-holder">
                 <img [src]="profile">
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <div class="message-pane-body">
+    <div #mainMessagePane class="message-pane-body" [style]="paneHeight">
         <div class="message-pane-entry flex-and-center">
             <p *ngIf="page == 0 && pageEarly == 0">End of Messages</p>
             <p *ngIf="page || pageEarly" (click)="retrieveMessages()">{{loading ? 'Loading...' : 'Load Older Messages'}}</p>
@@ -42,15 +42,14 @@
         </div>
     </div>
 
-    <div class="message-new-message-holder">
-
-        <textarea placeholder="Write a message..." class="message-new-message" [(ngModel)]="inputMessage"></textarea>
-    </div>
-    <div class="message-new-message-options">
-
-        <div style="flex-grow: 1;"></div>
-
-        <button class="btn btn-primary" (click)="sendMessage()">Send</button>
+    <div #bottomMessagePane>
+        <div class="message-new-message-holder">
+            <textarea placeholder="Write a message..." class="message-new-message" [(ngModel)]="inputMessage"></textarea>
+        </div>
+        <div class="message-new-message-options">
+            <div style="flex-grow: 1;"></div>
+            <button class="btn btn-primary" (click)="sendMessage()">Send</button>
+        </div>
     </div>
 
 </div>

@@ -26,6 +26,8 @@ import { ConnectionListComponent } from '../../repeats/connection-list/connectio
 import { BlockService } from '../../../services/block.service';
 import { MessagingService } from '../../../services/messaging.service';
 import { ConversationEntry } from '../../../models/Messaging';
+import { MobileBarComponent } from '../../repeats/mobile-bar/mobile-bar.component';
+import { DisplayService } from '../../../services/display.service';
 
 @Component({
   selector: 'app-profile',
@@ -34,7 +36,8 @@ import { ConversationEntry } from '../../../models/Messaging';
     PreProfileComponent, HttpClientModule, 
     ImageComponent, FormsModule,
     PostComponent, BrandSearcherComponent, 
-    PostEditComponent, ConnectionListComponent],
+    PostEditComponent, ConnectionListComponent,
+    MobileBarComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
   animations: [
@@ -168,8 +171,11 @@ export class ProfileComponent implements OnInit{
     this.profileService.setProfilePhoto("/assets/icons/non-profile.png")
   }
 
+  displayService: DisplayService;
+
   constructor(profileService: ProfileService, 
     userService: UserService,
+    ds: DisplayService,
      private router: Router,
      private route: ActivatedRoute,
      private authService: AuthService,
@@ -182,7 +188,7 @@ export class ProfileComponent implements OnInit{
     this.profileService = profileService;
     this.userService = userService;
 
-
+    this.displayService = ds;
 
     //this.profilePicUrl = `${envir}`
 
@@ -272,6 +278,8 @@ export class ProfileComponent implements OnInit{
 
   callProfileRetreival(id: String | null){
 
+    this.postList = [];
+
     this.profileNotFound = false;
 
     console.log(`call Profile Retrievale called with id = ${id}`);
@@ -316,12 +324,13 @@ export class ProfileComponent implements OnInit{
           response(profile);
           
           this.foundEndOfPosts = false;
-          console.log("strTarget is ", strTarget);
           this.profileId = strTarget.toString();
 
           let idSplit = strTarget.split("-");
 
           let actId = idSplit.at(1);
+
+          console.log(`Setting Profile Images of ${strTarget}`);
 
           if(idSplit.at(0) == "User" && actId){
             this.profileService.setProfilePhoto(`${environment.image_service_url}Profile/of/${actId}?app=${environment.app_name}`);

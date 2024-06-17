@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EffectRef, ElementRef, Input, OnDestroy, OnInit, Signal, ViewChild, computed, effect } from '@angular/core';
 import { ConversationEntry, Message, ProfileEntry } from '../../../models/Messaging';
 import { MessagingService } from '../../../services/messaging.service';
 import { UserService } from '../../../services/user.service';
@@ -28,6 +28,21 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
   @Input()
   conversationEntry: ConversationEntry = new ConversationEntry();
 
+  @Input()
+  maxSizeStyle: string = "max-width: 100%; max-height: 100%";
+
+  @ViewChild("mainMessagePane", { read: ElementRef })
+  mainMessagePane: ElementRef<HTMLDivElement> | undefined;
+
+  // @ViewChild("topMessagePane", { read: ElementRef })
+  // topMessagePane: ElementRef<HTMLDivElement> | undefined;
+
+  // @ViewChild("bottomMessagePane", { read: ElementRef })
+  // bottomMessagePane: ElementRef<HTMLDivElement> | undefined;
+
+  @Input()
+  paneHeight: string = ""
+
   profile: string = "";
 
   messages: Message[] = [];
@@ -48,11 +63,28 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
   appName = environment.app_name;
 
   xButtonHover = false;
+
+  messageUpdateAlerter: EffectRef;
+
   setHover(hover: boolean){
     this.xButtonHover = hover;
   }
+
+  onUpdateMessages(){
+    if(!this.mainMessagePane) return;
+
+    this.mainMessagePane.nativeElement.scrollTop = this.mainMessagePane.nativeElement.scrollHeight;
+  }
   
   constructor(private messageService: MessagingService, private userService: UserService){
+    this.messageUpdateAlerter = effect(() => {
+      let id: string = this.messageService.messageSignal();
+      if(id.length && id == this.conversationEntry.id){
+        this.retrieveMessages(this.onUpdateMessages);
+      }
+      return id;
+    });
+
 
   }
   ngOnDestroy(): void {
@@ -109,7 +141,7 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
 
   loading: boolean = false;
 
-  retrieveMessages(){
+  retrieveMessages(onUpdated?: Function | undefined){
     this.loading = true;
     let lowBounds = Math.max(this.pageEarly, 0);
 
@@ -118,6 +150,7 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
         this.messages = m;
         this.updateEarlyBounds(lowBounds);
         this.loading = false;
+        if(onUpdated) onUpdated();
       }
     })
   }

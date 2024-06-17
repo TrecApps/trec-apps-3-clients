@@ -2,7 +2,7 @@ import { AfterContentInit, AfterViewInit, Component, ElementRef, Input, OnInit, 
 import { AddPost, CommentList, CommentPost, Post, Comment } from '../../../models/posts';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { HtmlRemoverPipe } from '../../../pipes/html-remover.pipe';
 import { TcFormatterPipe } from '../../../pipes/tc-formatter.pipe';
 import { ReactionButtonComponent, ReactionEvent } from '../reaction-button/reaction-button.component';
@@ -12,6 +12,7 @@ import { ReactionService } from '../../../services/reaction.service';
 import { ReactionStats, ResponseObj } from '../../../models/ResponseObj';
 import { Reaction } from '../../../models/Reaction';
 import { CommentService } from '../../../services/comment.service';
+import { UserService } from '../../../services/user.service';
 
 
 @Component({
@@ -55,9 +56,10 @@ throw new Error('Method not implemented.');
   hasMoreComments: boolean = true;
 
   constructor(
-    private profileService: ProfileService,
+    private userService: UserService,
     private reactionService: ReactionService,
-    private commentService: CommentService){
+    private commentService: CommentService,
+    private router: Router){
     //this.imageLink = `${environment.image_service_url}Profile/`;
     this.imageLink = "assets/scaffolds/Profile_JLJ.png";
 
@@ -68,6 +70,41 @@ throw new Error('Method not implemented.');
     if(this.actPost){
       this.refreshReactionCount();
       this.getComments()
+    }
+  }
+
+  navigateToProfile(){
+    console.log(`url is ${this.router.url}`);
+    if(!this.actPost) return;
+    console.log("Post in Question: ", this.actPost);
+
+    if(this.actPost.brandId){
+      // First, check to see if we're already on this page
+      if(this.router.url.includes(`profile?id=Brand-${this.actPost.brandId}`)) return;
+
+      // Next check to see if we're on the profile page but for ourselves
+      if((this.router.url == `profile` || this.router.url == `/profile`) &&
+          this.userService.getCurrentUserId() == `Brand-${this.actPost.brandId}`) return;
+
+
+      this.router.navigate(['profile'], {
+        queryParams: {
+          id: `Brand-${this.actPost.brandId}`
+        }
+      })
+    } else if(this.actPost.userId){
+      // First, check to see if we're already on this page
+      if(this.router.url == `profile?id=User-${this.actPost.userId}`) return;
+
+      // Next check to see if we're on the profile page but for ourselves
+      if((this.router.url == `profile` || this.router.url == `/profile`) &&
+            this.userService.getCurrentUserId() == `User-${this.actPost.userId}`) return;
+
+      this.router.navigate(['profile'], {
+        queryParams: {
+          id: `User-${this.actPost.userId}`
+        }
+      })
     }
   }
 

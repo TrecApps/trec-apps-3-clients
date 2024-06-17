@@ -3,11 +3,11 @@
     <div style="display: flex; flex-direction: column; width:100%; position:relative">
         <div class="post-top">
             <div class="post-profile-holder">
-                <img [src]="imageLink" alt="Poster Photo">
+                <img [src]="imageLink" alt="Poster Photo" (click)="navigateToProfile()">
             </div>
 
             <div class="poster-details">
-                <span class="post-profile-name">{{actPost.displayName}}</span>
+                <span class="post-profile-name" (click)="navigateToProfile()">{{actPost.displayName}}</span>
                 <span *ngIf="actPost.made" style="color: darkblue;">{{ actPost.made | date:'MMM d, y - h:mm:ss a' }}</span>
             </div>
 

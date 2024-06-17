@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, WritableSignal, signal } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ConversationEntry, EditMessage, Message, NewMessage, PostConversation, ProfileEntry, UpdateResponse } from '../models/Messaging';
@@ -18,6 +18,10 @@ export class MessagingService {
   conversations: ConversationEntry[] = [];
 
   currentConversation: ConversationEntry | undefined;
+
+  messageSignal: WritableSignal<string> = signal("");
+
+  //getMessageUpdater: ComputedSignal<string>
 
   setConversation(con: ConversationEntry | undefined){
     this.currentConversation = con;

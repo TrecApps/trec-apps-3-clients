@@ -3,11 +3,11 @@
     <div style="display: flex; flex-direction: column; width: 100%;">
         <div class="comment-top">
             <div class="comment-profile-holder">
-                <img [src]="commenterImageLink" alt="Poster Photo">
+                <img (click)="navigateToProfile()" [src]="commenterImageLink" alt="Poster Photo">
             </div>
 
             <div class="commenter-details">
-                <span class="comment-profile-name">{{actPost.displayName}}</span>
+                <span (click)="navigateToProfile()" class="comment-profile-name">{{actPost.displayName}}</span>
                 <span *ngIf="actPost.made">{{ actPost.made | date:'MMM d, y - h:mm:ss a' }}</span>
             </div>
 

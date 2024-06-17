@@ -9,11 +9,13 @@ import { ProfileDetailsService } from '../../../services/profile-details.service
 import { SocialMediaEvent, SocialMediaEventList } from '../../../models/ProfileObjs';
 import { PostHolderComponent } from '../../repeats/post-holder/post-holder.component';
 import { CommonModule } from '@angular/common';
+import { MobileBarComponent } from '../../repeats/mobile-bar/mobile-bar.component';
+import { DisplayService } from '../../../services/display.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, TopBarComponent, PostEditComponent, ConnectionListComponent, PostHolderComponent],
+  imports: [CommonModule, TopBarComponent, MobileBarComponent, PostEditComponent, ConnectionListComponent, PostHolderComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -33,9 +35,11 @@ export class HomeComponent {
   currentEarliestPost: number = 0;
 
   currentList: SocialMediaEventList | undefined;
+  displayService: DisplayService;
 
-  constructor(us: UserService, private router: Router, private profileDetilsService: ProfileDetailsService){
+  constructor(us: UserService, ds: DisplayService, private router: Router, private profileDetilsService: ProfileDetailsService){
     this.userService = us;
+    this.displayService = ds;
 
     this.homePageContent = [];
 

@@ -13,9 +13,9 @@ export const environment = {
 
 
   image_service_url: "http://localhost:4200/Images-api/",
-  profile_service_url: "http://localhost:4200/api/",
-  post_service_url: "http://localhost:4200/posts/",
-  comment_service_url:"http://localhost:4200/comments/",
+  profile_service_url: "http://localhost:4200/Coffeeshop-Profile-api/",
+  post_service_url: "http://localhost:4200/Coffeeshop-Content-api/",
+  comment_service_url:"http://localhost:4200/Coffeeshop-Content-api/",
   resource_service_url: "http://localhost:4200/Brands-api/",
 
   messaging_service_url: "http://localhost:4200/Message-api/",

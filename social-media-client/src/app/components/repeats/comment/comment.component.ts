@@ -9,6 +9,7 @@ import { CommentService } from '../../../services/comment.service';
 import { ResponseObj } from '../../../models/ResponseObj';
 import { UserService } from '../../../services/user.service';
 import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
 
 
 export class CommentUpdate{
@@ -53,9 +54,44 @@ export class CommentComponent implements OnInit {
   currentProfImageLink: string;
   hasMoreReplies: boolean = true;
 
-  constructor(private commentService: CommentService, private userService: UserService) {
+  constructor(private commentService: CommentService, private userService: UserService, private router:Router) {
     this.commenterImageLink = "assets/icons/non-profile.png";
     this.currentProfImageLink = this.commenterImageLink;
+  }
+
+  navigateToProfile(){
+    console.log(`url is ${this.router.url}`);
+    if(!this.actPost) return;
+    console.log("Post in Question: ", this.actPost);
+
+    if(this.actPost.brandId){
+      // First, check to see if we're already on this page
+      if(this.router.url.includes(`profile?id=Brand-${this.actPost.brandId}`)) return;
+
+      // Next check to see if we're on the profile page but for ourselves
+      if((this.router.url == `profile` || this.router.url == `/profile`) &&
+          this.userService.getCurrentUserId() == `Brand-${this.actPost.brandId}`) return;
+
+
+      this.router.navigate(['profile'], {
+        queryParams: {
+          id: `Brand-${this.actPost.brandId}`
+        }
+      })
+    } else if(this.actPost.userId){
+      // First, check to see if we're already on this page
+      if(this.router.url == `profile?id=User-${this.actPost.userId}`) return;
+
+      // Next check to see if we're on the profile page but for ourselves
+      if((this.router.url == `profile` || this.router.url == `/profile`) &&
+            this.userService.getCurrentUserId() == `User-${this.actPost.userId}`) return;
+
+      this.router.navigate(['profile'], {
+        queryParams: {
+          id: `User-${this.actPost.userId}`
+        }
+      })
+    }
   }
 
   ngOnInit(): void {

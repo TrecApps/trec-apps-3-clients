@@ -125,6 +125,7 @@ export class TopBarComponent implements OnInit, OnDestroy{
   }
 
   onLogout(){
+    this.stopNotifications();
     this.authService.logout();
   }
 
@@ -142,6 +143,10 @@ export class TopBarComponent implements OnInit, OnDestroy{
     this.profilePicBaseBrand = `${environment.image_service_url}Profile/byBrand/`;
   }
   ngOnInit(): void {
+
+    console.log("Calling Top-Bar Init");
+    this.onUpdateNotifications();
+    
     this.notificationCheckerHandle = window.setInterval(() => {
       this.onUpdateNotifications();
     }, 10000);
@@ -152,8 +157,16 @@ export class TopBarComponent implements OnInit, OnDestroy{
     //   }
     // })
   }
+
+  stopNotifications(){
+    if(this.notificationCheckerHandle){
+      window.clearInterval(this.notificationCheckerHandle);
+      this.notificationCheckerHandle = 0;
+    }
+  }
+
   ngOnDestroy(): void {
-    window.clearInterval(this.notificationCheckerHandle);
+    this.stopNotifications();
   }
 
   onUpdateNotifications(){
@@ -186,6 +199,9 @@ export class TopBarComponent implements OnInit, OnDestroy{
 
   addMessageNotification(notification: Notification) {
     this.messageNotifications = this.updateNotificationList(notification, this.messageNotifications);
+
+    if(notification.post.relevantId && notification.status.toString() == "UNSEEN")
+      this.messageService.messageSignal.set(notification.post.relevantId)
 
     let unseen = this.messageNotifications.filter((n: Notification) => {
       return n.status.toString() == "UNSEEN";
@@ -341,7 +357,6 @@ export class TopBarComponent implements OnInit, OnDestroy{
   }
 
   selectProfile(id: string){
-    console.log("Selecting profile with id ", id);
     this.router.navigate(['profile'], {
       queryParams: {
         id

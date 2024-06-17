@@ -144,7 +144,6 @@ export class TopBarComponent implements OnInit, OnDestroy{
   }
   ngOnInit(): void {
 
-    console.log("Calling Top-Bar Init");
     this.onUpdateNotifications();
     
     this.notificationCheckerHandle = window.setInterval(() => {

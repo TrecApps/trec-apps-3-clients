@@ -44,7 +44,6 @@
     min-width: 100px;
 	max-width: 250px;
 	max-height: 250px;
-    width: 33%;
     height: auto;
 }
 
@@ -59,6 +58,10 @@
 
 .profile-pic-buffer {
     min-height: 125px;
+}
+
+.third-width {
+    width: 33%;
 }
 
 /* Here, we are under the top panel and ready to show Profile Details and Posts by the User */

@@ -162,7 +162,6 @@ export class PostEditComponent implements OnInit {
 
       if((textElement.selectionStart > lower + 1) && (textElement.selectionEnd <= upper)){
         this.isBold = true;
-        console.log("Found Bold Space with lower = " + lower + " upper = " + upper + " and value = " + textElement.selectionStart);
         break;
       }
     }
@@ -174,7 +173,6 @@ export class PostEditComponent implements OnInit {
 
       if((textElement.selectionStart > lower) && (textElement.selectionEnd < upper)){
         this.isItalic = true;
-        console.log("Italic Set to True! Index is " + textElement.selectionStart + " with lower = " + lower + " and upper = " + upper);
         break;
       }
     }

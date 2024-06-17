@@ -136,7 +136,6 @@ export class ImageComponent {
   selectionHandlers: Function[] = [
     (s: String) => {  // Use this for setting Cover Photo
       let data = this.getImageData(s);
-      console.log("Image ID for Cover " + s + " yeilded " + data);
       if(data){
         this.profileService.setCoverPhoto(data);
          // To-Do: Add Support for Brand Accounts

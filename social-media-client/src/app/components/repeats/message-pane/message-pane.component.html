@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <div #mainMessagePane class="message-pane-body" [style]="paneHeight">
+    <div #mainMessagePane class="message-pane-body" [style]="paneHeight" (scroll)="handleScroll($event)">
         <div class="message-pane-entry flex-and-center">
             <p *ngIf="page == 0 && pageEarly == 0">End of Messages</p>
             <p *ngIf="page || pageEarly" (click)="retrieveMessages()">{{loading ? 'Loading...' : 'Load Older Messages'}}</p>
@@ -40,9 +40,14 @@
             </div>
 
         </div>
+
+
     </div>
 
-    <div #bottomMessagePane>
+    <div #bottomMessagePane style="position: relative;">
+        <button class="scroll-down-button" [class.scroll-down-button-active]="doScrollDown" (click)="setScrollDown(true)">
+            <img src="assets/icons/Less_than.png">
+        </button>
         <div class="message-new-message-holder">
             <textarea placeholder="Write a message..." class="message-new-message" [(ngModel)]="inputMessage"></textarea>
         </div>

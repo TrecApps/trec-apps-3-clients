@@ -66,21 +66,32 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
 
   messageUpdateAlerter: EffectRef;
 
+  doScrollDown: boolean = true;
+
+  setScrollDown(scrollDown: boolean){
+    this.doScrollDown = scrollDown;
+
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(){
+    if(!this.doScrollDown || !this.mainMessagePane) return;
+
+    this.mainMessagePane.nativeElement.scrollTop = this.mainMessagePane.nativeElement.scrollHeight;
+  }
+
   setHover(hover: boolean){
     this.xButtonHover = hover;
   }
 
-  onUpdateMessages(){
-    if(!this.mainMessagePane) return;
 
-    this.mainMessagePane.nativeElement.scrollTop = this.mainMessagePane.nativeElement.scrollHeight;
-  }
+  scrollTracker: number = 0;
   
   constructor(private messageService: MessagingService, private userService: UserService){
     this.messageUpdateAlerter = effect(() => {
       let id: string = this.messageService.messageSignal();
       if(id.length && id == this.conversationEntry.id){
-        this.retrieveMessages(this.onUpdateMessages);
+        this.retrieveMessages();
       }
       return id;
     });
@@ -111,6 +122,10 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
+
+    if(this.mainMessagePane){
+      this.scrollTracker = this.mainMessagePane.nativeElement.scrollTop;
+    }
 
     let curProfile = this.userService.getCurrentUserId();
 
@@ -151,8 +166,21 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
         this.updateEarlyBounds(lowBounds);
         this.loading = false;
         if(onUpdated) onUpdated();
+        setTimeout(() => {
+          this.scrollToBottom();
+        }, 100);
       }
     })
+  }
+
+  handleScroll(event:Event){
+    if(!this.mainMessagePane) return;
+
+    if(this.mainMessagePane.nativeElement.scrollTop < this.scrollTracker){
+      this.doScrollDown = false;
+    }
+
+    this.scrollTracker = this.mainMessagePane.nativeElement.scrollTop;
   }
 
 

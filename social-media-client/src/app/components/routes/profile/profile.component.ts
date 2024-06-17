@@ -143,7 +143,6 @@ export class ProfileComponent implements OnInit{
   }
 
   checkIfDouneCol(width: number){
-    console.log("Width provided = " + width);
     return width > (696);
   }
 
@@ -282,7 +281,6 @@ export class ProfileComponent implements OnInit{
 
     this.profileNotFound = false;
 
-    console.log(`call Profile Retrievale called with id = ${id}`);
 
     let response = (obj: Profile | null) => {
       if(!obj && !id){
@@ -304,7 +302,6 @@ export class ProfileComponent implements OnInit{
         
     }
     let target: String | null | undefined = id;
-    console.log("Assessing User id " + id);
     this.isSelfProfile = this.userService.isCurrentUser(id);
     if(!target){
       target = this.userService.getCurrentUserId();
@@ -330,7 +327,6 @@ export class ProfileComponent implements OnInit{
 
           let actId = idSplit.at(1);
 
-          console.log(`Setting Profile Images of ${strTarget}`);
 
           if(idSplit.at(0) == "User" && actId){
             this.profileService.setProfilePhoto(`${environment.image_service_url}Profile/of/${actId}?app=${environment.app_name}`);
@@ -366,8 +362,6 @@ export class ProfileComponent implements OnInit{
 
   retrievePosts(id: string, byUser: boolean){
 
-    console.log("Retrieving Posts? " + !this.foundEndOfPosts + " by User ? " + byUser);
-    
     if(this.foundEndOfPosts) {
       return;
     }
@@ -430,9 +424,7 @@ export class ProfileComponent implements OnInit{
     if(!this.profileRequestBody){
       return;
     }
-    console.log("Pre-Profile Body Before :", this.profileRequestBody);
     this.preProfileService.prepRequest(this.profileRequestBody);
-    console.log("Pre-Profile Body After  :", this.profileRequestBody);
 
     this.profileService.establishProfile(this.profileRequestBody).subscribe({
       next: (profile: Profile) => {

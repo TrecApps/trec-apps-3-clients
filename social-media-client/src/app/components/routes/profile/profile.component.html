@@ -7,42 +7,42 @@
         [style.min-height]="minHeight" [style.max-height]="maxHeight">
     <div class="main-panel flex-and-center" style="bottom: 0px;">
 
-        <div *ngIf="!displayService.isMobile">
-            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="isSelfProfile">
+        <div *ngIf="!displayService.isMobile" class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;">
+            <div *ngIf="isSelfProfile">
                 <button class="btn btn-info pic-button" (click)="prepNewCoverPhoto()">Set Cover Photo</button>
             </div>
-            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'REQUESTED'">
+            <div *ngIf="connectionStatus == 'REQUESTED'">
                 <button class="btn btn-info pic-button" (click)="respondToConnection(true)">Confirm Connection Request</button>
             </div>
-            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'NOT_FOUND'">
+            <div *ngIf="connectionStatus == 'NOT_FOUND'">
                 <button class="btn btn-info pic-button" (click)="requestConnection()">Make Connection</button>
             </div>
-            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'AWAITING'">
+            <div *ngIf="connectionStatus == 'AWAITING'">
                 <button class="btn btn-info pic-button">Awaiting Response</button>
             </div>
-            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'CONNECTED'">
+            <div *ngIf="connectionStatus == 'CONNECTED'">
                 <button class="btn btn-info pic-button" (click)="message()">Message</button>
             </div>
         </div>
 
-        <div class="flex-and-center profile-container" style="width: 33%;" >
+        <div class="flex-and-center profile-container" [class.third-width]="displayService.isMobile" >
             <img class="profilePic" [src]="profileService.profilePhoto">
         </div>
 
-        <div *ngIf="!displayService.isMobile">
-            <div class="set-profile-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="isSelfProfile">
+        <div *ngIf="!displayService.isMobile" class="set-profile-wrap flex-and-bottom" style="width: 33%; height:100%;">
+            <div *ngIf="isSelfProfile">
                 <button class="btn btn-info pic-button" (click)="prepNewProfilePhoto()">Set Profile Photo</button>
             </div>
-            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'REQUESTED'">
+            <div *ngIf="connectionStatus == 'REQUESTED'">
                 <button class="btn btn-warn pic-button" (click)="respondToConnection(false)">Reject Connection Request</button>
             </div>
-            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'AWAITING'">
+            <div *ngIf="connectionStatus == 'AWAITING'">
                 <button class="btn btn-warn pic-button" (click)="removeConnection()">Remove Connection Request</button>
             </div>
-            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'CONNECTED'">
+            <div *ngIf="connectionStatus == 'CONNECTED'">
                 <button class="btn btn-warn pic-button" (click)="removeConnection()">Remove Connection</button>
             </div>
-            <div class="set-cover-wrap flex-and-bottom" style="width: 33%; height:100%;" *ngIf="connectionStatus == 'NOT_FOUND'">
+            <div *ngIf="connectionStatus == 'NOT_FOUND'">
                 <button class="btn btn-danger pic-button" (click)="prepBlock()">Block</button>
             </div>
         </div>

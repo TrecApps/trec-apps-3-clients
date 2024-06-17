@@ -124,8 +124,6 @@ export class ConnectionListComponent implements OnInit {
           let isRequester = this.userId == ce.requester;
           let id = isRequester ? ce.requestee : ce.requester;
 
-          console.log('Mapping connection ', ce);
-
           switch(ce.type){
             case ConnectionType.REQUESTED:
             case 'REQUESTED':
@@ -145,12 +143,8 @@ export class ConnectionListComponent implements OnInit {
         });
 
         this.connections = cl.filter((cs: ConnectionStatus) => {
-          console.log('Filtering obj ', cs);
           return cs.statusToViewer != "INVALID";
         })
-
-        console.log('Connections set with length of ', this.connections.length);
-
       }
     })
   }

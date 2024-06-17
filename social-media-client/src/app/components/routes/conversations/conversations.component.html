@@ -1,0 +1,29 @@
+<app-mobile-bar *ngIf="displayService.isMobile"></app-mobile-bar>
+<div style="height: 42px"></div>
+
+<div class="message-parent-div">
+    <div *ngIf="!messagingService.conversations.length" class="flex-and-center">
+        <p>Wow! So empty!</p>
+        <a routerLink="connections">Reach out to your connections!</a>
+    </div>
+
+
+    <div (click)="setConversation(conversation)" class="conversation-entry" *ngFor="let conversation of messagingService.conversations">
+        <div class="conversation-header">
+            <img [src]="conversation.participants.length > 2 ? 'assets/icons/non-profile.png' : messagingService.getNonYouProfileImage(conversation.participants)[0]">
+            <div class="conversation-details">
+                <span>| </span>
+                <span *ngFor="let displayName of messagingService.getNonYouDisplayNames(conversation.participants)"> {{ displayName }} |</span><br>
+            </div>
+        </div>
+        <hr style="margin: 1px">
+        <p><b>{{conversation.lastSpeaker}}:</b> {{conversation.lastMessage.length > 50 ? conversation.lastMessage.substring(0, 50) + "..." : conversation.lastMessage}}</p>
+
+
+    </div>
+
+    <div class="pane-holder" *ngIf="messagingService.currentConversation">
+        <app-message-pane [conversationEntry]="messagingService.currentConversation"></app-message-pane>
+    </div>
+
+</div>

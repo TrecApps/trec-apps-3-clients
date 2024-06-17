@@ -42,7 +42,6 @@ export class ReactionButtonComponent {
   }
 
   setCount(count: number){
-    console.log("Updating Reaction Count of " + this.reactionType + " to " + count);
     this.count = count;
   }
 }

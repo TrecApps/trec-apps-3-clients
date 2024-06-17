@@ -1,0 +1,24 @@
+.message-parent-div {
+    
+}
+
+.conversation-entry {
+    background-color: beige;
+    border: solid black 1px;
+}
+
+.conversation-header {
+    display: flex;
+    flex-direction: row;
+    padding: 3px;
+}
+
+.conversation-header img {
+    width: 40px;
+    height:40px;
+    border-radius: 50%;
+}
+
+.conversation-details {
+    flex-grow: 1;
+}

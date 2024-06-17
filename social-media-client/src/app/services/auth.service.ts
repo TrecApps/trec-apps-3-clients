@@ -39,7 +39,6 @@ export class AuthService {
         
       },
       error:  (e) => {
-        console.log("Failed to Refresh", e);
         this.router.navigateByUrl("logon");
       }
     })

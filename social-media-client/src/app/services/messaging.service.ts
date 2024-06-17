@@ -27,6 +27,21 @@ export class MessagingService {
     this.currentConversation = con;
   }
 
+  getNonYouDisplayNames(profiles: ProfileEntry[]) : string[] {
+    return profiles.filter((pe: ProfileEntry) => {
+      return this.userService.getCurrentUserId() != pe.profileId
+    }).map((pe: ProfileEntry) => pe.displayName);
+  }
+
+  getNonYouProfileImage(profiles: ProfileEntry[]) : string[]{
+    return profiles.filter((pe: ProfileEntry) => {
+      return this.userService.getCurrentUserId() != pe.profileId
+    }).map((pe: ProfileEntry) => {
+      if(pe.profileId.startsWith('User-')) return `${environment.image_service_url}Profile/of/${pe.profileId.substring(5)}?app=${environment.app_name}`
+      return `${environment.image_service_url}Profile/byBrand/${pe.profileId.substring(6)}?app=${environment.app_name}`;
+    });
+  }
+
   setConversationById(id: string) {
     this.setConversation(this.getConversationById(id));
   }

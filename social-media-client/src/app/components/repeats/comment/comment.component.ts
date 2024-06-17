@@ -65,9 +65,7 @@ export class CommentComponent implements OnInit {
   }
 
   navigateToProfile(){
-    console.log(`url is ${this.router.url}`);
     if(!this.actPost) return;
-    console.log("Post in Question: ", this.actPost);
 
     if(this.actPost.brandId){
       // First, check to see if we're already on this page
@@ -116,7 +114,6 @@ export class CommentComponent implements OnInit {
 
       curId = this.actPost?.brandId || this.actPost?.userId;
       if(curId){
-        console.log("Getting commenter ID ", curId);
         
         if(this.actPost?.brandId){
           this.commenterImageLink = `${environment.image_service_url}Profile/byBrand/${curId}?app=${environment.app_name}`;

@@ -78,9 +78,7 @@ throw new Error('Method not implemented.');
   }
 
   navigateToProfile(){
-    console.log(`url is ${this.router.url}`);
     if(!this.actPost) return;
-    console.log("Post in Question: ", this.actPost);
 
     if(this.actPost.brandId){
       // First, check to see if we're already on this page
@@ -139,7 +137,6 @@ throw new Error('Method not implemented.');
   }
 
   updateReactionStats(rs: ReactionStats) {
-    console.log("Updating Reation Stats");
     this.reactionType = rs.yourReaction;
     if(rs.id){
       this.reactionId = rs.id;
@@ -171,13 +168,10 @@ throw new Error('Method not implemented.');
   }
 
   refreshReactionCount(){
-    console.log("Refresh Reaction count called: ", this.actPost);
-    console.log("Like Button is ", this.likeButton);
     if(!this.actPost?.postId || !this.likeButton || !this.dislikeButton)return;
 
     this.reactionService.getReactionCountByPost(this.actPost.postId.toString()).subscribe({
       next: (rs: ReactionStats) => {
-        console.log("Retrieved Reaction Stats");
         this.updateReactionStats(rs);
       }
     })
@@ -191,7 +185,6 @@ throw new Error('Method not implemented.');
   }
 
   reactionOnSelect(reactionSelected: ReactionEvent | undefined){
-    console.log("Reaction Event: ", reactionSelected);
     if(!reactionSelected || !this.actPost){
       return;
     }

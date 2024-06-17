@@ -7,11 +7,12 @@ import { UserService } from '../../../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MessagingService } from '../../../services/messaging.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, MatProgressSpinnerModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -32,6 +33,8 @@ export class LoginComponent implements OnInit{
     this.loginFail = false;
    }
 
+   showSpinner: boolean = false;
+
   ngOnInit(): void {
     
     this.color1 = GlobalConstants.lightBlue
@@ -47,13 +50,21 @@ export class LoginComponent implements OnInit{
 
   logon() {
 
-    let onGainUser = () => {
-      this.router.navigate(['profile']);
+    if(this.showSpinner) return;
+
+    let onGainUser = (worked: boolean) => {
+      if(worked){
+        this.router.navigate(['profile']);
+      }
+      this.showSpinner = false;
     }
+    this.showSpinner = true;
 
     this.authService.loginThroughTrecApps(this.login, (worked: boolean) => {
+
       if(!worked) {
         this.loginFail = true;
+        this.showSpinner = false;
       } else {
         this.messagingService.onLogin();
         this.userService.refreshUser(onGainUser);

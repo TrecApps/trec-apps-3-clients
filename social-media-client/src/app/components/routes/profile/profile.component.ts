@@ -3,7 +3,7 @@ import { TopBarComponent } from '../../repeats/top-bar/top-bar.component';
 import { ProfileService } from '../../../services/profile.service';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../services/user.service';
-import { HttpClientModule } from '@angular/common/http';
+import {} from '@angular/common/http';
 import { PreProfileComponent } from '../pre-profile/pre-profile.component';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Profile, ProfileCreateBody, getProfileSkaffold } from '../../../models/ProfileObjs';
@@ -33,7 +33,7 @@ import { DisplayService } from '../../../services/display.service';
   selector: 'app-profile',
   standalone: true,
   imports: [CommonModule ,TopBarComponent, 
-    PreProfileComponent, HttpClientModule, 
+    PreProfileComponent, 
     ImageComponent, FormsModule,
     PostComponent, BrandSearcherComponent, 
     PostEditComponent, ConnectionListComponent,

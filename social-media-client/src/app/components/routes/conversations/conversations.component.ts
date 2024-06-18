@@ -30,4 +30,12 @@ export class ConversationsComponent {
   setConversation(entry: ConversationEntry) {
     this.messagingService.currentConversation = entry;
   }
+
+  getLastSpeaker(ce: ConversationEntry): string {
+    for(let participant of ce.participants){
+      if(participant.profileId == ce.lastSpeaker)
+          return participant.displayName;
+  }
+  return "(unknown)";
+  }
 }

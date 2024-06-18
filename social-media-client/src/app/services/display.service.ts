@@ -9,7 +9,13 @@ export class DisplayService {
 
   isMobile: boolean = true;
 
+  screenHeight: number = 0;
+
   setMobile(im: boolean) {
     this.isMobile = im;
+  }
+
+  setScreenHeight(h: number){
+    this.screenHeight = h;
   }
 }

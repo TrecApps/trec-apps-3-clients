@@ -2,7 +2,7 @@
 <div style="height: 42px"></div>
 
 <div class="message-parent-div">
-    <div *ngIf="!messagingService.conversations.length" class="flex-and-center">
+    <div *ngIf="!messagingService.conversations.length" class="flex-and-center" style="flex-direction: column;">
         <p>Wow! So empty!</p>
         <a routerLink="connections">Reach out to your connections!</a>
     </div>
@@ -17,13 +17,13 @@
             </div>
         </div>
         <hr style="margin: 1px">
-        <p><b>{{conversation.lastSpeaker}}:</b> {{conversation.lastMessage.length > 50 ? conversation.lastMessage.substring(0, 50) + "..." : conversation.lastMessage}}</p>
+        <p><b>{{getLastSpeaker(conversation)}}:</b> {{conversation.lastMessage.length > 50 ? conversation.lastMessage.substring(0, 50) + "..." : conversation.lastMessage}}</p>
 
 
     </div>
 
     <div class="pane-holder" *ngIf="messagingService.currentConversation">
-        <app-message-pane [conversationEntry]="messagingService.currentConversation"></app-message-pane>
+        <app-message-pane [conversationEntry]="messagingService.currentConversation" [paneHeight]="'height: ' +  (displayService.screenHeight - 84 - 58 - 122) + 'px'"></app-message-pane>
     </div>
 
 </div>

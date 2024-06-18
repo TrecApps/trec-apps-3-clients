@@ -32,5 +32,6 @@ export class AppComponent {
     this.screenWidth = window.innerWidth;
 
     this.displayService.setMobile(this.screenWidth < 768);
+    this.displayService.setScreenHeight(this.screenHeight);
   }
 }

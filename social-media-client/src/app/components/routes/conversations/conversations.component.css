@@ -11,6 +11,7 @@
     display: flex;
     flex-direction: row;
     padding: 3px;
+    gap: 3px;
 }
 
 .conversation-header img {
@@ -21,4 +22,11 @@
 
 .conversation-details {
     flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+.pane-holder {
+    position: fixed;
+    top: 42px;
 }

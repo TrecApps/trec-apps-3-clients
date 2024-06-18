@@ -162,8 +162,13 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
 
     this.messageService.getMessages(this.conversationEntry.id, this.page, lowBounds).subscribe({
       next: (m: Message[]) => {
-        this.messages = m;
-        this.updateEarlyBounds(lowBounds);
+        this.appendMessages(m);
+        if(m.length >= this.subPageSize){
+          this.pageEarly += this.subPageSize;
+          this.retrieveMessages();
+        }
+          
+        // this.updateEarlyBounds(lowBounds);
         this.loading = false;
         if(onUpdated) onUpdated();
         setTimeout(() => {
@@ -171,6 +176,27 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
         }, 100);
       }
     })
+  }
+
+  appendMessages(m: Message[]) {
+    if(!m.length) return;
+    if(this.messages.length){
+      let lastMessage = this.messages[this.messages.length - 1];
+      let start = 0;
+      for(let curMessageLoc = 0; curMessageLoc < m.length; curMessageLoc++){
+        start = curMessageLoc;
+        let curMessage = m[curMessageLoc];
+        if(curMessage.page > lastMessage.page || (curMessage.page == lastMessage.page && curMessage.messageLocation > lastMessage.messageLocation))
+          break;
+      }
+
+      if(start < m.length){
+        this.messages.concat(m.slice(start));
+      }
+
+    } else {
+      this.messages = m;
+    }
   }
 
   handleScroll(event:Event){

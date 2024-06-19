@@ -1,0 +1,4 @@
+<app-mobile-bar *ngIf="displayService.isMobile" (basicNotifications)="onNotificationList($event)"></app-mobile-bar>
+<div style="height: 42px"></div>
+
+<app-notification [notifications]="notificationList"></app-notification>

@@ -11,11 +11,12 @@ import { AuthService } from '../../../services/auth.service';
 import { ImageEndpointType, Notification, NotificationStatus } from '../../../models/Notification';
 import { NotificationService } from '../../../services/notification.service';
 import { MessagingService } from '../../../services/messaging.service';
+import { NotificationComponent } from '../../routes/notification/notification.component';
 
 @Component({
   selector: 'app-top-bar',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NotificationComponent],
   templateUrl: './top-bar.component.html',
   styleUrl: './top-bar.component.css',
   animations: [
@@ -36,35 +37,23 @@ import { MessagingService } from '../../../services/messaging.service';
 export class TopBarComponent implements OnInit, OnDestroy{
 
 
-
-  removeNotificationConnection(_t51: Notification) {
-    this.notificationService.deleteNotifications([_t51.notificationId]).subscribe({
-      next: () => {
-        this.connectionNotifications = this.connectionNotifications.filter((n: Notification) => {
-          return n.notificationId != _t51.notificationId
-        })
-      }
-    })
-  }
-
-  removeNotificationMessage(_t51: Notification) {
-    this.notificationService.deleteNotifications([_t51.notificationId]).subscribe({
-      next: () => {
+  removeNotification(notification: Notification){
+    switch(notification.post.category.toString()){
+      case "Messaging":
         this.messageNotifications = this.messageNotifications.filter((n: Notification) => {
-          return n.notificationId != _t51.notificationId
+          return n.notificationId != notification.notificationId
         })
-      }
-    })
-  }
-
-  removeNotificationRegular(_t51: Notification) {
-    this.notificationService.deleteNotifications([_t51.notificationId]).subscribe({
-      next: () => {
+        break;
+      case "Connection":
+        this.connectionNotifications = this.connectionNotifications.filter((n: Notification) => {
+          return n.notificationId != notification.notificationId
+        })
+        break;
+      default:
         this.regularNotifications = this.regularNotifications.filter((n: Notification) => {
-          return n.notificationId != _t51.notificationId
+          return n.notificationId != notification.notificationId
         })
-      }
-    })
+    }
   }
 
   userService: UserService;
@@ -150,11 +139,6 @@ export class TopBarComponent implements OnInit, OnDestroy{
       this.onUpdateNotifications();
     }, 10000);
 
-    // document.addEventListener('click', (event) => {
-    //   if(this.showConnectionNotes || this.showMessageNotes || this.showRegularNotes) {
-    //     this.showConnectionNotes = this.showMessageNotes = this.showRegularNotes = false;
-    //   }
-    // })
   }
 
   stopNotifications(){
@@ -342,6 +326,10 @@ export class TopBarComponent implements OnInit, OnDestroy{
         n.status = NotificationStatus.READ
       }
     })
+    this.showConnectionNotes = this.showMessageNotes = this.showRegularNotes = false;
+  }
+
+  onNotificationHandled(){
     this.showConnectionNotes = this.showMessageNotes = this.showRegularNotes = false;
   }
 

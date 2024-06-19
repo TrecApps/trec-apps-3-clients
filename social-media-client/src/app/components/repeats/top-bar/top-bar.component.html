@@ -59,48 +59,15 @@
         </div>
 
         <div class="extender" *ngIf="showConnectionNotes" style="z-index: 10;">
-            <div class="core-option-holder" *ngFor="let n of connectionNotifications">
-                <div class="note-image-holder" (click)="handleNotification(n)">
-                    <img [src]="getNotificationImage(n)">
-                </div>
-                <div class="notification-details" (click)="handleNotification(n)">
-                    <p [style]="getStyle(n.status)">{{ n.post.message }}</p>
-                    <p>{{ n.post.time | date:'MMM d, y - h:mm:ss a' }}</p>
-                </div>
-                <div class="red-button-container">
-                    <button (click)="removeNotificationConnection(n)"><img src="assets/icons/X-image.png" alt="exit button"></button>
-                </div>
-            </div>
+            <app-notification [notifications]="connectionNotifications" (handled)="onNotificationHandled()" (remove)="removeNotification($event)"></app-notification>
         </div>
 
         <div class="extender" *ngIf="showMessageNotes" style="z-index: 10;">
-            <div class="core-option-holder" *ngFor="let n of messageNotifications">
-                <div class="note-image-holder" (click)="handleNotification(n)">
-                    <img [src]="getNotificationImage(n)">
-                </div>
-                <div class="notification-details" (click)="handleNotification(n)">
-                    <p [style]="getStyle(n.status)">{{ n.post.message }}</p>
-                    <p>{{ n.post.time | date:'MMM d, y - h:mm:ss a' }}</p>
-                </div>
-                <div class="red-button-container">
-                    <button (click)="removeNotificationMessage(n)"><img src="assets/icons/X-image.png" alt="exit button"></button>
-                </div>
-            </div>
+            <app-notification [notifications]="messageNotifications" (handled)="onNotificationHandled()" (remove)="removeNotification($event)"></app-notification>
         </div>
 
         <div class="extender" *ngIf="showRegularNotes" style="z-index: 10;">
-            <div class="core-option-holder" *ngFor="let n of regularNotifications">
-                <div class="note-image-holder" (click)="handleNotification(n)">
-                    <img [src]="getNotificationImage(n)">
-                </div>
-                <div class="notification-details" (click)="handleNotification(n)">
-                    <p [style]="getStyle(n.status)">{{ n.post.message }}</p>
-                    <p>{{ n.post.time | date:'MMM d, y - h:mm:ss a' }}</p>
-                </div>
-                <div class="red-button-container">
-                    <button (click)="removeNotificationRegular(n)"><img src="assets/icons/X-image.png" alt="exit button"></button>
-                </div>
-            </div>
+            <app-notification [notifications]="regularNotifications" (handled)="onNotificationHandled()" (remove)="removeNotification($event)"></app-notification>
         </div>
 
         <div style="width:10px"></div>

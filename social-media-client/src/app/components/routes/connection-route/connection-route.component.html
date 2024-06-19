@@ -1,0 +1,7 @@
+<app-mobile-bar *ngIf="displayService.isMobile"></app-mobile-bar>
+<div style="height: 42px"></div>
+
+<app-connection-list 
+    [mode]="'ALL'" 
+    [profileId]="userService.getCurrentUserId()?.toString() || ''"
+    [userDisplayName]="userService.getCurrentDisplayName()?.toString() || ''"></app-connection-list>

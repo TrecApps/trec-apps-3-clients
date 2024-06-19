@@ -1,0 +1,12 @@
+<div class="core-option-holder" *ngFor="let n of notifications">
+    <div class="note-image-holder" (click)="handleNotification(n)">
+        <img [src]="getNotificationImage(n)">
+    </div>
+    <div class="notification-details" (click)="handleNotification(n)">
+        <p [style]="getStyle(n.status)">{{ n.post.message }}</p>
+        <p>{{ n.post.time | date:'MMM d, y - h:mm:ss a' }}</p>
+    </div>
+    <div class="red-button-container">
+        <button (click)="removeNotificationCall(n)"><img src="assets/icons/X-image.png" alt="exit button"></button>
+    </div>
+</div>

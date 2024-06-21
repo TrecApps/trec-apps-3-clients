@@ -212,15 +212,3 @@ input#main-search {
     transform: rotate(270deg);
 }
 
-.core-option-holder {
-    width: 100%;
-    border: 2px solid black;
-    background-color: aliceblue;
-
-    display: flex;
-    flex-flow: row wrap;
-}
-
-.core-option-holder:hover {
-    background-color: antiquewhite;
-}

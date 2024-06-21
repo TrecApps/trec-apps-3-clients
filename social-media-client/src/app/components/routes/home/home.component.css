@@ -14,59 +14,6 @@
     min-width: 320px;
 }
 
-.home-profile-area {
-    position: relative;
-    background-color: darkblue;
-    overflow: visible;
-    display: inline-block;
-    width: 100%;
-    border-radius: 5px;
-}
-
-.home-profile-top {
-    height: 80px;
-    overflow-y: visible;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    background-color: #111;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-}
-
-.home-profile-pic-holder {
-    border-radius: 50%;
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    bottom: -40px;
-    overflow: hidden;
-}
-
-.home-profile-pic-buffer {
-    height: 45px;
-}
-
-.home-profile-pic-holder > img {
-    width: 80px;
-    height: 80px;
-}
-
-.home-profile-name-holder {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-    padding-top: 5px;
-}
-
-.home-profile-name-holder > p {
-    color: aliceblue;
-    font-size: 32px;
-}
-
-
-
 /* Middle Section */
 
 .home-middle-container {

@@ -6,14 +6,16 @@ import { SplashComponent } from './components/routes/splash/splash.component';
 import { ConversationsComponent } from './components/routes/conversations/conversations.component';
 import { ConnectionRouteComponent } from './components/routes/connection-route/connection-route.component';
 import { NotificationRouteComponent } from './components/routes/notification-route/notification-route.component';
+import { OptionsComponent } from './components/routes/options/options.component';
 
 export const routes: Routes = [
     { path: 'profile', component: ProfileComponent },
     { path: 'home', component: HomeComponent },
     { path: 'logon', component: LoginComponent },
-    { path: 'messages', component: ConversationsComponent},
-    { path: 'splash', component: SplashComponent},
-    { path: 'connections', component: ConnectionRouteComponent},
-    { path: 'notifications', component: NotificationRouteComponent},
+    { path: 'messages', component: ConversationsComponent },
+    { path: 'splash', component: SplashComponent },
+    { path: 'connections', component: ConnectionRouteComponent },
+    { path: 'notifications', component: NotificationRouteComponent },
+    { path: 'options', component: OptionsComponent },
     { path: '',   redirectTo: '/splash', pathMatch: 'full'}
 ];

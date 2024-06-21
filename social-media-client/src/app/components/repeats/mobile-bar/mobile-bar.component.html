@@ -69,10 +69,10 @@
 
     <div class="bottom-option flex-and-center" (click)="routeTo('/options')">
         <ng-template [ngIf]="router.url.includes('options')" [ngIfElse]="not_opt">
-            <img src="assets/icons/w-message.png">
+            <img src="assets/icons/w-options.png">
         </ng-template>
         <ng-template #not_opt>
-            <img src="assets/icons/b-message.png">
+            <img src="assets/icons/b-options.png">
         </ng-template>
     </div>
 

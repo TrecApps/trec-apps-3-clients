@@ -6,9 +6,9 @@
 
 <div class="home-base">
 
-    <div style="width: 10%"></div>
+    <div style="width: 10%" *ngIf="!displayService.isMobile"></div>
 
-    <div class="home-right-container">
+    <div class="home-right-container" *ngIf="!displayService.isMobile">
 
         <div class="home-profile-area">
             <div class="home-profile-top">
@@ -41,7 +41,7 @@
 
     <div style="width: 5%"></div>
 
-    <div class="home-left-container d-bordered">
+    <div class="home-left-container d-bordered" *ngIf="!displayService.isMobile">
         <div style="width:100%; height: 10px; background-color: red;"></div>
         <app-connection-list #homeConnections [mode]="'CONFIRMED'" [profileId]="currentProfile" [userDisplayName]="'Connections'"></app-connection-list>
     </div>

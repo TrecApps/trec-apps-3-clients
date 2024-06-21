@@ -1,0 +1,29 @@
+<div style="height: 42px" *ngIf="displayService.isMobile">
+    <app-mobile-bar></app-mobile-bar>
+</div>
+
+<div class="home-profile-area">
+    <div class="home-profile-top">
+        <div class="home-profile-pic-holder">
+            <img [src]="profileImage">
+        </div>
+    </div>
+
+    <div class="home-profile-pic-buffer"></div>
+
+    <div class="home-profile-name-holder">
+        <p>{{ homeDisplayName }}</p>
+    </div>
+
+</div>
+
+
+<div class="core-option-holder">
+    <a><p>Manage Account</p></a>
+</div>
+<div class="core-option-holder" (click)="onLogout()">
+    <p>Logout</p>
+</div>
+
+
+<div style="height: 42px" *ngIf="displayService.isMobile"></div>

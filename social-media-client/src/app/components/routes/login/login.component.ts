@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit{
 
     let onGainUser = (worked: boolean) => {
       if(worked){
-        this.router.navigate(['profile']);
+        this.router.navigate(['home']);
       }
       this.showSpinner = false;
     }

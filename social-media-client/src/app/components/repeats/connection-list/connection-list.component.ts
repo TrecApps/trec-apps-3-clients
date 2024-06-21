@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { BlockService } from '../../../services/block.service';
 import { MessagingService } from '../../../services/messaging.service';
 import { ConversationEntry } from '../../../models/Messaging';
+import { DisplayService } from '../../../services/display.service';
 
 @Component({
   selector: 'app-connection-list',
@@ -43,7 +44,8 @@ export class ConnectionListComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private blockService: BlockService,
-    private messageService: MessagingService){
+    private messageService: MessagingService,
+    private displayService: DisplayService){
 
   }
 
@@ -203,6 +205,9 @@ export class ConnectionListComponent implements OnInit {
         alert("Could not initiate Conversation");
       } else {
         this.messageService.setConversation(val);
+        if(this.displayService.isMobile){
+          this.router.navigateByUrl("/messages");
+        }
       }
     })
   }

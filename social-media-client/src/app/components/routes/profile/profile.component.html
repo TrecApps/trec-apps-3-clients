@@ -220,3 +220,6 @@
 </div>
 
 <app-image #imageComp (useImage)="insertImage($event)"></app-image>
+
+
+<div style="height: 42px" *ngIf="displayService.isMobile"></div>

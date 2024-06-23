@@ -47,6 +47,16 @@ export class UserService {
     return `${environment.image_service_url}Profile/of/${profile.substring(5)}?app=${environment.app_name}`
   }
 
+  getProfileImage(): string {
+    if(this.tcBrand?.id){
+      return `${environment.image_service_url}Profile/byBrand/${this.tcBrand.id}?app=${environment.app_name}`;
+    }
+    if(this.tcUser?.id){
+      return `${environment.image_service_url}Profile/of/${this.tcUser.id}?app=${environment.app_name}`;
+    }
+    return "/assets/icons/non-profile.png";
+  }
+
   constructor(private authService: AuthService, private router: Router, private client: HttpClient) { }
 
   defaultPic: string = "assets/icons/non-profile.png";

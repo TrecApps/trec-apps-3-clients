@@ -6,6 +6,8 @@ export class AddPost{
     tags: String | undefined;
     id: String | undefined;
     category: String | undefined;
+
+    owner: string | undefined;
 }
 
 

@@ -41,6 +41,9 @@ export class PostEditComponent implements OnInit {
   @Input()
   categoryList: string[] = [];
 
+  @Input()
+  targetProfile: string | undefined;
+
   @Output()
   makePost = new EventEmitter<AddPost>();
 
@@ -210,5 +213,16 @@ export class PostEditComponent implements OnInit {
 
   onClickPicture(){
     this.imageActivator.emit();
+  }
+
+  doPost() {
+
+    if(!this.post.category){
+      alert("Please Set a Category!");
+      return;
+    }
+
+    this.post.owner = this.targetProfile;
+    this.makePost.emit(this.post)
   }
 }

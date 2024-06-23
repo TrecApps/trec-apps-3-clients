@@ -31,7 +31,9 @@ export class ProfileDetailsService {
   }
 
   getBasicProfile(id: string): Observable<ProfileSel> {
-    return this.client.get<ProfileSel>(`${environment.profile_service_url}Profile/basic/${id}`);
+    return this.client.get<ProfileSel>(`${environment.profile_service_url}Profile/basic/${id}`, {
+      headers: this.authService.getHttpHeaders(false, false)
+    });
   }
 
   getPageSize() {

@@ -199,9 +199,9 @@
 
     <div class="posts-section">
 
-        <app-post-edit *ngIf="isSelfProfile"
+        <app-post-edit [targetProfile]="isSelfProfile ? undefined : profileId"
             #postEditor 
-            [profilePic]="profileService.profilePhoto.toString()"
+            [profilePic]="userService.getProfileImage()"
             [categoryList]="categoryList" 
             (makePost)="makePost($event)" 
             (imageActivator)="activateImage()"></app-post-edit>

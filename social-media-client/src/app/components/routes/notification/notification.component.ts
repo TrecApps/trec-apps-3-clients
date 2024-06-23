@@ -33,7 +33,7 @@ export class NotificationComponent {
   }
 
   handleNotification(n: Notification) {
-    if(n.post.category == "Connection"){
+    if(n.post.category == "Connection" || n.post.category == "Profile-Post"){
       this.router.navigate(['profile'], {
         queryParams: {
           id: n.post.relevantId

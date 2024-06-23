@@ -24,7 +24,7 @@
                 <div class="md-toolbar-button"></div>
 
                 <select *ngIf="categoryList" class="form-select" [(ngModel)]="post.category">
-                    <option value="">[None]</option>
+                    <option value="">Select Category</option>
                     <option *ngFor="let cat of categoryList" [value]="cat">{{ cat }}</option>
                 </select>
 
@@ -53,9 +53,14 @@
 
         <hr>
 
-        <div class="post-button-holder">
-            <div class="post-button flex-and-center" (click)="makePost.emit(post)">
+        <div class="post-button-holder" *ngIf="post.category">
+            <div class="post-button flex-and-center" (click)="doPost()">
                 <p>{{ post.id ? 'Update Post' : 'Post' }}</p>
+            </div>
+        </div>
+        <div class="post-button-holder" *ngIf="!post.category">
+            <div class="post-button flex-and-center">
+                <p style="color: red;">Please set a category</p>
             </div>
         </div>
 

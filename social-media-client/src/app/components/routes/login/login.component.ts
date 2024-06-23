@@ -52,8 +52,6 @@ export class LoginComponent implements OnInit{
     this.color4 = GlobalConstants.crownYellow
     this.color5 = GlobalConstants.red
     this.loginGradient = 'linear-gradient(45deg,' + this.color4 + ' 50%, ' + this.color1 + ' 80%)'
-
-    this.authService.attemptRefresh(undefined);
   }
 
 

@@ -13,7 +13,7 @@ export class SplashComponent implements OnInit{
 
   constructor(private authService: AuthService, private router: Router){}
   ngOnInit(): void {
-    this.authService.attemptRefresh(undefined);
+    //this.authService.attemptRefresh(undefined);
   }
 
   prepTransfer(){

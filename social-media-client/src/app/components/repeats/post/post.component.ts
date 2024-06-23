@@ -1,5 +1,5 @@
 import { AfterContentInit, AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { AddPost, CommentList, CommentPost, Post, Comment } from '../../../models/posts';
+import { AddPost, CommentList, CommentPost, Post, Comment, getPostProfile } from '../../../models/posts';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { Router, RouterModule } from '@angular/router';
@@ -64,7 +64,6 @@ throw new Error('Method not implemented.');
     private reactionService: ReactionService,
     private commentService: CommentService,
     private router: Router){
-    //this.imageLink = `${environment.image_service_url}Profile/`;
     this.imageLink = "assets/scaffolds/Profile_JLJ.png";
 
       this.displayService = ds;
@@ -80,34 +79,22 @@ throw new Error('Method not implemented.');
   navigateToProfile(){
     if(!this.actPost) return;
 
-    if(this.actPost.brandId){
+    let profile = getPostProfile(this.actPost);
+
+
       // First, check to see if we're already on this page
-      if(this.router.url.includes(`profile?id=Brand-${this.actPost.brandId}`)) return;
+      if(this.router.url.includes(`profile?id=${profile}`)) return;
 
       // Next check to see if we're on the profile page but for ourselves
       if((this.router.url == `profile` || this.router.url == `/profile`) &&
-          this.userService.getCurrentUserId() == `Brand-${this.actPost.brandId}`) return;
-
-
-      this.router.navigate(['profile'], {
-        queryParams: {
-          id: `Brand-${this.actPost.brandId}`
-        }
-      })
-    } else if(this.actPost.userId){
-      // First, check to see if we're already on this page
-      if(this.router.url == `profile?id=User-${this.actPost.userId}`) return;
-
-      // Next check to see if we're on the profile page but for ourselves
-      if((this.router.url == `profile` || this.router.url == `/profile`) &&
-            this.userService.getCurrentUserId() == `User-${this.actPost.userId}`) return;
+          this.userService.getCurrentUserId() == `${profile}`) return;
 
       this.router.navigate(['profile'], {
         queryParams: {
-          id: `User-${this.actPost.userId}`
+          id: `${profile}`
         }
       })
-    }
+ 
   }
 
   getComments() {
@@ -133,6 +120,16 @@ throw new Error('Method not implemented.');
   ngOnInit(): void {
     if(this.actPost){
       this.editComment = new CommentPost("", this.actPost?.postId || "", 0);
+
+
+      let profile = getPostProfile(this.actPost);
+      console.log(`Profile Post is ${profile}`);
+      if(profile.startsWith("User-")){
+        this.imageLink = `${environment.image_service_url}Profile/of/${profile.substring(5)}?app=${environment.app_name}`
+      } else if(profile.startsWith("Brand-")) {
+        this.imageLink = `${environment.image_service_url}Profile/byBrand/${profile.substring(6)}?app=${environment.app_name}`;
+      }
+
     }
   }
 

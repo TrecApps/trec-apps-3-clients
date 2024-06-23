@@ -47,6 +47,12 @@
         <ng-template #not_conn>
             <img src="assets/icons/b-friends.png">
         </ng-template>
+        <div class="not-counter-manager">
+            <div class="not-counter-holder flex-and-center" *ngIf="connectionNotificationCounter">
+                <p>{{ connectionNotificationCounter }}</p>
+            </div>
+        </div>
+
     </div>
 
     <div class="bottom-option flex-and-center" (click)="routeTo('/messages')">
@@ -56,6 +62,12 @@
         <ng-template #not_mess>
             <img src="assets/icons/b-message.png">
         </ng-template>
+        <div class="not-counter-manager">
+            <div class="not-counter-holder flex-and-center" *ngIf="messageNotificationCounter">
+                <p>{{ messageNotificationCounter }}</p>
+            </div>
+        </div>
+        
     </div>
 
     <div class="bottom-option flex-and-center" (click)="routeTo('/notifications')">
@@ -65,6 +77,12 @@
         <ng-template #not_note>
             <img src="assets/icons/b-bell.png">
         </ng-template>
+        <div class="not-counter-manager">
+            <div class="not-counter-holder flex-and-center" *ngIf="regularNotificationCounter">
+                <p>{{ regularNotificationCounter }}</p>
+            </div>
+        </div>
+        
     </div>
 
     <div class="bottom-option flex-and-center" (click)="routeTo('/options')">

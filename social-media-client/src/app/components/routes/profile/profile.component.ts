@@ -12,7 +12,7 @@ import { ImageComponent } from '../../repeats/image/image.component';
 import { FormsModule } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PostComponent } from '../../repeats/post/post.component';
-import { AddPost, Post, posts1 } from '../../../models/posts';
+import { AddPost, Post } from '../../../models/posts';
 import { BrandSearcherComponent } from '../../repeats/brand-searcher/brand-searcher.component';
 import { BRAND_RESOURCE_TYPE } from '../../../services/brand-resource-get.service';
 import { BrandInfo } from '../../../models/BrandInfo';
@@ -272,7 +272,7 @@ export class ProfileComponent implements OnInit{
     this.isSelfProfile = isSelf;
     this.profile = getProfileSkaffold();
 
-    this.postList = posts1;
+    //this.postList = posts1;
   }
 
   callProfileRetreival(id: String | null){

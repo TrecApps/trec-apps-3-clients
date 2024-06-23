@@ -24,7 +24,8 @@ export class AuthService {
   attemptRefresh(func: Function | undefined): void {
     // If we have a cookie, then we'll send it to the refresh Endpoint
     this.httpClient.get<LoginToken>(`${environment.user_service_url}refresh_token`, {
-      withCredentials: true
+      withCredentials: true,
+      headers: new HttpHeaders().append('X-Requested-With', 'XMLHttpRequest')
     }).subscribe(
     {
       next: (tok: LoginToken) => {

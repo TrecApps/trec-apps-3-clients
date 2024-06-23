@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { UserService } from '../../../services/user.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProfileService } from '../../../services/profile.service';
@@ -65,6 +65,22 @@ export class MobileBarComponent implements OnInit, OnDestroy{
     this.router = router;
   }
 
+  clearMessageNotifications(){
+    let marks: Notification[] = [];
+    for(let mNote of this.messageNotifications){
+      if(mNote.status.toString() == 'UNSEEN'){
+        marks.push(mNote);
+      }
+    }
+
+    if(marks.length){
+      this.notificationService.markNotifications(marks.map(m => m.notificationId), false).subscribe({
+        next: ()=> this.messageNotificationCounter = 0
+      })
+    }
+    
+  }
+
   ngOnInit(): void {
 
     this.onUpdateNotifications();
@@ -100,6 +116,11 @@ export class MobileBarComponent implements OnInit, OnDestroy{
             default:
               this.addGeneralNotification(n);
           }
+        }
+
+        //console.log(`URL is ${this.router.url}`);
+        if(this.router.url.startsWith('/messages')){
+          this.clearMessageNotifications();
         }
       }
     })

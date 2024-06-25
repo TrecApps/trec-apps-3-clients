@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { TopBarComponent } from '../../repeats/top-bar/top-bar.component';
 import { ProfileService } from '../../../services/profile.service';
 import { CommonModule } from '@angular/common';
@@ -28,6 +28,7 @@ import { MessagingService } from '../../../services/messaging.service';
 import { ConversationEntry } from '../../../models/Messaging';
 import { MobileBarComponent } from '../../repeats/mobile-bar/mobile-bar.component';
 import { DisplayService } from '../../../services/display.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -55,7 +56,7 @@ import { DisplayService } from '../../../services/display.service';
     ])
   ]
 })
-export class ProfileComponent implements OnInit{
+export class ProfileComponent implements OnInit, AfterViewInit{
   message() {
     if(this.profile?.displayName)
     this.messageService.prepConversation(this.profileId, this.profile.displayName.toString(), (val: ConversationEntry | undefined) => {
@@ -162,6 +163,9 @@ export class ProfileComponent implements OnInit{
   coverPhotoUrl: string = "";
   profilePicUrl: string = "";
 
+  @ViewChild('postsListBottom', { read: ElementRef })
+  postsListBottom: ElementRef<HTMLDivElement> | undefined;
+
   coverPhotoFallback(){
     this.profileService.setCoverPhoto("/assets/icons/non-cover.png")
   }
@@ -171,6 +175,8 @@ export class ProfileComponent implements OnInit{
   }
 
   displayService: DisplayService;
+
+  inter: IntersectionObserver | undefined;
 
   constructor(profileService: ProfileService, 
     userService: UserService,
@@ -182,7 +188,8 @@ export class ProfileComponent implements OnInit{
      private postService: PostService,
      private connectionService: ConnectionService,
      private blockService: BlockService,
-     private messageService: MessagingService)
+     private messageService: MessagingService
+     )
   {
     this.profileService = profileService;
     this.userService = userService;
@@ -236,6 +243,30 @@ export class ProfileComponent implements OnInit{
     this.isDouble = this.checkIfDouneCol(window.innerWidth);
   }
 
+  createAndObserve(element: ElementRef) {
+    const options = {
+        root: null,
+        threshold: 0.1
+    };
+
+    this.inter = new IntersectionObserver((entries, observer) => {
+        console.log('on')
+        entries.forEach((entry: IntersectionObserverEntry) => {
+            if(entry.isIntersecting){
+
+              this.retrieveNextPosts()
+            }
+        });
+    }, options);
+    this.inter.observe(element.nativeElement);
+}
+
+  ngAfterViewInit(): void {
+    console.log("Div Element!", this.postsListBottom);
+    if(this.postsListBottom)
+      this.createAndObserve(this.postsListBottom);
+  }
+
   requestConnection(){
     this.connectionService.makeConnectionRequest(this.profileId).subscribe({
       next: (ro: ResponseObj) => {
@@ -265,6 +296,8 @@ export class ProfileComponent implements OnInit{
       }
     })
   }
+
+
 
 
 
@@ -323,7 +356,7 @@ export class ProfileComponent implements OnInit{
           this.foundEndOfPosts = false;
           this.profileId = strTarget.toString();
 
-          let idSplit = strTarget.split("-");
+          let idSplit = strTarget.split("-", 2);
 
           let actId = idSplit.at(1);
 
@@ -331,11 +364,11 @@ export class ProfileComponent implements OnInit{
           if(idSplit.at(0) == "User" && actId){
             this.profileService.setProfilePhoto(`${environment.image_service_url}Profile/of/${actId}?app=${environment.app_name}`);
             this.profileService.setCoverPhoto(`${environment.image_service_url}Profile/of/${actId}?app=cover-${environment.app_name}&falback=not_found`);
-            this.retrievePosts(actId.toString(), true);
+            this.firstRetrievePosts(actId.toString(), true);
           } else if(actId){
             this.profileService.setProfilePhoto(`${environment.image_service_url}Profile/byBrand/${actId}?app=${environment.app_name}`);
             this.profileService.setCoverPhoto(`${environment.image_service_url}Profile/byBrand/${actId}}?app=cover-${environment.app_name}&falback=not_found`);
-            this.retrievePosts(actId.toString(), false);
+            this.firstRetrievePosts(actId.toString(), false);
           }
 
         },
@@ -360,25 +393,63 @@ export class ProfileComponent implements OnInit{
   foundEndOfPosts = false;
   postPageSize = 10;
 
+  currentPage = 0;
+
+
+  firstRetrievePosts(id: string, byUser: boolean){
+    this.postService.getCount(id, byUser ? 'user': 'brand').subscribe({
+      next: (value: string) => {
+        let totalCount = parseInt(value);
+        if(totalCount == 0){
+          this.currentPage = 0;
+          return;
+        }
+
+        this.ngAfterViewInit();
+
+        this.currentPage = Math.trunc(totalCount / this.postPageSize);
+        this.foundEndOfPosts = false;
+        this.retrievePosts(id, byUser);
+
+      }
+    })
+  }
+
+  retrieveNextPosts(){
+    let idSplit = this.profileId.split("-", 2);
+    let actId = idSplit.at(1);
+    if(idSplit.at(0) == "User" && actId){
+      this.retrievePosts(actId.toString(), true);
+    } else if(actId) {
+      this.retrievePosts(actId.toString(), false);
+    }
+  }
+
   retrievePosts(id: string, byUser: boolean){
 
     if(this.foundEndOfPosts) {
       return;
     }
 
+    this.foundEndOfPosts = true;
+
     let observe = {
       next: (posts: Post[]) => {
-        if(posts.length < this.postPageSize){
-          this.foundEndOfPosts = true;
-        }
+        
         this.postList = this.postList.concat(posts);
+        if(this.currentPage == 0){
+          this.foundEndOfPosts = true;
+        } else {
+          this.currentPage--;
+          this.foundEndOfPosts = false;
+        }
       }
     }
 
     if(byUser) {
-      this.postService.getByUser(id, this.postList.length / this.postPageSize, this.postPageSize).subscribe(observe);
+      this.postService.getByUser(id, this.currentPage, this.postPageSize).subscribe(observe);
     } else {
-      this.postService.getByBrand(id, this.postList.length / this.postPageSize, this.postPageSize).subscribe(observe);
+      this.postService.getByBrand(id, this.currentPage, this.postPageSize).subscribe(observe);
     }
 
   }

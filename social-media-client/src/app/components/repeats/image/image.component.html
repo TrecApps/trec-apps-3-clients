@@ -1,4 +1,5 @@
-<div style="display: flex; position: absolute; width:100%; justify-content: center; align-items: center;">
+<div style="display: flex; position: absolute; width:100%; justify-content: center; align-items: center;"
+    *ngIf="!displayService.isMobile">
 <div class="galleryPanel" style="overflow-y: scroll;overflow-x: hidden;" [@onShowGallery]="doShow ? 'doShow' : 'doHide'">
     <div class="form" style="height:auto">
         <div style="display: flex; flex-direction: column ;margin:10px; justify-content: center; align-items: center; gap:10px;">
@@ -97,4 +98,80 @@
     </div>
 
 </div>
+</div>
+
+
+<div *ngIf="displayService.isMobile && doShow" style="position:fixed; top:0; bottom: 0; left: 0; right: 0; background-color: rgba(255,255,255, 0.8);">
+    <div style="height: 42px;"></div>
+    <div style="overflow-y: scroll;overflow-x: hidden; position:relative" [@onShowGallery]="doShow ? 'doShow' : 'doHide'">
+        <div id="mobile-image-gallery">
+            <div style="display: flex; flex-direction: row ;margin:2px; justify-content: center; align-items: center; gap:2px;width:100%">
+                <input type="text" class="tc-form-control" style="margin: 2px; flex-grow: 1;" placeholder="Search By Tag" [(ngModel)]="searchTerm">
+                <div class="red-button-container" [@xHover]="xButtonHover ? 'hover' : 'leave'" (mouseenter)="setHover(true)" (mouseleave)="setHover(false)">
+                    
+                    <button (click)="hideGallery()"><img src="assets/icons/X-image.png" alt="exit button"></button>
+                </div>
+            </div>
+
+            <input style="display: none" type="file" (change)="imageFromDevice($event)" accept="image/png, image/gif, image/jpeg, image/webp, image/svg" #imageInput>
+                <button class="btn btn-info" (click)="imageInput.click()">Image From Device</button>
+
+            <hr>
+
+            <ul style="padding-left: 0;" class="image-gal-mobile">
+                <!-- <li *ngFor="let entry of images | imageFilter:showSelfArt:showCommissions:searchTerm"> -->
+                <li *ngFor="let entry of images" (click)="selectImage(entry)">
+                    <div class="imageCardMobile" *ngIf="entry.imageData">
+        
+                            
+                        <div class="cardEntryWrapperMobile">
+                            <img class="cardEntry mx-auto" src="{{entry.imageData}}" alt="{{entry.name}}">
+        
+                        </div>
+                        <div *ngIf="entry.name" style="display: flex;">
+                            <p style="text-align: center; color:white"><b>Title: </b>{{ entry.name }}</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <br>
+        
+            <button *ngIf="hasMore" class="btn btn-light" style="min-width: 85%;" (click)="retrieveImages()">Seek More Images</button>
+        </div>
+
+        <div class="selected-image-panel" style="z-index: 10; overflow-y: scroll; margin:0;" [@onShowSelected]="selectedImage ? 'doShow' : 'doHide'">
+            <div class="selected-image-container-mobile">
+                <div class="selected-image-holder">
+                    <img *ngIf="selectedImage" [src]="selectedImage">
+                </div>
+            </div>
+            <div class="selected-image-dashboard">
+                <label>Name</label>
+            <input type="text" class="form-control" [(ngModel)]="imageName">
+            <hr>
+
+            <label>Public Image</label>
+            <input type="checkbox" class="form-control" [(ngModel)]="imagePublic">
+            <p *ngIf="imagePublic"><b>Note:</b> If TrecApps deems this image <i>Adult Material</i>, then your image will not truly be public</p>
+            <hr>
+
+            <label>Tags (use newlines or ';' to seperate)</label>
+            <textarea class="form-control" maxlength="300" [(ngModel)]="imageTags">
+
+            </textarea>
+            <button *ngIf="selectedImageId && (imageTags != initialTags)" class="btn btn-info" (click)="updateTags()">Update Tags</button>
+            <hr>
+
+            <button *ngIf="!selectedImageId" class="btn btn-submit" (click)="uploadFile()">Upload File</button>
+
+            <button class="btn btn-dark" (click)="DoneViewingImage(false)">Exit Image</button>
+            <button class="btn btn-submit" (click)="DoneViewingImage(true)">{{ executeMessage }}</button>
+            </div>
+
+        </div>
+
+
+
+        <div style="height:42px"></div>
+    </div>
 </div>

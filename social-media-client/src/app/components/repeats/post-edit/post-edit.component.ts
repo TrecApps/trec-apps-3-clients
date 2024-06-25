@@ -62,6 +62,7 @@ export class PostEditComponent implements OnInit {
 
   constructor(){
     this.post = new AddPost();
+    this.post.category = "";
   }
 
   imageList: string[] = [];

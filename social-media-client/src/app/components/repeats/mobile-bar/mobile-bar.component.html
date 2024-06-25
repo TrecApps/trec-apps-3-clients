@@ -1,7 +1,7 @@
 <div class="search-bar-background" [style.background-color]="userService.topBarColor">
     <div class="search-wrap">
-        <div class="flex-and-center search-div" style="width: 100%; background-color: white;">
-            <input type="text" name="main-search" id="main-search" class="search-input" [(ngModel)]="searchTerm" (input)="onSearchChange()">
+        <div class="flex-and-center search-div" style="width: 100%; gap: 2px; margin-top: 7px;" [style.background-color]="userService.topBarColor">
+            <input type="text" name="main-search" id="main-search" class="search-input" style="flex-grow: 1;" [(ngModel)]="searchTerm" (input)="onSearchChange()">
 
             <div class="s-icon top-icon flex-and-center">
                 <img src="assets/icons/b-search.png" alt="Search img">

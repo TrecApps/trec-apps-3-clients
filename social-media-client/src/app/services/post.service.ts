@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { AddPost, Post } from '../models/posts';
 import { ResponseObj } from '../models/ResponseObj';
 import { Observable } from 'rxjs';
@@ -83,6 +83,13 @@ export class PostService {
     return this.client.get<Post>(`${environment.post_service_url}Posts/byId/${id}`, {
       headers: this.authService.getHttpHeaders(true, true)
     });
+  }
+
+  getCount(id: string, targetType:string): Observable<string> {
+    return this.client.get(`${environment.post_service_url}Posts/Count/${targetType}`, {
+      responseType: "text",
+      params: new HttpParams().append("target", id)
+    })
   }
 
 }

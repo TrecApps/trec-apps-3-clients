@@ -24,7 +24,7 @@
                 <div class="md-toolbar-button"></div>
 
                 <select *ngIf="categoryList" class="form-select" [(ngModel)]="post.category">
-                    <option value="">Select Category</option>
+                    <option value="" selected="selected">Select Category</option>
                     <option *ngFor="let cat of categoryList" [value]="cat">{{ cat }}</option>
                 </select>
 

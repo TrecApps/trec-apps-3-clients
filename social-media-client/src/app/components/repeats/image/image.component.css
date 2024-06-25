@@ -18,6 +18,19 @@
     height:auto;
 }
 
+.tc-form-control {
+    display: block;
+    height: calc(2.25rem + 2px);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+
 .selected-image-panel {
     background-color: rgba(0,0,0,0.85);
     position:absolute;
@@ -33,6 +46,14 @@
     min-width: 320px;
     max-width: 600px;
     flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.selected-image-container-mobile {
+    margin: 3px;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -77,12 +98,29 @@
     border-radius: 10px;
 }
 
+.imageCardMobile {
+    width: 90px;
+    background-color: black;
+    display:inline-block;
+    position: relative;
+    border-radius: 5px;
+}
+
 .image-gal {
     display: flex;
     flex-wrap: wrap;
     justify-content: center; 
     gap: 10px;
     margin-left: -15px;
+    height: fit-content;
+    margin: auto;
+}
+
+.image-gal-mobile {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    gap: 10px;
     height: fit-content;
     margin: auto;
 }
@@ -96,6 +134,17 @@
 
     list-style-type: none;
 }
+
+.image-gal-mobile > li {
+    position: relative;
+    cursor: pointer;
+    display:block;
+
+    flex: 0 1 auto;
+
+    list-style-type: none;
+}
+
 .cardEntryWrapper {
     height: 300px;
     width:100%;
@@ -107,6 +156,19 @@
 
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
+}
+
+.cardEntryWrapperMobile {
+    height: 60px;
+    width:100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    position: relative;
+    background: linear-gradient(#4444ff, black) ;
+
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
 }
 
 .cardEntry {

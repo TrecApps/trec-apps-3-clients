@@ -208,6 +208,10 @@
 
         <app-post *ngFor="let p of postList" [actPost]="p"></app-post>
 
+        <div #postsListBottom>
+            <h3 *ngIf="!foundEndOfPosts">Loading...</h3>
+        </div>
+
     </div>
 
 

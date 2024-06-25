@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MobileBarComponent } from '../../repeats/mobile-bar/mobile-bar.component';
 import { UserService } from '../../../services/user.service';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { DisplayService } from '../../../services/display.service';
 import { environment } from '../../../environments/environment';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,7 @@ import { AuthService } from '../../../services/auth.service';
 @Component({
   selector: 'app-options',
   standalone: true,
-  imports: [CommonModule, MobileBarComponent],
+  imports: [CommonModule, MobileBarComponent, RouterLink],
   templateUrl: './options.component.html',
   styleUrl: './options.component.css'
 })

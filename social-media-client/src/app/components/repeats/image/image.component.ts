@@ -10,6 +10,7 @@ import { ProfileService } from '../../../services/profile.service';
 import { environment } from '../../../environments/environment';
 import { ResponseObj } from '../../../models/ResponseObj';
 import { ImageInsert } from '../post-edit/post-edit.component';
+import { DisplayService } from '../../../services/display.service';
 
 @Component({
   selector: 'app-image',
@@ -25,7 +26,7 @@ import { ImageInsert } from '../post-edit/post-edit.component';
       transition('doHide => doShow', [ animate('0.33s')])
     ]),
     trigger('onShowSelected', [
-      state('doShow', style({ width: '100%', overflow: 'hidden'})),
+      state('doShow', style({ width: '100%'})),
       state('doHide', style({ width: '0px', overflow: 'hidden'})),
       transition('doShow => doHide', [ animate('0.33s')]),
       transition('doHide => doShow', [ animate('0.33s')])
@@ -105,6 +106,8 @@ export class ImageComponent {
     this.images = [];
     this.imagePageCount = 0;
     this.hasMore = false;
+
+    console.log("About to retrieve Images");
 
     this.retrieveImages();
 
@@ -194,8 +197,11 @@ export class ImageComponent {
   currentHandler: Function | undefined;
   executeMessage: string = "";
 
-  constructor(private imageService: ImageService, private profileService: ProfileService){
+  displayService: DisplayService;
+
+  constructor(private imageService: ImageService, private profileService: ProfileService, ds: DisplayService){
     this.imageServer = environment.image_service_url;
+    this.displayService = ds;
   }
 
   setUseGallery(ug: boolean){

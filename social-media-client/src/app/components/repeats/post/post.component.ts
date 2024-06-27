@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AddPost, CommentList, CommentPost, Post, Comment, getPostProfile } from '../../../models/posts';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
@@ -14,12 +14,13 @@ import { Reaction } from '../../../models/Reaction';
 import { CommentService } from '../../../services/comment.service';
 import { UserService } from '../../../services/user.service';
 import { DisplayService } from '../../../services/display.service';
+import { ContextMenuComponent, MenuData } from '../context-menu/context-menu.component';
 
 
 @Component({
   selector: 'app-post',
   standalone: true,
-  imports: [CommonModule, RouterModule, HtmlRemoverPipe, TcFormatterPipe, ReactionButtonComponent, CommentComponent],
+  imports: [CommonModule, RouterModule, HtmlRemoverPipe, TcFormatterPipe, ReactionButtonComponent, CommentComponent, ContextMenuComponent],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css',
   encapsulation: ViewEncapsulation.None
@@ -57,6 +58,8 @@ throw new Error('Method not implemented.');
   hasMoreComments: boolean = true;
 
   displayService: DisplayService;
+  
+  menuItems: MenuData[] = [];
 
   constructor(
     ds: DisplayService,
@@ -95,6 +98,42 @@ throw new Error('Method not implemented.');
         }
       })
  
+  }
+
+  preparingMenu: boolean = false;
+
+  prepContextMenu() {
+    if(!this.actPost) return;
+
+    this.preparingMenu = true;
+
+    if(getPostProfile(this.actPost) == this.userService.getCurrentUserId()){
+      // Self Post
+      this.menuItems.push(new MenuData("Edit", 0));
+      this.menuItems.push(new MenuData("Delete", 1));
+    } else {
+      // Other Post
+      this.menuItems.push(new MenuData("See more from this user", 2));
+      this.menuItems.push(new MenuData("See more from this user and category", 3));
+      this.menuItems.push(new MenuData("", -1));
+      this.menuItems.push(new MenuData("See less from this user", 4));
+      this.menuItems.push(new MenuData("See less from this user and category", 5));
+    }
+
+
+  }
+
+  menuSelected(item: MenuData){
+    this.menuItems = [];
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickout(event:any) {
+    if(this.preparingMenu){
+      this.preparingMenu = false;
+      return;
+    }
+      this.menuItems = [];
   }
 
   getComments() {

@@ -1,6 +1,6 @@
 <div class="context-menu">
     <div *ngFor="let item of menuItems">
-        <ng-template [ngIf]="item.caption.length == 0 || item.funcIndex < 0" [ngIfElse]="actItem">
+        <ng-template [ngIf]="item.caption.length == 0 || item.funcIndex < 0" [ngIfElse]="actItem" style="background-color: blue;">
             <hr>
         </ng-template>
         <ng-template #actItem>

@@ -1,0 +1,12 @@
+<div class="context-menu">
+    <div *ngFor="let item of menuItems">
+        <ng-template [ngIf]="item.caption.length == 0 || item.funcIndex < 0" [ngIfElse]="actItem">
+            <hr>
+        </ng-template>
+        <ng-template #actItem>
+            <div class="context-menu-item" (click)="onSelected.emit(item)">
+                <p>{{ item.caption }}</p>
+            </div>
+        </ng-template>
+    </div>
+</div>

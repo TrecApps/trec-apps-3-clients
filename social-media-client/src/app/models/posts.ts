@@ -64,6 +64,11 @@ export function getPostProfile(post: Post) : string {
     return `User-${post.userId}`;
 }
 
+export function getCommentProfile(comment: Comment): string {
+    if(comment.brandId) return `Brand-${comment.brandId}`;
+    return `User-${comment.userId}`;
+}
+
 
 export class CommentPost {
     comment: String;

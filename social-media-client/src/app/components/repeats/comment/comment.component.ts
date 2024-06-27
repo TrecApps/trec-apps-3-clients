@@ -1,5 +1,5 @@
-import { AfterContentInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CommentPost, Comment, CommentList } from '../../../models/posts';
+import { AfterContentInit, Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { CommentPost, Comment, CommentList, getCommentProfile } from '../../../models/posts';
 import { ReactionButtonComponent, ReactionEvent } from '../reaction-button/reaction-button.component';
 import { CommonModule } from '@angular/common';
 import { HtmlRemoverPipe } from '../../../pipes/html-remover.pipe';
@@ -11,6 +11,7 @@ import { UserService } from '../../../services/user.service';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { DisplayService } from '../../../services/display.service';
+import { ContextMenuComponent, MenuData } from '../context-menu/context-menu.component';
 
 
 export class CommentUpdate{
@@ -25,7 +26,7 @@ export class CommentUpdate{
 @Component({
   selector: 'app-comment',
   standalone: true,
-  imports: [CommonModule, FormsModule,HtmlRemoverPipe, TcFormatterPipe, ReactionButtonComponent],
+  imports: [CommonModule, FormsModule,HtmlRemoverPipe, TcFormatterPipe, ReactionButtonComponent, ContextMenuComponent],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.css'
 })
@@ -62,6 +63,43 @@ export class CommentComponent implements OnInit {
     this.currentProfImageLink = this.commenterImageLink;
 
     this.displayService = ds;
+  }
+
+  menuItems: MenuData[] = [];
+  preparingMenu: boolean = false;
+
+  prepContextMenu() {
+    if(!this.actPost) return;
+
+    this.preparingMenu = true;
+
+    if(getCommentProfile(this.actPost) == this.userService.getCurrentUserId()){
+      // Self Post
+      this.menuItems.push(new MenuData("Edit", 0));
+      this.menuItems.push(new MenuData("Delete", 1));
+    } else {
+      // Other Post
+      this.menuItems.push(new MenuData("See more from this user", 2));
+      this.menuItems.push(new MenuData("See more from this user and category", 3));
+      this.menuItems.push(new MenuData("", -1));
+      this.menuItems.push(new MenuData("See less from this user", 4));
+      this.menuItems.push(new MenuData("See less from this user and category", 5));
+    }
+
+
+  }
+
+  menuSelected(item: MenuData){
+    this.menuItems = [];
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickout(event:any) {
+    if(this.preparingMenu){
+      this.preparingMenu = false;
+      return;
+    }
+      this.menuItems = [];
   }
 
   navigateToProfile(){

@@ -11,6 +11,13 @@
                 <span *ngIf="actPost.made">{{ actPost.made | date:'MMM d, y - h:mm:ss a' }}</span>
             </div>
 
+            <div style="width: 30px; height: 30px; border: 1px black solid; background-color: rgba(240, 248, 255, 0.2);"
+                 class="flex-and-center" (click)="prepContextMenu()">
+                <p>...</p>
+            </div>
+
+            <app-context-menu style="position: absolute;right: 40px;" *ngIf="menuItems.length" [menuItems]="menuItems" (onSelected)="menuSelected($event)"></app-context-menu>
+
         </div>
 
         <hr class="comment-divider" [class.comment-divider-mobile]="displayService.isMobile">

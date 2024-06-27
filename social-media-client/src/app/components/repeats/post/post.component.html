@@ -1,6 +1,22 @@
 <div *ngIf="actPost" class="whole-post d-bordered" [class.whole-post-desktop]="!displayService.isMobile">
 
-    <div style="display: flex; flex-direction: column; width:100%; position:relative">
+    <div>
+        <app-post-edit *ngIf="isEditing" [targetProfile]="userService.getCurrentUserId()?.toString()"
+        #postEditor 
+        [profilePic]="imageLink.toString()"
+        [categoryList]="postService.categoryList" 
+        (makePost)="doUpdatePost($event)" 
+        ></app-post-edit>
+        <br>
+        <div class="post-cancel-button-holder">
+            <div class="post-cancel-button flex-and-center" (click)="cancelEdit()">
+                <p style="color:white">Cancel</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div *ngIf="!isEditing"  style="display: flex; flex-direction: column; width:100%; position:relative">
         <div class="post-top">
             <div class="post-profile-holder">
                 <img [src]="imageLink" alt="Poster Photo" (click)="navigateToProfile()">

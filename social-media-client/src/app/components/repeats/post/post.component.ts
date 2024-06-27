@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AddPost, CommentList, CommentPost, Post, Comment, getPostProfile } from '../../../models/posts';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
@@ -15,12 +15,14 @@ import { CommentService } from '../../../services/comment.service';
 import { UserService } from '../../../services/user.service';
 import { DisplayService } from '../../../services/display.service';
 import { ContextMenuComponent, MenuData } from '../context-menu/context-menu.component';
+import { PostService } from '../../../services/post.service';
+import { PostEditComponent } from '../post-edit/post-edit.component';
 
 
 @Component({
   selector: 'app-post',
   standalone: true,
-  imports: [CommonModule, RouterModule, HtmlRemoverPipe, TcFormatterPipe, ReactionButtonComponent, CommentComponent, ContextMenuComponent],
+  imports: [CommonModule, RouterModule, HtmlRemoverPipe, TcFormatterPipe, ReactionButtonComponent, CommentComponent, ContextMenuComponent, PostEditComponent],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css',
   encapsulation: ViewEncapsulation.None
@@ -45,6 +47,9 @@ throw new Error('Method not implemented.');
   @ViewChild("dislikeButton")
   dislikeButton: ReactionButtonComponent | undefined;
 
+  @Output()
+  onDeleted = new EventEmitter<string>();
+
   editComment: CommentPost | undefined;
 
   imageLink: String;
@@ -61,15 +66,23 @@ throw new Error('Method not implemented.');
   
   menuItems: MenuData[] = [];
 
+  postService: PostService;
+  userService: UserService;
+
+  isEditing: boolean = false;
+
   constructor(
     ds: DisplayService,
-    private userService: UserService,
+    userService: UserService,
     private reactionService: ReactionService,
     private commentService: CommentService,
-    private router: Router){
+    private router: Router,
+    postService: PostService){
     this.imageLink = "assets/scaffolds/Profile_JLJ.png";
 
       this.displayService = ds;
+      this.postService = postService;
+      this.userService = userService;
 
   }
   ngAfterViewInit(): void {
@@ -102,6 +115,45 @@ throw new Error('Method not implemented.');
 
   preparingMenu: boolean = false;
 
+  // Handlers for Context Menu
+  onClickEdit(){
+    this.isEditing = true;
+  }
+  onClickDelete() {
+    let id = this.actPost?.postId;
+    if(!id) return;
+    this.postService.deletePost(id).subscribe({
+      next: (value: ResponseObj) => {
+        alert("Sucessfully Deleted");
+        this.onDeleted.emit(id);
+      }
+    })
+  }
+
+  onClickMore() {
+
+  }
+
+  onClickMoreCat(){
+
+  }
+
+  onClickLess() {
+
+  }
+  onClickLessCat(){
+
+  }
+
+  clickFunctions: Function[] = [
+    ()=> this.onClickEdit(),
+    ()=> this.onClickDelete(),
+    ()=> this.onClickMore(),
+    ()=> this.onClickMoreCat(),
+    ()=> this.onClickLess(),
+    ()=> this.onClickLessCat(),
+  ]
+
   prepContextMenu() {
     if(!this.actPost) return;
 
@@ -125,6 +177,36 @@ throw new Error('Method not implemented.');
 
   menuSelected(item: MenuData){
     this.menuItems = [];
+
+    if(item.funcIndex < 0 || item.funcIndex >= this.clickFunctions.length) return;
+    
+    this.clickFunctions[item.funcIndex]();
+  }
+
+  updating: boolean = false;
+
+  doUpdatePost(p: AddPost){
+    if(!this.actPost) return;
+
+    if(this.updating) return;
+    this.updating = true;
+
+    p.id = this.actPost?.postId;
+
+    this.postService.persistPost(p).subscribe({
+      next: () => {
+        this.actPost?.contents.push(p.content);
+        this.cancelEdit();
+      },
+      error: () => {
+        alert("Failed to Edit Post!");
+        this.updating = false;
+      }
+    });
+  }
+
+  cancelEdit(){
+    this.isEditing = false;
   }
 
   @HostListener('document:click', ['$event'])

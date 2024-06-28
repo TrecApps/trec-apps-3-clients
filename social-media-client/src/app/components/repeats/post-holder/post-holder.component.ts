@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PostComponent } from '../post/post.component';
 import { CommentComponent } from '../comment/comment.component';
 import { SocialMediaEvent, SocialMediaEventType } from '../../../models/ProfileObjs';
@@ -7,6 +7,16 @@ import { CommentService } from '../../../services/comment.service';
 import { ProfileDetailsService } from '../../../services/profile-details.service';
 import { Comment, Post } from '../../../models/posts';
 import { CommonModule } from '@angular/common';
+
+export class HolderDeleteMarker {
+  isPost: boolean;
+  id: string;
+
+  constructor(isPost: boolean, id: string){
+    this.id = id;
+    this.isPost = isPost;
+  }
+}
 
 @Component({
   selector: 'app-post-holder',
@@ -19,6 +29,9 @@ export class PostHolderComponent implements OnInit {
 
   @Input()
   event: SocialMediaEvent = new SocialMediaEvent();
+
+  @Output()
+  onContentDeleted = new EventEmitter<HolderDeleteMarker>();
 
   post: Post | undefined;
   comment: Comment | undefined;
@@ -62,5 +75,12 @@ export class PostHolderComponent implements OnInit {
     })
   }
 
+  onPostDeleted(id: string){
+    this.onContentDeleted.emit(new HolderDeleteMarker(true, id));
+  }
+
+  onCommentDeleted(id: string){
+    this.onContentDeleted.emit(new HolderDeleteMarker(false, id));
+  }
 
 }

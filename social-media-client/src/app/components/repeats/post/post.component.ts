@@ -342,7 +342,17 @@ throw new Error('Method not implemented.');
   }
 
   onCommentDeleted(id: string){
-    
+    if(!this.actPost) return;
+    for(let cl of this.actPost.comments){
+      for(let commentIndex = 0; commentIndex < cl.comments.length; commentIndex++){
+        let comment = cl.comments[commentIndex];
+        if(comment.commentId == id)
+        {
+          cl.comments.splice(commentIndex, 1)
+          return;
+        }
+      }
+    }
   }
 
 }

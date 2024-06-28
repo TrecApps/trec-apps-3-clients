@@ -301,8 +301,12 @@ export class CommentComponent implements OnInit {
     if(this.actPost?.commentId){
       this.commentService.editComment(this.editComment, this.actPost.commentId.toString()).subscribe({
         next: (ro: ResponseObj) => {
-          if(ro.id)
-            this.onCommentPersisted.emit(new CommentUpdate(false, ro.id.toString()));
+          // if(ro.id)
+          //   this.onCommentPersisted.emit(new CommentUpdate(false, ro.id.toString()));
+          if(this.actPost && this.editComment?.comment){
+            this.actPost.contents.push(this.editComment?.comment.toString())
+          }
+          this.editComment = undefined;
           this.updating = false;
         },
         error: () => this.updating = false
@@ -320,7 +324,17 @@ export class CommentComponent implements OnInit {
   }
 
   onCommentDeleted(id: string){
-    
+    if(!this.actPost) return;
+    for(let cl of this.actPost.replies){
+      for(let commentIndex = 0; commentIndex < cl.comments.length; commentIndex++){
+        let comment = cl.comments[commentIndex];
+        if(comment.commentId == id)
+        {
+          cl.comments.splice(commentIndex, 1)
+          return;
+        }
+      }
+    }
   }
 
 }

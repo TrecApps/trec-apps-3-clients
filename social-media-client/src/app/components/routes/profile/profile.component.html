@@ -206,7 +206,7 @@
             (makePost)="makePost($event)" 
             (imageActivator)="activateImage()"></app-post-edit>
 
-        <app-post *ngFor="let p of postList" [actPost]="p"></app-post>
+        <app-post *ngFor="let p of postList" [actPost]="p" (onDeleted)="onPostDeleted($event)"></app-post>
 
         <div #postsListBottom>
             <h3 *ngIf="!foundEndOfPosts">Loading...</h3>

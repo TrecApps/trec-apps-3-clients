@@ -705,5 +705,15 @@ export class ProfileComponent implements OnInit, AfterViewInit{
     this.imageComp?.hideGallery();
     this.postEditor?.addImage(imageInsert);
   }
+
+  onPostDeleted(id: string){
+    for(let postIndex = 0; postIndex < this.postList.length; postIndex++){
+      let p = this.postList[postIndex];
+      if(id == p.postId){
+        this.postList.splice(postIndex, 1);
+        return;
+      }
+    }
+  }
   
 }

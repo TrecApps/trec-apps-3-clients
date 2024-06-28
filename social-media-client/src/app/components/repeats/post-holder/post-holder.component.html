@@ -8,12 +8,12 @@
         <hr>
     </div>
     <div *ngIf="comment">
-        <app-comment [actPost]="comment"></app-comment>
+        <app-comment [actPost]="comment" (onDeleted)="onCommentDeleted($event)"></app-comment>
         <br>
         <p>For Post</p>
     </div>
 
-    <app-post *ngIf="post" [actPost]="post"></app-post>
+    <app-post *ngIf="post" [actPost]="post" (onDeleted)="onPostDeleted($event)"></app-post>
     
 
 

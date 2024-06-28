@@ -6,7 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { HtmlRemoverPipe } from '../../../pipes/html-remover.pipe';
 import { TcFormatterPipe } from '../../../pipes/tc-formatter.pipe';
 import { ReactionButtonComponent, ReactionEvent } from '../reaction-button/reaction-button.component';
-import { CommentComponent } from '../comment/comment.component';
+import { CommentComponent, CommentUpdate } from '../comment/comment.component';
 import { ProfileService } from '../../../services/profile.service';
 import { ReactionService } from '../../../services/reaction.service';
 import { ReactionStats, ResponseObj } from '../../../models/ResponseObj';
@@ -334,6 +334,14 @@ throw new Error('Method not implemented.');
       });
     }
 
+    
+  }
+
+  onCommentPersisted(cUpdate:CommentUpdate){
+    
+  }
+
+  onCommentDeleted(id: string){
     
   }
 

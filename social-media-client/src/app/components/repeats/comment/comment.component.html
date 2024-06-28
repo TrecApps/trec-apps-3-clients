@@ -67,7 +67,14 @@
              style="display: flex; flex-direction: column; width:100%; background-color: rgba(0,255,255,0.2); border-radius: 3px; border: solid darkblue 1px">
                 <div *ngFor="let comment of cl.comments" style="display: flex; flex-direction: row; justify-content: end;">
 
-                    <app-comment style="width: 90%;"  [actPost]="comment" (onCommentPersisted)="newCommentHandler($event)"></app-comment>
+                    <app-comment 
+                        style="width: 90%;"  
+                        [actPost]="comment" 
+                        (onCommentPersisted)="newCommentHandler($event)"
+                        (onDeleted)="onCommentDeleted($event)"
+                        [level]="level + 1"
+                        [parent]="actPost.commentId.toString()"
+                    ></app-comment>
                 </div>
 
             </div>

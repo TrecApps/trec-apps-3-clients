@@ -318,4 +318,9 @@ export class CommentComponent implements OnInit {
       })
     }
   }
+
+  onCommentDeleted(id: string){
+    
+  }
+
 }

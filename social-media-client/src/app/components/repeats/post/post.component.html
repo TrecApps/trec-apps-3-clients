@@ -82,7 +82,11 @@
                     <div *ngFor="let comment of cl.comments" style="display: flex; flex-direction: row;">
                         <div style="width: 10%;"></div>
 
-                        <app-comment style="width: 90%;"  [actPost]="comment"></app-comment>
+                        <app-comment style="width: 90%;"
+                          [actPost]="comment" (onCommentPersisted)="onCommentPersisted($event)" 
+                          (onDeleted)="onCommentDeleted($event)"
+                          [level]="0"
+                          [parent]="actPost.postId"></app-comment>
                     </div>
 
                 </div>

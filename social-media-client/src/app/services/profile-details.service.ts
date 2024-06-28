@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { ProfileSel, SocialMediaEventList } from '../models/ProfileObjs';
+import { PostFilter, PostFilterRequest, ProfilePostFilters, ProfileSel, SocialMediaEventList } from '../models/ProfileObjs';
 import { environment } from '../environments/environment';
+import { ResponseObj } from '../models/ResponseObj';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class ProfileDetailsService {
   profiles: Map<string, string> = new Map<string, string>();
 
   pageSize: number = 50;
+
+  filters: ProfilePostFilters = new ProfilePostFilters();
 
   getProfile(id: string, onProfile: Function){
     if(this.profiles.has(id)){
@@ -71,5 +74,26 @@ export class ProfileDetailsService {
     return this.client.get<SocialMediaEventList>(`${environment.profile_service_url}Home/section`, {headers: this.authService.getHttpHeaders(false, false), params});
   }
 
+
+  updateFilters(){
+    this.client.get<ProfilePostFilters>(`${environment.profile_service_url}Home/filters`, {
+      headers: this.authService.getHttpHeaders(false, false)
+    }).subscribe({
+      next: (value: ProfilePostFilters) => this.filters = value
+    })
+  }
+
+  uploadFilter(filter: PostFilterRequest): Observable<ResponseObj> {
+    return this.client.post<ResponseObj>(`${environment.profile_service_url}Home/filters`, filter, {
+      headers: this.authService.getHttpHeaders(true, true)
+    })
+  }
+
+  removeFilter(filter: PostFilter) : Observable<ResponseObj> {
+    return this.client.delete<ResponseObj>(`${environment.profile_service_url}Home/filters`, {
+      headers: this.authService.getHttpHeaders(true, true),
+      body: filter
+    })
+  }
 
 }

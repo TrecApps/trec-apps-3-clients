@@ -17,6 +17,8 @@ import { DisplayService } from '../../../services/display.service';
 import { ContextMenuComponent, MenuData } from '../context-menu/context-menu.component';
 import { PostService } from '../../../services/post.service';
 import { PostEditComponent } from '../post-edit/post-edit.component';
+import { ProfileDetailsService } from '../../../services/profile-details.service';
+import { PostFilterRequest, SocialMediaEventType } from '../../../models/ProfileObjs';
 
 
 @Component({
@@ -77,6 +79,7 @@ throw new Error('Method not implemented.');
     private reactionService: ReactionService,
     private commentService: CommentService,
     private router: Router,
+    private profileDetailsService: ProfileDetailsService,
     postService: PostService){
     this.imageLink = "assets/scaffolds/Profile_JLJ.png";
 
@@ -131,18 +134,64 @@ throw new Error('Method not implemented.');
   }
 
   onClickMore() {
+    if(!this.actPost) return;
+    let request = new PostFilterRequest();
+    request.byProfile = true;
+    request.decrease = false;
+    request.from = getPostProfile(this.actPost);
+    request.type = SocialMediaEventType.POST;
 
+    this.profileDetailsService.uploadFilter(request).subscribe({
+      next: (value: ResponseObj)=> {
+        alert("Filter applied!");
+      }
+    })
   }
 
   onClickMoreCat(){
+    if(!this.actPost || !this.actPost.category) return;
+    let request = new PostFilterRequest();
+    request.byProfile = true;
+    request.decrease = false;
+    request.category = this.actPost.category.toString();
+    request.from = getPostProfile(this.actPost);
+    request.type = SocialMediaEventType.POST;
 
+    this.profileDetailsService.uploadFilter(request).subscribe({
+      next: (value: ResponseObj)=> {
+        alert("Filter applied!");
+      }
+    })
   }
 
   onClickLess() {
+    if(!this.actPost) return;
+    let request = new PostFilterRequest();
+    request.byProfile = true;
+    request.decrease = true;
+    request.from = getPostProfile(this.actPost);
+    request.type = SocialMediaEventType.POST;
 
+    this.profileDetailsService.uploadFilter(request).subscribe({
+      next: (value: ResponseObj)=> {
+        alert("Filter applied!");
+      }
+    })
   }
   onClickLessCat(){
+    if(!this.actPost || !this.actPost.category) return;
+    let request = new PostFilterRequest();
+    request.byProfile = true;
+    request.decrease = true;
+    request.from = getPostProfile(this.actPost);
+    request.category = this.actPost.category.toString();
+    request.type = SocialMediaEventType.POST;
 
+    this.profileDetailsService.uploadFilter(request).subscribe({
+      next: (value: ResponseObj)=> {
+        alert("Filter applied!");
+      }
+    })
   }
 
   clickFunctions: Function[] = [

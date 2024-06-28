@@ -1,5 +1,5 @@
 import { AfterContentInit, Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import { CommentPost, Comment, CommentList, getCommentProfile } from '../../../models/posts';
+import { CommentPost, Comment, CommentList, getCommentProfile, getPostProfile } from '../../../models/posts';
 import { ReactionButtonComponent, ReactionEvent } from '../reaction-button/reaction-button.component';
 import { CommonModule } from '@angular/common';
 import { HtmlRemoverPipe } from '../../../pipes/html-remover.pipe';
@@ -12,6 +12,8 @@ import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { DisplayService } from '../../../services/display.service';
 import { ContextMenuComponent, MenuData } from '../context-menu/context-menu.component';
+import { ProfileDetailsService } from '../../../services/profile-details.service';
+import { PostFilterRequest, SocialMediaEventType } from '../../../models/ProfileObjs';
 
 
 export class CommentUpdate{
@@ -67,7 +69,11 @@ export class CommentComponent implements OnInit {
 
   displayService: DisplayService
 
-  constructor(private commentService: CommentService, private userService: UserService, private router:Router, ds: DisplayService) {
+  constructor(private commentService: CommentService,
+    private userService: UserService,
+    private router:Router,
+    private profileDetailsService: ProfileDetailsService,
+    ds: DisplayService) {
     this.commenterImageLink = "assets/icons/non-profile.png";
     this.currentProfImageLink = this.commenterImageLink;
 
@@ -102,27 +108,42 @@ export class CommentComponent implements OnInit {
     }
   
     onClickMore() {
+      if(!this.actPost) return;
+      let request = new PostFilterRequest();
+      request.byProfile = true;
+      request.decrease = true;
+      request.from = getCommentProfile(this.actPost);
+      request.type = SocialMediaEventType.COMMENT;
   
+      this.profileDetailsService.uploadFilter(request).subscribe({
+        next: (value: ResponseObj)=> {
+          alert("Filter applied!");
+        }
+      })
     }
-  
-    onClickMoreCat(){
-  
-    }
+
   
     onClickLess() {
-  
+      if(!this.actPost) return;
+    let request = new PostFilterRequest();
+    request.byProfile = true;
+    request.decrease = true;
+    request.from = getCommentProfile(this.actPost);
+    request.type = SocialMediaEventType.COMMENT;
+
+    this.profileDetailsService.uploadFilter(request).subscribe({
+      next: (value: ResponseObj)=> {
+        alert("Filter applied!");
+      }
+    })
     }
-    onClickLessCat(){
-  
-    }
+
   
     clickFunctions: Function[] = [
       ()=> this.onClickEdit(),
       ()=> this.onClickDelete(),
       ()=> this.onClickMore(),
-      ()=> this.onClickMoreCat(),
       ()=> this.onClickLess(),
-      ()=> this.onClickLessCat(),
     ]
 
   prepContextMenu() {
@@ -137,10 +158,8 @@ export class CommentComponent implements OnInit {
     } else {
       // Other Post
       this.menuItems.push(new MenuData("See more from this user", 2));
-      this.menuItems.push(new MenuData("See more from this user and category", 3));
       this.menuItems.push(new MenuData("", -1));
-      this.menuItems.push(new MenuData("See less from this user", 4));
-      this.menuItems.push(new MenuData("See less from this user and category", 5));
+      this.menuItems.push(new MenuData("See less from this user", 3));
     }
 
 

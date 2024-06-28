@@ -106,3 +106,29 @@ export class SocialMediaEventList {
         this.page = page;
     }
 }
+
+
+export class PostFilter {
+    type: SocialMediaEventType = SocialMediaEventType.POST;
+
+    byProfile: boolean = true; // if False, block by Module
+    from: string = "";
+    category: string = "";
+
+    probability: number = 0.0;
+}
+
+export class ProfilePostFilters {
+    postFilters: PostFilter[] = [];
+}
+
+export class PostFilterRequest {
+    
+    type: SocialMediaEventType = SocialMediaEventType.POST;
+
+    byProfile: boolean = true; // if False, block by Module
+    decrease: boolean = true;
+    
+    from: string = "";
+    category: string = "";
+}

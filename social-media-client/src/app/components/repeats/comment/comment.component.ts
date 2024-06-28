@@ -37,8 +37,17 @@ export class CommentComponent implements OnInit {
   @Input()
   editComment: CommentPost | undefined;
 
+  @Input()
+  parent = "";
+
+  @Input()
+  level: number = 0
+
   @Output()
   onCommentPersisted = new EventEmitter<CommentUpdate>();
+
+  @Output()
+  onDeleted = new EventEmitter<string>();
 
   editReply: CommentPost | undefined;
   defaultCommentCountSize: number = 10;
@@ -68,6 +77,54 @@ export class CommentComponent implements OnInit {
   menuItems: MenuData[] = [];
   preparingMenu: boolean = false;
 
+
+    // Handlers for Context Menu
+    onClickEdit(){
+      if(!this.actPost) return;
+      let contents = this.actPost.contents;
+      let commentMessage = contents.at(contents.length - 1);
+      if(!commentMessage) return;
+
+      this.editComment = new CommentPost(
+        commentMessage.toString(),
+        this.parent, this.level
+      )
+    }
+    onClickDelete() {
+      let id = this.actPost?.commentId;
+      if(!id) return;
+      this.commentService.deleteComment(id.toString()).subscribe({
+        next: (value: ResponseObj) => {
+          alert("Sucessfully Deleted");
+          this.onDeleted.emit(id.toString());
+        }
+      })
+    }
+  
+    onClickMore() {
+  
+    }
+  
+    onClickMoreCat(){
+  
+    }
+  
+    onClickLess() {
+  
+    }
+    onClickLessCat(){
+  
+    }
+  
+    clickFunctions: Function[] = [
+      ()=> this.onClickEdit(),
+      ()=> this.onClickDelete(),
+      ()=> this.onClickMore(),
+      ()=> this.onClickMoreCat(),
+      ()=> this.onClickLess(),
+      ()=> this.onClickLessCat(),
+    ]
+
   prepContextMenu() {
     if(!this.actPost) return;
 
@@ -91,6 +148,10 @@ export class CommentComponent implements OnInit {
 
   menuSelected(item: MenuData){
     this.menuItems = [];
+
+    if(item.funcIndex < 0 || item.funcIndex >= this.clickFunctions.length) return;
+    
+    this.clickFunctions[item.funcIndex]();
   }
 
   @HostListener('document:click', ['$event'])
@@ -229,21 +290,31 @@ export class CommentComponent implements OnInit {
     
   }
 
+  updating: boolean = false;
+
   uploadComment(){
     if(!this.editComment) return;
+
+    if(this.updating) return;
+    this.updating = true;
+
     if(this.actPost?.commentId){
       this.commentService.editComment(this.editComment, this.actPost.commentId.toString()).subscribe({
         next: (ro: ResponseObj) => {
           if(ro.id)
-          this.onCommentPersisted.emit(new CommentUpdate(false, ro.id.toString()));
-        }
+            this.onCommentPersisted.emit(new CommentUpdate(false, ro.id.toString()));
+          this.updating = false;
+        },
+        error: () => this.updating = false
       })
     } else {
       this.commentService.postComment(this.editComment).subscribe({
         next: (ro: ResponseObj) => {
           if(ro.id)
           this.onCommentPersisted.emit(new CommentUpdate(true, ro.id.toString()));
-        }
+          this.updating = false;
+        },
+        error: () => this.updating = false
       })
     }
   }

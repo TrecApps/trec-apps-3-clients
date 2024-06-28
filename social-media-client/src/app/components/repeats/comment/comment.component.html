@@ -1,4 +1,4 @@
-<div *ngIf="actPost" class="whole-comment d-bordered" style="width: 100%">
+<div *ngIf="actPost && !editComment" class="whole-comment d-bordered" style="width: 100%">
 
     <div style="display: flex; flex-direction: column; width: 100%;">
         <div class="comment-top">
@@ -90,6 +90,8 @@
         </div>
         <textarea [(ngModel)]="editComment.comment"></textarea>
         <button class="btn btn-submit" style="margin-top: 10px;" (click)="uploadComment()">Submit Comment</button>
+        <br>
+        <button *ngIf="actPost" class="btn btn-danger" style="margin-top: 10px;" (click)="uploadComment()">Cancel</button>
     </div>
 
 </div>

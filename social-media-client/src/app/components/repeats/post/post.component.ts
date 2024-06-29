@@ -207,6 +207,7 @@ throw new Error('Method not implemented.');
     if(!this.actPost) return;
 
     this.preparingMenu = true;
+    this.menuItems = [];
 
     if(getPostProfile(this.actPost) == this.userService.getCurrentUserId()){
       // Self Post

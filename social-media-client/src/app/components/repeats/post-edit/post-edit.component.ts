@@ -44,6 +44,11 @@ export class PostEditComponent implements OnInit {
   @Input()
   targetProfile: string | undefined;
 
+  @Input()
+  category: string | undefined;
+  @Input()
+  currentContent: string | undefined;
+
   @Output()
   makePost = new EventEmitter<AddPost>();
 
@@ -84,6 +89,8 @@ export class PostEditComponent implements OnInit {
 
   ngOnInit(): void {
       this.post.moduleId = this.moduleId;
+      this.post.category = this.category;
+      this.post.content = this.currentContent || "";
   }
 
   setPost(post: AddPost){

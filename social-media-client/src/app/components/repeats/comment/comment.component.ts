@@ -148,6 +148,7 @@ export class CommentComponent implements OnInit {
 
   prepContextMenu() {
     if(!this.actPost) return;
+    this.menuItems = [];
 
     this.preparingMenu = true;
 

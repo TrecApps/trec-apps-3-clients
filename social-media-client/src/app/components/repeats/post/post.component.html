@@ -5,6 +5,8 @@
         #postEditor 
         [profilePic]="imageLink.toString()"
         [categoryList]="postService.categoryList" 
+        [category]="actPost.category?.toString()"
+        [currentContent]="actPost.contents.at(-1)"
         (makePost)="doUpdatePost($event)" 
         ></app-post-edit>
         <br>

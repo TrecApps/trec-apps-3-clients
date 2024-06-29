@@ -14,12 +14,12 @@ export class ReactionPost{
     positive: boolean;
     type: string;
     isPrivate: boolean = false;
-    postId: string;
+    contentId: string;
     id: number | undefined;
 
-    constructor(positive: boolean, type: string, postId: string){
+    constructor(positive: boolean, type: string, contentId: string){
         this.positive = positive;
-        this.postId = postId;
+        this.contentId = contentId;
         this.type = type;
     }
 }
@@ -29,12 +29,12 @@ export class ReactionComment{
     positive: boolean;
     type: string;
     isPrivate: boolean = false;
-    commentId: string;
+    contentId: string;
     id: number | undefined;
 
-    constructor(positive: boolean, type: string, commentId: string){
+    constructor(positive: boolean, type: string, contentId: string){
         this.positive = positive;
-        this.commentId = commentId;
+        this.contentId = contentId;
         this.type = type;
     }
 }

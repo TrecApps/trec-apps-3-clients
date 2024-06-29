@@ -35,7 +35,7 @@ export class ConnectionComponent implements OnInit{
   request_con: ConnectionType = ConnectionType.ONE_WAY;
 
   constructor(private profileService: ProfileService, private router: Router, private connectionService: ConnectionService){
-    this.imgUrlDefault = "/assets/icons/non-profile.png";
+    this.imgUrlDefault = "assets/icons/non-profile.png";
     this.imgUrl = this.imgUrlDefault;
   }
 

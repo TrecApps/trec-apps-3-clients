@@ -5,7 +5,7 @@
     <div class="option-holder" *ngIf="showOptions">
         <div class="search-option" *ngFor="let brand of entries" (click)="onBrandSelected(brand.brandInfo)">
             <div class="search-img-holder">
-                <img [src]="brand.imgData || '/assets/icons/none.png'">
+                <img [src]="brand.imgData || 'assets/icons/none.png'">
             </div>
             <div class="search-name-holder">
                 <p class="search-name">{{ brand.brandInfo }}</p>

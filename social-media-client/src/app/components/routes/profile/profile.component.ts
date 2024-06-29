@@ -167,11 +167,11 @@ export class ProfileComponent implements OnInit, AfterViewInit{
   postsListBottom: ElementRef<HTMLDivElement> | undefined;
 
   coverPhotoFallback(){
-    this.profileService.setCoverPhoto("/assets/icons/non-cover.png")
+    this.profileService.setCoverPhoto("assets/icons/non-cover.png")
   }
 
   profilePicFallback(){
-    this.profileService.setProfilePhoto("/assets/icons/non-profile.png")
+    this.profileService.setProfilePhoto("assets/icons/non-profile.png")
   }
 
   displayService: DisplayService;

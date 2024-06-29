@@ -54,7 +54,7 @@ export class UserService {
     if(this.tcUser?.id){
       return `${environment.image_service_url}Profile/of/${this.tcUser.id}?app=${environment.app_name}`;
     }
-    return "/assets/icons/non-profile.png";
+    return "assets/icons/non-profile.png";
   }
 
   constructor(private authService: AuthService, private router: Router, private client: HttpClient) { }

@@ -7,18 +7,35 @@ export const environment = {
   //user_service_url: 'https://azurewebsites.net/'
   //user_service_url: 'https://trecappsusertest.azurewebsites.net/',
   user_admin_url: 'https://trec-apps-test-admin.azurewebsites.net/',
-  user_service_url: 'http://localhost:4200/User-api/',
-  //user_admin_url: 'http://localhost:4200/admin/',
-  user_subscription_url: 'http://localhost:4200/sub/',
+
+// testing on localhost
+
+  // user_service_url: 'http://localhost:4200/User-api/',
+  // user_subscription_url: 'http://localhost:4200/sub/',
 
 
-  image_service_url: "http://localhost:4200/Images-api/",
-  profile_service_url: "http://localhost:4200/Coffeeshop-Profile-api/",
-  post_service_url: "http://localhost:4200/Coffeeshop-Content-api/",
-  comment_service_url:"http://localhost:4200/Coffeeshop-Content-api/",
-  resource_service_url: "http://localhost:4200/Brands-api/",
+  // image_service_url: "http://localhost:4200/Images-api/",
+  // profile_service_url: "http://localhost:4200/Coffeeshop-Profile-api/",
+  // post_service_url: "http://localhost:4200/Coffeeshop-Content-api/",
+  // comment_service_url:"http://localhost:4200/Coffeeshop-Content-api/",
+  // resource_service_url: "http://localhost:4200/Brands-api/",
 
-  messaging_service_url: "http://localhost:4200/Message-api/",
+  // messaging_service_url: "http://localhost:4200/Message-api/",
+
+ // Test environment
+
+  user_service_url: 'https://test.trecapps.com/User-api/',
+  //user_subscription_url: 'http://localhost:4200/sub/',
+
+
+
+  image_service_url: "https://test.trecapps.com/Images-api/",
+  profile_service_url: "https://test.trecapps.com/Coffeeshop-Profile-api/",
+  post_service_url: "https://test.trecapps.com/Coffeeshop-Content-api/",
+  comment_service_url:"https://test.trecapps.com/Coffeeshop-Content-api/",
+  resource_service_url: "https://test.trecapps.com/Brands-api/",
+
+  messaging_service_url: "https://test.trecapps.com/Message-api/",
 
   app_name: "Coffee-Shop"
 };

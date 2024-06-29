@@ -126,11 +126,11 @@
 /* Set backup profile and cover images */
 
 .cover-img:before {
-    background-image: url("assets/icons/non-cover.png");
+    background-image: url("/Coffeeshop/assets/icons/non-cover.png");
 }
 
 .profilePic:before {
-    background-image: url("assets/icons/non-profile.png");
+    background-image: url("/Coffeeshop/assets/icons/non-profile.png");
 }
 
 

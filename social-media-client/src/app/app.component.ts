@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { MessagePaneHolderComponent } from './components/message-pane-holder/message-pane-holder.component';
 import { HostListener } from "@angular/core";
 import { DisplayService } from './services/display.service';
 import { AuthService } from './services/auth.service';
+import { MessagingService } from './services/messaging.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +22,11 @@ export class AppComponent implements OnInit {
   screenWidth: number;
   displayService: DisplayService;
 
-  constructor(displayService: DisplayService, private authService: AuthService) {
+  constructor(displayService: DisplayService,
+    private authService: AuthService, 
+    private router: Router, 
+    private messagingService: MessagingService, 
+    private userService: UserService) {
     this.screenHeight = 0;
     this.screenWidth = 0;
     this.displayService = displayService;
@@ -28,7 +34,18 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.attemptRefresh(undefined);
+    let onGainUser = (worked: boolean) => {
+      if(worked){
+        this.router.navigate(['home']);
+      }
+      // this.showSpinner = false;
+    }
+
+
+    this.authService.attemptRefresh(()=> {
+      this.messagingService.onLogin();
+        this.userService.refreshUser(onGainUser);
+    });
   }
 
   @HostListener('window:resize', ['$event'])

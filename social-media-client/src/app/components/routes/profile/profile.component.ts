@@ -345,6 +345,15 @@ export class ProfileComponent implements OnInit, AfterViewInit{
       this.profileService.getProfile(target).subscribe({
         next: (profile: Profile) => {
 
+          if(strTarget.startsWith("User-"))
+          {
+            this.profileService.setProfilePhoto(`${environment.image_service_url}Profile/of/${strTarget.substring(5)}?app=${environment.app_name}`)
+            this.profileService.setCoverPhoto(`${environment.image_service_url}Profile/of/${strTarget.substring(5)}?app=cover-${environment.app_name}&falback=not_found`)
+          } else if(strTarget.startsWith("Brand-")) {
+            this.profileService.setProfilePhoto(`${environment.image_service_url}Profile/byBrand/${strTarget.substring(6)}?app=${environment.app_name}`);
+            this.profileService.setCoverPhoto(`${environment.image_service_url}Profile/byBrand/${strTarget.substring(6)}}?app=cover-${environment.app_name}&falback=not_found`);
+          }
+
           if(!this.isSelfProfile){
             this.profileService.getConnectionStatus(strTarget.toString()).subscribe({
               next: (ro: ResponseObj) => this.connectionStatus = ro.message.toString()

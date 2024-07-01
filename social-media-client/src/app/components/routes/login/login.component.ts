@@ -61,6 +61,7 @@ export class LoginComponent implements OnInit{
 
     let onGainUser = (worked: boolean) => {
       if(worked){
+        this.messagingService.onLogin();
         this.router.navigate(['home']);
       }
       this.showSpinner = false;
@@ -73,7 +74,7 @@ export class LoginComponent implements OnInit{
         this.loginFail = true;
         this.showSpinner = false;
       } else {
-        this.messagingService.onLogin();
+        
         this.userService.refreshUser(onGainUser);
         
       }

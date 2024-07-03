@@ -20,11 +20,10 @@
       "pathRewrite": {"^/sub" : ""}
     },
     "/User-api/**" : {
-      "target": "http://localhost:8080",
-      "secure": false,
+      "target": "https://test.trecapps.com",
+      "secure": true,
       "logLevel": "debug",
-      "changeOrigin": true,
-      "pathRewrite": {"^/User-api": ""}
+      "changeOrigin": true
     },
     "/Images-api/**" : {
       "target": "https://test.trecapps.com",

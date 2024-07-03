@@ -71,7 +71,7 @@
 
     <hr [class.post-divider-mobile]="displayService.isMobile">
 
-    <app-comment style="width:95%" [editComment]="editComment"></app-comment>
+    <app-comment style="width:95%" [editComment]="editComment" (onCommentPersisted)="onCommentPersisted($event)"></app-comment>
 
         <hr [class.post-divider-mobile]="displayService.isMobile">
 

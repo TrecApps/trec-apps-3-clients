@@ -387,8 +387,18 @@ throw new Error('Method not implemented.');
     
   }
 
-  onCommentPersisted(cUpdate:CommentUpdate){
-    
+  onCommentPersisted(event:CommentUpdate){
+    if(!event.isNew || !this.actPost) return;
+
+    this.commentService.getById(event.id).subscribe({
+      next: (newComment: Comment) => {
+        if(!this.actPost) return;
+        let l = new CommentList();
+        l.comments = [newComment];
+        l.show = true;
+        this.actPost.comments.unshift(l);
+      }
+    })
   }
 
   onCommentDeleted(id: string){

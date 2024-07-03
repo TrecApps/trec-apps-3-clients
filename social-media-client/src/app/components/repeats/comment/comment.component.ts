@@ -334,13 +334,28 @@ export class CommentComponent implements OnInit {
     } else {
       this.commentService.postComment(this.editComment).subscribe({
         next: (ro: ResponseObj) => {
-          if(ro.id)
-          this.onCommentPersisted.emit(new CommentUpdate(true, ro.id.toString()));
-          this.updating = false;
+          if(ro.id){
+            this.onCommentPersisted.emit(new CommentUpdate(true, ro.id.toString()));
+          }
+          if(this.editComment) this.editComment.comment = "";
         },
-        error: () => this.updating = false
+        error: () => alert("Failed to post comment!")
       })
     }
+  }
+
+  onCommentPosted(event: CommentUpdate){
+    if(!event.isNew || !this.actPost) return;
+
+    this.commentService.getById(event.id).subscribe({
+      next: (newComment: Comment) => {
+        if(!this.actPost) return;
+        let l = new CommentList();
+        l.comments = [newComment];
+        l.show = true;
+        this.actPost.replies.unshift(l);
+      }
+    })
   }
 
   onCommentDeleted(id: string){

@@ -55,7 +55,7 @@
     
     <hr [class.comment-divider-mobile]="displayService.isMobile">
 
-    <app-comment style="width:100%" [editComment]="editReply"></app-comment>
+    <app-comment style="width:100%" [editComment]="editReply" (onCommentPersisted)="onCommentPosted($event)"></app-comment>
     
     <hr [class.comment-divider-mobile]="displayService.isMobile">
 

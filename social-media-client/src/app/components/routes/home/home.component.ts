@@ -92,7 +92,6 @@ export class HomeComponent {
       next: (list: SocialMediaEventList) => {
         this.currentContentPage = list.page;
         this.currentEarliestPost = list.earlyBounds;
-        this.homePageContent = list.events.reverse();
 
         this.currentList = list;
       }

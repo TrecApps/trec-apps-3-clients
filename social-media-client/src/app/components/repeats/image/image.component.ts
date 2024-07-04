@@ -2,7 +2,7 @@ import { style, trigger, state, transition, animate } from '@angular/animations'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ImageEntry, ImageMeta } from '../../../models/Image';
 import { ImageMetaChecker, ImageService } from '../../../services/image.service';
@@ -11,6 +11,7 @@ import { environment } from '../../../environments/environment';
 import { ResponseObj } from '../../../models/ResponseObj';
 import { ImageInsert } from '../post-edit/post-edit.component';
 import { DisplayService } from '../../../services/display.service';
+import { GlobalConstants } from '../../../common/GlobalConstants';
 
 @Component({
   selector: 'app-image',
@@ -65,6 +66,9 @@ export class ImageComponent {
   imagePageCount: number = 0;
 
   hasMore: boolean = false;
+
+  @Input()
+  mbLimit: number = 0;
 
   @Output()
   useImage = new EventEmitter<ImageInsert>();
@@ -272,6 +276,13 @@ export class ImageComponent {
         break;
       }
     }
+
+    if(this.mbLimit && this.selectedFile.size >= (this.mbLimit * GlobalConstants.bytesInMB) &&
+      !confirm(`Your image exceeds the ${this.mbLimit} MB limit for moderation.\n You can still upload the image, but you'll need to contact\n
+        the Administrator to use it as a Profile Image or Cover Photo`)){
+          return;
+    }
+
     console.log("Selected File type is " + this.selectedFileType);
 
     this.selectedFile?.arrayBuffer().then((value: ArrayBuffer)=> {

@@ -6,4 +6,6 @@ export class GlobalConstants {
     public static lightBlue: string = "#00DDFF"
     public static siteBackground: string = "#0049B7"
     
+
+    public static bytesInMB: number = 1000000;
 }

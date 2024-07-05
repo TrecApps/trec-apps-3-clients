@@ -510,6 +510,7 @@ export class ProfileComponent implements OnInit, AfterViewInit{
       next: (profile: Profile) => {
         this.profile = profile;
         this.profileRequestBody = undefined;
+        this.profileNotFound = false;
       },
       error: (e: any) => {
         if(e instanceof Response) {

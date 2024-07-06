@@ -310,6 +310,26 @@ export class ImageComponent {
     
   }
 
+  deleteImage(id: string){
+
+    if(!confirm("Are you sure you want to delet this image?")) return;
+
+    let targetId = id;
+    let response = (value: ResponseObj) => {
+      alert(value.message);
+      if(value.status == 200){
+        // Success, remove the local copy we have!
+        this.images = this.images.filter((ie: ImageEntry) => {
+          return ie.id != targetId
+        })
+      }
+      this.DoneViewingImage(false);
+    }
+    this.imageService.deleteImage(id).subscribe({
+      next: response,
+      error: response
+    })
+  }
 
 
 }

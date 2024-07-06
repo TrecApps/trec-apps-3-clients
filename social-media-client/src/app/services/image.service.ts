@@ -128,6 +128,13 @@ export class ImageService {
     });
   }
 
+  deleteImage(id: string): Observable<ResponseObj> {
+    let params = new HttpParams().append("imageId", id);
+
+    return this.client.delete<ResponseObj>(`${environment.image_service_url}ImageEdit`, {
+      headers: this.authService.getHttpHeaders(false, false), params
+    })
+  }
 
 
   setCoverPhoto(id: String, isBrand: boolean){

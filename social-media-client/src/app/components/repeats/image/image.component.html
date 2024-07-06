@@ -93,6 +93,7 @@
 
             <button class="btn btn-dark" (click)="DoneViewingImage(false)">Exit Image</button>
             <button class="btn btn-submit" (click)="DoneViewingImage(true)">{{ executeMessage }}</button>
+            <button class="btn btn-danger" *ngIf="selectedImageId" (click)="deleteImage(selectedImageId.toString())">Delete Image</button>
         </div>
         <div class="image-container-buffer"></div>
     </div>
@@ -166,6 +167,7 @@
 
             <button class="btn btn-dark" (click)="DoneViewingImage(false)">Exit Image</button>
             <button class="btn btn-submit" (click)="DoneViewingImage(true)">{{ executeMessage }}</button>
+            <button class="btn btn-danger" *ngIf="selectedImageId" (click)="deleteImage(selectedImageId.toString())">Delete Image</button>
             </div>
 
         </div>

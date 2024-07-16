@@ -23,6 +23,12 @@
             <div *ngIf="connectionStatus == 'CONNECTED'">
                 <button class="btn btn-info pic-button" (click)="message()">Message</button>
             </div>
+            <div *ngIf="connectionStatus == 'NO_FOLLOW' || connectionStatus == 'FOLLOWER'">
+                <button class="btn btn-info pic-button" >Follow (Not Implemented)</button>
+            </div>
+            <div *ngIf="connectionStatus == 'BI_FOLLOW' || connectionStatus == 'FOLLOWEE'">
+                <button class="btn btn-info pic-button" >Unfollow (Not Implemented)</button>
+            </div>
         </div>
 
         <div class="flex-and-center profile-container" [class.third-width]="displayService.isMobile" >
@@ -44,6 +50,9 @@
             </div>
             <div *ngIf="connectionStatus == 'NOT_FOUND'">
                 <button class="btn btn-danger pic-button" (click)="prepBlock()">Block</button>
+            </div>
+            <div *ngIf="connectionStatus == 'FOLLOWER' || connectionStatus == 'BI_FOLLOW'">
+                <button class="btn btn-info pic-button">Follows You</button>
             </div>
         </div>
     </div>

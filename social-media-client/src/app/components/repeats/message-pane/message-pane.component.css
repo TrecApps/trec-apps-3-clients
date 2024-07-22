@@ -145,3 +145,19 @@
 .scroll-down-button-active {
     border: solid lawngreen 2px;
 }
+
+.message-slider {
+    height: 30px;
+    background-color: aquamarine;
+    gap: 2px;
+}
+
+.message-page-id:hover {
+    background-color: aliceblue;
+}
+
+.message-page-id p {
+    margin: 0;
+    padding: 5px;
+    font-size: 24px;
+}

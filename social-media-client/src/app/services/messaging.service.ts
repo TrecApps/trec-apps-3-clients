@@ -1,7 +1,7 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { ConversationEntry, EditMessage, Message, NewMessage, PostConversation, ProfileEntry, UpdateResponse } from '../models/Messaging';
+import { ConversationEntry, EditMessage, LatestMessageList, Message, NewMessage, PostConversation, ProfileEntry, UpdateResponse } from '../models/Messaging';
 import { ConnectionEntry } from '../models/Connection';
 import { environment } from '../environments/environment';
 import { ResponseObj } from '../models/ResponseObj';
@@ -122,6 +122,22 @@ export class MessagingService {
     let params = new HttpParams().append("conversation", conversationId).append("page", page).append("pageLocation", pageLocation);
 
     return this.client.get<Message[]>(`${environment.messaging_service_url}Messages`, {
+      headers: this.authService.getHttpHeaders(false, false), params
+    });
+  }
+
+  getLatestMessagesV2(conversationId: string): Observable<LatestMessageList> {
+    let params = new HttpParams().append("conversation", conversationId);
+
+    return this.client.get<LatestMessageList>(`${environment.messaging_service_url}Messages/v2/latest`, {
+      headers: this.authService.getHttpHeaders(false, false), params
+    });
+  }
+
+  getMessagesV2(conversationId: string, page: number): Observable<Message[]> {
+    let params = new HttpParams().append("conversation", conversationId).append("page", page);
+
+    return this.client.get<Message[]>(`${environment.messaging_service_url}Messages/v2`, {
       headers: this.authService.getHttpHeaders(false, false), params
     });
   }

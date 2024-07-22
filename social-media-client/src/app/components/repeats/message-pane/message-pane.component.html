@@ -16,11 +16,26 @@
         </div>
     </div>
 
+    <div class="message-slider flex-and-center" *ngIf="latestPage">
+    
+        <div class="message-page-id flex-and-center" *ngIf="page > 7">
+        <p [innerHtml]="'&lt&lt'"></p></div>
+        <div class="message-page-id flex-and-center" *ngIf="page">
+        <p [innerHtml]="'&lt'"></p></div>
+        <div class="message-page-id flex-and-center"
+          *ngFor="let p of pageRange">
+        <p>{{ p + 1}}</p></div>
+        <div class="message-page-id flex-and-center" *ngIf="page < latestPage">
+        <p [innerHtml]="'&gt'"></p></div>
+        <div class="message-page-id flex-and-center" *ngIf="latestPage > 7">
+        <p [innerHtml]="'&gt&gt'"></p></div>
+    </div>
+
     <div #mainMessagePane class="message-pane-body" [style]="paneHeight" (scroll)="handleScroll($event)">
-        <div class="message-pane-entry flex-and-center">
+        <!-- <div class="message-pane-entry flex-and-center">
             <p *ngIf="page == 0 && pageEarly == 0">End of Messages</p>
             <p *ngIf="page || pageEarly" (click)="retrieveMessages()">{{loading ? 'Loading...' : 'Load Older Messages'}}</p>
-        </div>
+        </div> -->
         <div class="message-pane-entry" *ngFor="let message of messages">
             <div class="message-pane-profile-section">
                 <div class="message-pane-profile-holder">

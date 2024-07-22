@@ -101,3 +101,8 @@ export class UpdateResponse {
     }
 
 }
+
+export class LatestMessageList{
+    messages: Message[] = [];
+    latestPage: number = 0;
+}

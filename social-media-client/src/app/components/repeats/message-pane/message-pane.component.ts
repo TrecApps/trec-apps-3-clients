@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EffectRef, ElementRef, Input, OnDestroy, OnInit, Signal, ViewChild, computed, effect } from '@angular/core';
-import { ConversationEntry, Message, ProfileEntry } from '../../../models/Messaging';
+import { ConversationEntry, LatestMessageList, Message, ProfileEntry } from '../../../models/Messaging';
 import { MessagingService } from '../../../services/messaging.service';
 import { UserService } from '../../../services/user.service';
 import { ResponseObj } from '../../../models/ResponseObj';
@@ -52,6 +52,10 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
 
   page: number = 0;
   pageEarly: number = 0;
+  latestPage: number = 0;
+
+  pageRange: number[] = [];
+
 
   displayNames: Map<string, string> = new Map<string, string>();
 
@@ -91,7 +95,7 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
     this.messageUpdateAlerter = effect(() => {
       let id: string = this.messageService.messageSignal();
       if(id.length && id == this.conversationEntry.id){
-        this.retrieveMessages();
+        this.retrieveMessagesV2();
       }
       return id;
     });
@@ -144,7 +148,7 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
     this.pageEarly = this.conversationEntry.pageSize - this.subPageSize + 2;
 
     this.messages = [];
-    this.retrieveMessages();
+    this.retrieveLatest();
   }
 
   getDisplayName(profileId: string): string {
@@ -177,6 +181,75 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
       }
     })
   }
+
+  slidePage(increase: boolean){
+    if(increase){
+      this.updatePage(this.page + 1);
+    } else {
+      if(!this.page) return;
+      this.updatePage(this.page - 1);
+    }
+  }
+
+  
+
+  updatePage(p: number){
+    this.page = p;
+
+    this.retrieveMessagesV2();
+    this.updatePageRange();
+  }
+
+  retrieveLatest(){
+    this.loading = true;
+
+    this.messageService.getLatestMessagesV2(this.conversationEntry.id).subscribe({
+      next: (list: LatestMessageList) => {
+        this.page = this.latestPage = list.latestPage;
+        this.messages = list.messages;
+        this.loading = false;
+
+        setTimeout(() => {
+          this.scrollToBottom();
+        }, 100);
+      }
+    })
+  }
+
+  retrieveMessagesV2(onUpdated?: Function | undefined){
+    this.loading = true;
+
+    this.messageService.getMessagesV2(this.conversationEntry.id, this.page).subscribe({
+      next: (m: Message[]) => {
+        this.loading = false;
+        if(!m.length){
+          if(this.page) this.page--;
+          return;
+        }
+        this.messages = m;
+
+        this.updatePageRange();
+          
+        // this.updateEarlyBounds(lowBounds);
+        
+        if(onUpdated) onUpdated();
+        setTimeout(() => {
+          this.scrollToBottom();
+        }, 100);
+      }
+    })
+  }
+
+  updatePageRange(){
+    this.pageRange = [];
+    for(let i = this.page - 3; i <= this.page + 3; i++){
+      this.pageRange.push(i);
+    }
+
+    this.pageRange = this.pageRange.filter((value: number) => value > 0 && value < this.latestPage);
+  }
+
+
 
   appendMessages(m: Message[]) {
     if(!m.length) return;
@@ -215,7 +288,7 @@ export class MessagePaneComponent implements OnInit, OnDestroy{
       this.messageService.sendMessage(this.inputMessage, this.conversationEntry.id).subscribe({
         next: (value: ResponseObj) => {
           this.inputMessage = "";
-          this.retrieveMessages();
+          this.retrieveMessagesV2();
         }
       })
     }
